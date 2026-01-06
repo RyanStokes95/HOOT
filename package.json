@@ -4,5 +4,11 @@
     "express": "^5.2.1",
     "mongodb": "^7.0.0",
     "mongoose": "^9.1.2"
+  },
+
+  "scripts": {
+    "start": "node src/server.js"
   }
 }
+
+
