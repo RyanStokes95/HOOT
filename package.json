@@ -1,14 +1,16 @@
 {
-  "dependencies": {
-    "dotenv": "^17.2.3",
-    "express": "^5.2.1",
-    "mongodb": "^7.0.0",
-    "mongoose": "^9.1.2"
-  },
-
+  "name": "hoot-backend",
+  "version": "1.0.0",
+  "type": "module",
   "scripts": {
     "start": "node src/server.js"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^4.19.2",
+    "mongoose": "^9.1.2"
   }
 }
+
 
 
