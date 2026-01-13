@@ -6,8 +6,8 @@ import mongoose from "mongoose";
 
 // readyState of 1 = connected  0 = disconnected
 
-export async function connectDB(uri = process.env.MONGODB_URI) {
-  if (!uri) throw new Error("MONGODB_URI is not set");
+export async function connectDB(uri = process.env.MONGODB_URI_CI) {
+  if (!uri) throw new Error("MONGODB_URI_CI is not set");
   if (mongoose.connection.readyState === 1) return;
   await mongoose.connect(uri);
 }

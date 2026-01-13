@@ -4,7 +4,9 @@
   "type": "module",
   "scripts": {
     "start": "node src/server.js",
-    "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js"
+    "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js test/health.test.js",
+    "test:int": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --setupFilesAfterEnv ./test/jest.setup.js --testPathPatterns \"\\.int\\.test\\.js$\""
+
   },
   "dependencies": {
     "dotenv": "^17.2.3",
