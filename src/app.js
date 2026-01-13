@@ -17,6 +17,8 @@ app.use(express.json());
 // Routes mounted on express app
 // Infrastructure testing endpoint
 
+app.get("/", (req, res) => res.status(200).json({ status: "running" }));
+
 app.get("/health", (req, res) => res.status(200).json({ ok: true }));
 
 //API endpoints
