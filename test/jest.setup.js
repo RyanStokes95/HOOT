@@ -1,6 +1,6 @@
 import "dotenv/config";
 import mongoose from "mongoose";
-import { connectDB, disconnectDB } from "../test_db.js";
+import { connectDB, disconnectDB } from "../src/test_db.js";
 
 beforeAll(async () => {
   await connectDB(process.env.MONGODB_URI_CI);
