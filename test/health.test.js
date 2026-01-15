@@ -7,6 +7,7 @@ import app from "../src/app.js";
 */
 
 //Describe used for grouping related tests
+//Describe,it and expect are jest functions
 
 describe("GET /health", () => {
   it("returns 200 and ok=true", async () => {

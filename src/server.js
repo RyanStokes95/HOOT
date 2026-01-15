@@ -2,6 +2,8 @@ import "dotenv/config";
 import mongoose from "mongoose";
 import app from "./app.js";
 
+//Heroku will set PORT environment variable, otherwise default to 3000
+
 const PORT = process.env.PORT || 3000;
 
 // Connect to MongoDB and start the server

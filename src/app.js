@@ -8,10 +8,8 @@ import itemsRouter from "./routes/items.js";
 
 const app = express();
 
-// middleware
-
-
-//Neeeded to parse JSON bodies
+// Middleware
+// Needed to parse JSON bodies
 app.use(express.json());
 
 // Routes mounted on express app

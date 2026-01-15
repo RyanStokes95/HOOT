@@ -9,8 +9,9 @@ import app from "../src/app.js";
   Creates a sample item and retrieves it to verify MongoDB integration and API functionality.
 */
 
-// Create
+
 describe("Items API (Mongo integration)", () => {
+  // Create
   it("creates and retrieves an item", async () => {
     const createRes = await request(app)
       .post("/api/items")
