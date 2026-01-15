@@ -11,5 +11,3 @@ const itemSchema = new mongoose.Schema(
 
 // Collection name will be 'items'
 export default mongoose.model("Item", itemSchema);
-
-//Test
