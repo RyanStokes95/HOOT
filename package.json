@@ -6,11 +6,12 @@
     "start": "node src/server.js",
     "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js test/health.test.js",
     "test:int": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --setupFilesAfterEnv ./test/jest.setup.js --testPathPatterns \"\\.int\\.test\\.js$\""
-
   },
   "dependencies": {
+    "connect-mongo": "^6.0.0",
     "dotenv": "^17.2.3",
     "express": "^4.19.2",
+    "express-session": "^1.18.2",
     "mongoose": "^9.1.2"
   },
   "devDependencies": {
