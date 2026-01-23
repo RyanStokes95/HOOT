@@ -1,7 +1,14 @@
 import request from "supertest";
 import app from "../src/app.js";
 
+// Integration test for User Registration and Login
+
+// Uses authController.js and User model
+
+// Creates a new user and then logs in with that user to verify authentication functionality.
+
 describe("User Login/Registration Integration Test", () => {
+    // Register a new user
     it("Registers a new user", async () => {
         const createRes = await request(app)
             .post("/api/auth/register-parent")
@@ -10,9 +17,11 @@ describe("User Login/Registration Integration Test", () => {
                 email: "test@example.com",
                 password: "password123"
             });
-
+        
+        // Used for debugging    
         console.log(createRes.status, createRes.body);
-
+        
+        // Expect response status 201 and correct user details being returned
         expect(createRes.status).toBe(201);
         expect(createRes.body).toHaveProperty("message", "Parent registered successfully");
         expect(createRes.body).toHaveProperty("user.name", "Test User");
@@ -20,6 +29,7 @@ describe("User Login/Registration Integration Test", () => {
         expect(createRes.body).toHaveProperty("user.role", "parent");
     });
 
+    // Log in with the registered user
     it("Logs in a registered user", async () => {
         const createRes = await request(app)
             .post("/api/auth/login")
@@ -27,9 +37,11 @@ describe("User Login/Registration Integration Test", () => {
                 email: "test@example.com",
                 password: "password123"
             });
-
+        
+        // Used for debugging    
         console.log(createRes.status, createRes.body);    
-
+        
+        // Expect response status 200 and correct user details being returned
         expect(createRes.status).toBe(200);
         expect(createRes.body).toHaveProperty("message", "Login successful");
         expect(createRes.body).toHaveProperty("user.email", "test@example.com");
