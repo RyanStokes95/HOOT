@@ -1,5 +1,6 @@
 import express from "express";
 import itemsRouter from "./routes/items.js";
+import authRouter from "./routes/auth.js";
 
 /*
  - Creates and exports the Express application instance without binding to a port.
@@ -22,6 +23,8 @@ app.get("/health", (req, res) => res.status(200).json({ ok: true }));
 //API endpoints
 
 app.use("/api/items", itemsRouter);
+
+app.use("/api/auth", authRouter);
 
 export default app;
 

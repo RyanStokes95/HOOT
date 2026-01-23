@@ -8,6 +8,7 @@
     "test:int": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --setupFilesAfterEnv ./test/jest.setup.js --testPathPatterns \"\\.int\\.test\\.js$\""
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "connect-mongo": "^6.0.0",
     "dotenv": "^17.2.3",
     "express": "^4.19.2",
