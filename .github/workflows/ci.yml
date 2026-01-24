@@ -16,6 +16,7 @@ jobs:
       NODE_ENV: test
       MONGODB_URI: ${{ secrets.MONGODB_URI_CI }}
       MONGODB_URI_CI: ${{ secrets.MONGODB_URI_CI }}
+      TEACHER_CODE: ${{ secrets.TEACHER_CODE }}
 
     steps:
       - name: Checkout
