@@ -1,5 +1,8 @@
 import bcrypt from "bcrypt";
 import { User } from "../models/User.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 //bcrypt code modified version of code found at https://www.geeksforgeeks.org/node-js/npm-bcrypt/
 
@@ -53,7 +56,7 @@ export async function registerTeacher(req, res) {
         if (!name || !email || !password || !teacherCode) {
             return res.status(400).json({ error: "All Fields are required" });
         }
-        if (teacherCode !== process.env.TEACHER_REGISTRATION_CODE) {
+        if (teacherCode !== process.env.TEACHER_CODE) {
             return res.status(403).json({ error: "Invalid Teacher Code" });
         }
         // Existing user check to prevent duplicate registrations
@@ -69,7 +72,7 @@ export async function registerTeacher(req, res) {
             name: name,
             email: email.toLowerCase(),
             role: "teacher",
-            password: hashedPassword
+            passwordHash: hashedPassword
         });
         // When successful, respond with 201 Created and user details (excluding password), useful for client-side confirmation
         return res.status(201).json({ 
