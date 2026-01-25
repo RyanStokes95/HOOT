@@ -1,3 +1,9 @@
+/**
+ * Author: Ryan Stokes
+ * File: test_db.js
+ * Last Modified: 2026-01-25
+ */
+
 import mongoose from "mongoose";
 
 //Test db connection using MONGODB_URI_CI variable

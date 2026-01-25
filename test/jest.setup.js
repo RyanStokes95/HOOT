@@ -1,3 +1,13 @@
+/**
+ * Author: Ryan Stokes
+ * File: jest.setup.js
+ * Last Modified: 2026-01-25
+ */
+
+// Adapted from: jestjs.io/docs/setup-teardown
+// https://jestjs.io/docs/setup-teardown
+// Accessed: 2026-01-10
+
 import "dotenv/config";
 import dotenv from "dotenv";
 import mongoose from "mongoose";

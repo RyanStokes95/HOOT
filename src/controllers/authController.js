@@ -1,3 +1,9 @@
+/**
+ * Author: Ryan Stokes
+ * File: authController.js
+ * Last Modified: 2026-01-25
+ */
+
 import bcrypt from "bcrypt";
 import { User } from "../models/User.js";
 import dotenv from "dotenv";

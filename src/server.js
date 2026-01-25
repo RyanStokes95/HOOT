@@ -1,3 +1,9 @@
+/**
+ * Author: Ryan Stokes
+ * File: server.js
+ * Last Modified: 2026-01-25
+ */
+
 import "dotenv/config";
 import mongoose from "mongoose";
 import app from "./app.js";

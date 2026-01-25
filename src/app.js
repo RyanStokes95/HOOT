@@ -1,3 +1,9 @@
+/**
+ * Author: Ryan Stokes
+ * File: app.js
+ * Last Modified: 2026-01-25
+ */
+
 import express from "express";
 import session from "express-session";
 import { buildSessionStore } from "./sessionStore.js";

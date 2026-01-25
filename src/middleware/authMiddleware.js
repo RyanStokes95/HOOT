@@ -1,3 +1,9 @@
+/**
+ * Author: Ryan Stokes
+ * File: authMiddleware.js
+ * Last Modified: 2026-01-25
+ */
+
 export function requireAuth(req, res, next) {
     // Checks if the user has a valid session or if the user is authenticated
     // If threre is no session or no userId in session, respond with 401 Unauthorized

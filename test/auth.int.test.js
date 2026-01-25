@@ -1,3 +1,18 @@
+/**
+ * Author: Ryan Stokes
+ * File: auth.int.test.js
+ * Last Modified: 2026-01-25
+ */
+
+// Adapted from: Sam Meech-Ward - "Testing Node Server with Jest and Supertest"
+// https://www.youtube.com/watch?v=FKnzS_icp20&list=PLlxGQpt_kNBcVSpnseYS7_zTO-NmxHLKl
+// Accessed: 2026-01-09
+
+
+//Adapted from: Web Dev Simplified - "Introduction To Testing In JavaScript With Jest"
+//https://www.youtube.com/watch?v=FgnxcUQ5vho
+// Accessed: 2026-01-09
+
 import request, { agent } from "supertest";
 import app from "../src/app.js";
 
