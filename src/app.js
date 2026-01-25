@@ -18,14 +18,17 @@ const app = express();
 // Needed to parse JSON bodies
 app.use(express.json());
 
+// Enable sessions only in certain environments
 const enableSessions = 
 process.env.NODE_ENV === "production" || 
 process.env.NODE_ENV === "development" || 
 process.env.NODE_ENV === "integration";
 
+// Needed for non-integration/test environments to not be able to have sessions
 let store
 
 // Session middleware configuration
+//if in enabled environment, set up session management
 if(enableSessions) {
     // Needed for Heroku deployment behind a proxy
     app.set("trust proxy", 1);
@@ -40,6 +43,7 @@ if(enableSessions) {
             resave: false,
             saveUninitialized: false,
             store,
+            // Producton cookie settings for security, will only be used in production environment
             cookie: {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === "production",

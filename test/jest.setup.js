@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import { connectDB, disconnectDB } from "../src/test_db.js";
 import { getSessionStore } from "../src/sessionStore.js";
 
+// Load different .env files based on NODE_ENV
 const envfile = process.env.NODE_ENV === "integration" ? ".env.integration" : ".env.test";
 
 dotenv.config({ path: envfile });
