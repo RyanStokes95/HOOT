@@ -1,12 +1,17 @@
 import "dotenv/config";
 import mongoose from "mongoose";
 import { connectDB, disconnectDB } from "../src/test_db.js";
+import { getSessionStore } from "../src/sessionStore.js";
+
 
 // Jest is a testing framework that provides functions like beforeAll and afterAll
 
 // It also provides describe,it and expect functions used in test files
 
 // Clear the database before each test to ensure test
+
+// Code taken from https://jestjs.io/docs/ecmascript-modules utilised in Jest testing setup
+
 async function clearDB() {
   const collections = await mongoose.connection.db.collections();
   for (const x of collections) {
@@ -30,6 +35,16 @@ beforeAll(async () => {
 
 // Disconnect DB after all tests are done to prevent hanging Jest process and CI timeouts
 afterAll(async () => {
+  const store = getSessionStore();
+
+  // Added to close the session store connection to prevent hanging Jest process
+  // Checks for close method on store or its client and calls it
+  if (store.close) {
+    await store.close();
+  } else if (store.client.close) {
+    await store.client.close();
+  }
+
   await disconnectDB();
 });
 

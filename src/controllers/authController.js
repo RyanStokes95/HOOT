@@ -109,15 +109,32 @@ export async function login(req, res) {
             // If password does not match, respond with 401 Unauthorized
             return res.status(401).json({ error: "Invalid Credentials" });
         }
-        /* Uncomment below to enable session management
-        // Set session variables to maintain user authentication state
+
+        /* 
+        Session and Cookie Management Flow Explanation
+        - req.session is created when user logs in successfully, stores userId and role in session
+        - App.js app.use(session()) middleware manages session creation and cookie settings using express-session and connect-mongo
+        - Session data is stored in MongoDB session store configured in app.js
+        - Session cookie (hoot.sid) is sent to client from the session store
+        - Client stores the session cookie in the browser
+        - On subsequent requests, client sends back the cookie
+        - Server uses the cookie to retrieve session data from the DB session store
+        - User remains authenticated as long as session is valid, checked by requireAuth middleware
+        - Session expires after 15 minutes of inactivity as configured in app.js
+        - On logout, session is destroyed on server and cookie cleared on client
+        - User must log in again to create a new session
+        */
+
+        //Session creation upon successful login
         req.session.userId = user._id.toString();
         req.session.role = user.role;
-        */
+        
         // Successful login response with user details (excluding password) and status 200 OK
         res.status(200).json({ 
             message: "Login successful", 
             user: {
+                id: user._id,
+                name: user.name,
                 email: user.email,
                 role: user.role
             }

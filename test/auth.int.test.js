@@ -1,4 +1,4 @@
-import request from "supertest";
+import request, { agent } from "supertest";
 import app from "../src/app.js";
 
 // Integration test for Parent Registration and Login
@@ -7,10 +7,11 @@ import app from "../src/app.js";
 
 // Creates a new user and then logs in with that user to verify authentication functionality.
 
-describe("Parent Login/Registration Integration Test", () => {
+describe("Parent Auth Flow Integration Test", () => {
     // Register a new user
-    it("Registers a new user", async () => {
-        const createRes = await request(app)
+    it("Registers a new parent, logs the parent in, checks for a session, logs out the parent and checks for no session", async () => {
+        const agent = request.agent(app);
+        const loginRes = await agent
             .post("/api/auth/register-parent")
             .send({
                 name: "Test User",
@@ -19,19 +20,16 @@ describe("Parent Login/Registration Integration Test", () => {
             });
         
         // Used for debugging    
-        console.log(createRes.status, createRes.body);
+        console.log(loginRes.status, loginRes.body);
         
         // Expect response status 201 and correct user details being returned
-        expect(createRes.status).toBe(201);
-        expect(createRes.body).toHaveProperty("message", "Parent registered successfully");
-        expect(createRes.body).toHaveProperty("user.name", "Test User");
-        expect(createRes.body).toHaveProperty("user.email", "test@example.com");
-        expect(createRes.body).toHaveProperty("user.role", "parent");
-    });
+        expect(loginRes.status).toBe(201);
+        expect(loginRes.body).toHaveProperty("message", "Parent registered successfully");
+        expect(loginRes.body).toHaveProperty("user.name", "Test User");
+        expect(loginRes.body).toHaveProperty("user.email", "test@example.com");
+        expect(loginRes.body).toHaveProperty("user.role", "parent");
 
-    // Log in with the registered user
-    it("Logs in a registered user", async () => {
-        const createRes = await request(app)
+        const registerRes = await agent
             .post("/api/auth/login")
             .send({
                 email: "test@example.com",
@@ -39,20 +37,51 @@ describe("Parent Login/Registration Integration Test", () => {
             });
         
         // Used for debugging    
-        console.log(createRes.status, createRes.body);    
+        console.log(registerRes.status, registerRes.body);    
         
         // Expect response status 200 and correct user details being returned
-        expect(createRes.status).toBe(200);
-        expect(createRes.body).toHaveProperty("message", "Login successful");
-        expect(createRes.body).toHaveProperty("user.email", "test@example.com");
-        expect(createRes.body).toHaveProperty("user.role", "parent");
+        expect(registerRes.status).toBe(200);
+        expect(registerRes.body).toHaveProperty("message", "Login successful");
+        expect(registerRes.body).toHaveProperty("user.email", "test@example.com");
+        expect(registerRes.body).toHaveProperty("user.role", "parent");
+
+        const sessionRes = await agent
+            .get("/api/auth/me");
+
+        // Used for debugging
+        console.log(sessionRes.status, sessionRes.body);
+
+        // Expect response status 200 and correct user details being returned
+        expect(sessionRes.status).toBe(200);
+        expect(sessionRes.body).toHaveProperty("user.email", "test@example.com");
+        expect(sessionRes.body).toHaveProperty("user.role", "parent");
+
+        const logoutRes = await agent
+            .post("/api/auth/logout");
+
+        // Used for debugging
+        console.log(logoutRes.status, logoutRes.body);
+
+        // Expect response status 200 and logout message
+        expect(logoutRes.status).toBe(200);
+        expect(logoutRes.body).toHaveProperty("message", "Logout successful");
+
+        const destroyCheckRes = await agent
+            .get("/api/auth/me");
+
+        // Used for debugging
+        console.log(destroyCheckRes.status, destroyCheckRes.body);
+
+        // Expect response status 401 Unauthorized after logout
+        expect(destroyCheckRes.status).toBe(401);
     });
 });
 
-describe("Teacher Login/Registration Integration Test", () => {
+describe("Teacher Auth Flow Integration Test", () => {
     // Register a new teacher
-    it("Registers a new teacher", async () => {
-        const createRes = await request(app)
+    it("Registers a new teacher, logs the teacher in, checks for a session, logs out the teacher and checks for no session", async () => {
+        const agent = request.agent(app);
+        const registerRes = await agent
             .post("/api/auth/register-teacher")
             .send({
                 name: "Test Teacher",
@@ -62,19 +91,16 @@ describe("Teacher Login/Registration Integration Test", () => {
             });
 
         // Used for debugging
-        console.log(createRes.status, createRes.body);
+        console.log(registerRes.status, registerRes.body);
 
         // Expect response status 201 and correct user details being returned
-        expect(createRes.status).toBe(201);
-        expect(createRes.body).toHaveProperty("message", "Teacher registered successfully");
-        expect(createRes.body).toHaveProperty("user.name", "Test Teacher");
-        expect(createRes.body).toHaveProperty("user.email", "teacher@example.com");
-        expect(createRes.body).toHaveProperty("user.role", "teacher");
-    });
+        expect(registerRes.status).toBe(201);
+        expect(registerRes.body).toHaveProperty("message", "Teacher registered successfully");
+        expect(registerRes.body).toHaveProperty("user.name", "Test Teacher");
+        expect(registerRes.body).toHaveProperty("user.email", "teacher@example.com");
+        expect(registerRes.body).toHaveProperty("user.role", "teacher");
 
-    // Log in with the registered teacher
-    it("Logs in a registered teacher", async () => {
-        const createRes = await request(app)
+        const loginRes = await agent
             .post("/api/auth/login")
             .send({
                 email: "teacher@example.com",
@@ -82,12 +108,42 @@ describe("Teacher Login/Registration Integration Test", () => {
             });
 
         // Used for debugging
-        console.log(createRes.status, createRes.body);
+        console.log(loginRes.status, loginRes.body);
 
         // Expect response status 200 and correct user details being returned
-        expect(createRes.status).toBe(200);
-        expect(createRes.body).toHaveProperty("message", "Login successful");
-        expect(createRes.body).toHaveProperty("user.email", "teacher@example.com");
-        expect(createRes.body).toHaveProperty("user.role", "teacher");
+        expect(loginRes.status).toBe(200);
+        expect(loginRes.body).toHaveProperty("message", "Login successful");
+        expect(loginRes.body).toHaveProperty("user.email", "teacher@example.com");
+        expect(loginRes.body).toHaveProperty("user.role", "teacher");
+
+        const sessionRes = await agent
+            .get("/api/auth/me");
+
+        // Used for debugging
+        console.log(sessionRes.status, sessionRes.body);
+        // Expect response status 200 and correct user details being returned
+        expect(sessionRes.status).toBe(200);
+        expect(sessionRes.body).toHaveProperty("user.email", "teacher@example.com");
+        expect(sessionRes.body).toHaveProperty("user.role", "teacher");
+
+        const logoutRes = await agent
+            .post("/api/auth/logout");
+
+        // Used for debugging
+        console.log(logoutRes.status, logoutRes.body);
+
+        // Expect response status 200 and logout message
+        expect(logoutRes.status).toBe(200);
+        expect(logoutRes.body).toHaveProperty("message", "Logout successful");
+
+        const checkDestroyRes = await agent
+            .get("/api/auth/me");
+
+        // Used for debugging
+        console.log(checkDestroyRes.status, checkDestroyRes.body);
+
+        // Expect response status 401 Unauthorized after logout
+        expect(checkDestroyRes.status).toBe(401);
+
     });
 });
