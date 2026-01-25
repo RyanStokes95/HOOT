@@ -10,7 +10,9 @@ import app from "../src/app.js";
 describe("Parent Auth Flow Integration Test", () => {
     // Register a new user
     it("Registers a new parent, logs the parent in, checks for a session, logs out the parent and checks for no session", async () => {
+        // Create an agent to persist cookies across requests, supertest's agent method
         const agent = request.agent(app);
+
         const loginRes = await agent
             .post("/api/auth/register-parent")
             .send({
@@ -80,7 +82,9 @@ describe("Parent Auth Flow Integration Test", () => {
 describe("Teacher Auth Flow Integration Test", () => {
     // Register a new teacher
     it("Registers a new teacher, logs the teacher in, checks for a session, logs out the teacher and checks for no session", async () => {
+        // Create an agent to persist cookies across requests, supertest's agent method
         const agent = request.agent(app);
+        
         const registerRes = await agent
             .post("/api/auth/register-teacher")
             .send({

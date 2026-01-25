@@ -4,8 +4,8 @@
   "type": "module",
   "scripts": {
     "start": "node src/server.js",
-    "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js test/health.test.js",
-    "test:int": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --setupFilesAfterEnv ./test/jest.setup.js --testPathPatterns \"\\.int\\.test\\.js$\""
+    "test": "cross-env NODE_ENV=test node --experimental-vm-modules ./node_modules/jest/bin/jest.js test/health.test.js",
+    "test:int": "cross-env NODE_ENV=integration node --experimental-vm-modules ./node_modules/jest/bin/jest.js --setupFilesAfterEnv ./test/jest.setup.js --testPathPatterns \"\\\\.int\\\\.test\\\\.js$\""
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
@@ -16,6 +16,7 @@
     "mongoose": "^9.1.2"
   },
   "devDependencies": {
+    "cross-env": "^10.1.0",
     "jest": "^30.2.0",
     "supertest": "^7.2.2"
   }

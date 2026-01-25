@@ -1,9 +1,11 @@
 import express from "express";
-import MongoStore from "connect-mongo";
 import session from "express-session";
 import { buildSessionStore } from "./sessionStore.js";
 import itemsRouter from "./routes/items.js";
 import authRouter from "./routes/auth.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 /*
  - Creates and exports the Express application instance without binding to a port.
@@ -16,29 +18,38 @@ const app = express();
 // Needed to parse JSON bodies
 app.use(express.json());
 
+const enableSessions = 
+process.env.NODE_ENV === "production" || 
+process.env.NODE_ENV === "development" || 
+process.env.NODE_ENV === "integration";
+
+let store
+
 // Session middleware configuration
-// Needed for Heroku deployment behind a proxy
-app.set("trust proxy", 1);
+if(enableSessions) {
+    // Needed for Heroku deployment behind a proxy
+    app.set("trust proxy", 1);
 
-//Session and Cookie management setup using express-session and connect-mongo
-const store = buildSessionStore();
+    //Session and Cookie management setup using express-session and connect-mongo
+    const store = buildSessionStore();
 
-// Session middleware
-app.use(
-    session({
-        secret: process.env.SESSION_SECRET,
-        resave: false,
-        saveUninitialized: false,
-        store,
-        cookie: {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "lax",
-            // 15 minutes - 1000 = milliseconds so 1000*60 = 1 minute, *15 = 15 minutes
-            maxAge: 1000 * 60 * 15
-        }
-    })
-);
+    // Session middleware
+    app.use(
+        session({
+            secret: process.env.SESSION_SECRET,
+            resave: false,
+            saveUninitialized: false,
+            store,
+            cookie: {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === "production",
+                sameSite: "lax",
+                // 15 minutes - 1000 = milliseconds so 1000*60 = 1 minute, *15 = 15 minutes
+                maxAge: 1000 * 60 * 15
+            }
+        })
+    );
+};
 
 // Routes mounted on express app
 // Infrastructure testing endpoint

@@ -1,7 +1,12 @@
 import "dotenv/config";
+import dotenv from "dotenv";
 import mongoose from "mongoose";
 import { connectDB, disconnectDB } from "../src/test_db.js";
 import { getSessionStore } from "../src/sessionStore.js";
+
+const envfile = process.env.NODE_ENV === "integration" ? ".env.integration" : ".env.test";
+
+dotenv.config({ path: envfile });
 
 
 // Jest is a testing framework that provides functions like beforeAll and afterAll
