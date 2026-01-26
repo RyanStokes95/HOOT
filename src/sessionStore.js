@@ -13,8 +13,15 @@ let store;
 export function buildSessionStore() {
   if (store) return store;
 
+  // Needs to be set as a variable for Heroku deployment, otherwise tries to read MONGODB_URI_CI even when not in CI environment
+  const mongoUrl = process.env.MONGODB_URI_CI || process.env.MONGODB_URI;
+
+  if (!mongoUrl) {
+    throw new Error("Missing MongoDB URI: set MONGODB_URI or MONGODB_URI_CI");
+  }
+
   store = MongoStore.create({
-    mongoUrl: process.env.MONGODB_URI_CI || process.env.MONGODB_URI,
+    mongoUrl,
     collectionName: "sessions",
     ttl: 60 * 15,
   });
