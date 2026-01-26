@@ -6,6 +6,8 @@
 
 import express from "express";
 import session from "express-session";
+import path from "path";
+import { fileURLToPath } from "url";
 import { buildSessionStore } from "./sessionStore.js";
 import itemsRouter from "./routes/items.js";
 import authRouter from "./routes/auth.js";
@@ -13,16 +15,24 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+// __dirname and __filename replacement in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 /*
  - Creates and exports the Express application instance without binding to a port.
  - Used by server.js (runtime) and by tests (Supertest/Jest).
 */
-
 const app = express();
 
 // Middleware
 // Needed to parse JSON bodies
 app.use(express.json());
+
+// Set EJS as the templating engine
+app.set("view engine", "ejs");
+// Set the views directory
+app.set("views", path.join(__dirname, "views"));
 
 // Enable sessions only in certain environments
 const enableSessions = 
@@ -65,7 +75,7 @@ if(enableSessions) {
 // Infrastructure testing endpoint
 
 // Basic root endpoint to verify the app is running, currently used to test deployment
-app.get("/", (req, res) => res.status(200).json({ status: "running" }));
+app.get("/", (req, res) => res.render("index"));
 
 // Checks health of the application by responding with 200 OK and { ok: true } if the app is running
 app.get("/health", (req, res) => res.status(200).json({ ok: true }));
