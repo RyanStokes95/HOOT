@@ -1,3 +1,9 @@
+/**
+ * Author: Ryan Stokes
+ * File: items.js
+ * Last Modified: 2026-01-25
+ */
+
 import { Router } from "express";
 import Item from "../models/Item.js";
 

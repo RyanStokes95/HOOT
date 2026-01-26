@@ -1,3 +1,9 @@
+/**
+ * Author: Ryan Stokes
+ * File: Item.js
+ * Last Modified: 2026-01-25
+ */
+
 // Item model to test DB integration
 
 import mongoose from "mongoose";

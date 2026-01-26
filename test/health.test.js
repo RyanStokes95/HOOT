@@ -1,3 +1,9 @@
+/**
+ * Author: Ryan Stokes
+ * File: health.test.js
+ * Last Modified: 2026-01-25
+ */
+
 import request from "supertest";
 import app from "../src/app.js";
 
@@ -6,8 +12,8 @@ import app from "../src/app.js";
  - Verifies the Express app responds correctly without opening a network port
 */
 
-//Describe used for grouping related tests
-//Describe,it and expect are jest functions
+// Describe used for grouping related tests
+// Describe,it and expect are jest functions
 
 describe("GET /health", () => {
   it("returns 200 and ok=true", async () => {

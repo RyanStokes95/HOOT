@@ -11,12 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
-
-    env:
-      NODE_ENV: test
-      MONGODB_URI: ${{ secrets.MONGODB_URI_CI }}
-      MONGODB_URI_CI: ${{ secrets.MONGODB_URI_CI }}
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -31,8 +25,16 @@ jobs:
         run: npm ci
 
       - name: Run tests
+        env:
+          NODE_ENV: test
+          SESSION_SECRET: test_secret
         run: npm test
 
       - name: Run Integration Tests
+        env:
+          NODE_ENV: integration_test
+          MONGODB_URI_CI: ${{ secrets.MONGODB_URI_CI }}
+          TEACHER_CODE: ${{ secrets.TEACHER_CODE }}
+          SESSION_SECRET: ${{ secrets.SESSION_SECRET }} 
         run: npm run test:int
 

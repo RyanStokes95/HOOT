@@ -1,3 +1,13 @@
+/**
+ * Author: Ryan Stokes
+ * File: User.js
+ * Last Modified: 2026-01-25
+ */
+
+// Adapted from: Web Dev Simplified - "Learn Mongoose in 30 Minutes"
+// https://www.youtube.com/watch?v=DZBGEVgL2eE
+// Accessed: 2026-01-10
+
 import mongoose from "mongoose";
 
 const { Schema } = mongoose;
