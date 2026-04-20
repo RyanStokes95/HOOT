@@ -1,7 +1,7 @@
 /**
  * Author: Ryan Stokes
  * File: app.js
- * Last Modified: 2026-01-25
+ * Last Modified: 2026-04-20
  */
 
 import express from "express";
@@ -26,6 +26,8 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 // Middleware
+// Needed to parse URL-encoded bodies (form submissions)
+app.use(express.urlencoded({ extended: true }));
 // Needed to parse JSON bodies
 app.use(express.json());
 
@@ -76,6 +78,17 @@ if(enableSessions) {
 
 // Basic root endpoint to verify the app is running, currently used to test deployment
 app.get("/", (req, res) => res.render("index"));
+
+// Navigation Endpoints
+app.get("/login", (req, res) => res.render("login"));
+
+app.get("/logout", (req, res) => res.render("index"));
+
+app.get("/home", (req, res) => res.render("index"));
+
+app.get("/registerTeacher", (req, res) => res.render("registerTeacher"));
+
+app.get("/registerParent", (req, res) => res.render("registerParent"));
 
 // Checks health of the application by responding with 200 OK and { ok: true } if the app is running
 app.get("/health", (req, res) => res.status(200).json({ ok: true }));
