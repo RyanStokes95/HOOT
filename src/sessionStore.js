@@ -21,6 +21,7 @@ export function buildSessionStore() {
   }
 
   store = MongoStore.create({
+    // mongurl is the connection string to the MongoDB database
     mongoUrl,
     collectionName: "sessions",
     ttl: 60 * 15,
@@ -29,6 +30,7 @@ export function buildSessionStore() {
   return store;
 }
 
+// Getter for the session store instance
 export function getSessionStore() {
   return store;
 }
