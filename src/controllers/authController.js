@@ -136,14 +136,20 @@ export async function login(req, res) {
         req.session.role = user.role;
         
         // Successful login response with user details (excluding password) and status 200 OK
-        res.status(200).json({ 
-            message: "Login successful", 
-            user: {
+        req.session.save((err) => {
+            if (err) {
+                return res.status(500).json({ error: "Session save failed" });
+            }
+
+            return res.status(200).json({
+                message: "Login successful",
+                user: {
                 id: user._id,
                 name: user.name,
                 email: user.email,
                 role: user.role
-            }
+                }
+            });
         });
     } catch (err) {
         // Catch block to handle unexpected errors and respond with 500 Internal Server Error
