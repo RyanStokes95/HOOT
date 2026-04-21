@@ -10,6 +10,8 @@ import expressLayouts from "express-ejs-layouts";
 import path from "path";
 import { fileURLToPath } from "url";
 import { buildSessionStore } from "./sessionStore.js";
+import { requireAuth } from "./middleware/authMiddleware.js";
+import { requireRole } from "./middleware/roleCheck.js";
 import itemsRouter from "./routes/items.js";
 import authRouter from "./routes/auth.js";
 import dotenv from "dotenv";
@@ -33,13 +35,16 @@ app.use(express.urlencoded({ extended: true }));
 // Needed to parse JSON bodies
 app.use(express.json());
 
+// Serve static files from the "public" directory, such as CSS, JS, and images
+app.use(express.static(path.join(__dirname, "public")));
+
 // Set EJS as the templating engine
 app.set("view engine", "ejs");
 // Set the views directory
 app.set("views", path.join(__dirname, "views"));
-
+// Set the layout for express-ejs-layouts, main.ejs will be the default layout for all views
 app.set("layout", "layouts/main")
-
+// Use express-ejs-layouts middleware to enable layout support in EJS templates
 app.use(expressLayouts);
 
 // Enable sessions only in certain environments
@@ -95,6 +100,16 @@ app.get("/home", (req, res) => res.render("index", {title: "HOOT | Home"}));
 app.get("/registerTeacher", (req, res) => res.render("registerTeacher", {title: "HOOT | Teacher Sign Up"}));
 
 app.get("/registerParent", (req, res) => res.render("registerParent", {title: "HOOT | Parent Sign Up"}));
+
+// Teacher dashboard route with requireAuth and requireRole middleware to ensure only authenticated teachers can access
+app.get("/teacher/dashboard", requireAuth, requireRole("teacher"), (req, res) => {
+  res.render("teacherDashboard", { title: "HOOT | Teacher Dashboard" });
+});
+
+// Parent dashboard route with requireAuth and requireRole middleware to ensure only authenticated parents can access
+app.get("/parent/dashboard", requireAuth, requireRole("parent"), (req, res) => {
+  res.render("parentDashboard", { title: "HOOT |Parent Dashboard" });
+});
 
 // Checks health of the application by responding with 200 OK and { ok: true } if the app is running
 app.get("/health", (req, res) => res.status(200).json({ ok: true }));
