@@ -99,7 +99,6 @@ export async function registerTeacher(req, res) {
 export async function login(req, res) {
     try {
         const { email, password } = req.body;
-        console.log(req.body);
         if (!email || !password) {
             return res.status(400).json({ error: "Email and Password are required" });
         }
