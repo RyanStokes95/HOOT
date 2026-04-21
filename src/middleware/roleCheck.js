@@ -6,11 +6,12 @@
 
 export function requireRole(role) {
   return (req, res, next) => {
-    if (!req.session.user) {
+
+    if (!req.session || !req.session.userId) {
       return res.redirect("/login");
     }
 
-    if (req.session.user.role !== role) {
+    if (req.session.role !== role) {
       return res.status(403).send("Forbidden");
     }
 
