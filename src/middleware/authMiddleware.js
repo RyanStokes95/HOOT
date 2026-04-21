@@ -15,11 +15,13 @@ export function requireAuth(req, res, next) {
 }
 
 export function requireAuthPage(req, res, next) {
-    // Checks if the user has a valid session or if the user is authenticated
-    // If threre is no session or no userId in session, respond with 401 Unauthorized
-    if (!req.session || !req.session.userId) {
-        return res.redirect("/login");
-    }
-    // If authenticated, proceed to the next middleware/controller, without next() the function will hang
-    next();
+  console.log("SESSION:", req.session);
+  console.log("SESSION ID:", req.sessionID);
+  console.log("USER ID:", req.session?.userId);
+
+  if (!req.session || !req.session.userId) {
+    return res.redirect("/login");
+  }
+
+  next();
 }
