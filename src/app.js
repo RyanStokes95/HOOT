@@ -10,7 +10,7 @@ import expressLayouts from "express-ejs-layouts";
 import path from "path";
 import { fileURLToPath } from "url";
 import { buildSessionStore } from "./sessionStore.js";
-import { requireAuth } from "./middleware/authMiddleware.js";
+import { requireAuth, requireAuthPage } from "./middleware/authMiddleware.js";
 import { requireRole } from "./middleware/roleCheck.js";
 import itemsRouter from "./routes/items.js";
 import authRouter from "./routes/auth.js";
@@ -102,12 +102,12 @@ app.get("/registerTeacher", (req, res) => res.render("registerTeacher", {title: 
 app.get("/registerParent", (req, res) => res.render("registerParent", {title: "HOOT | Parent Sign Up"}));
 
 // Teacher dashboard route with requireAuth and requireRole middleware to ensure only authenticated teachers can access
-app.get("/teacher/dashboard", requireAuth, requireRole("teacher"), (req, res) => {
+app.get("/teacher/dashboard", requireAuthPage, requireRole("teacher"), (req, res) => {
   res.render("dashTeacher", { title: "HOOT | Teacher Dashboard" });
 });
 
 // Parent dashboard route with requireAuth and requireRole middleware to ensure only authenticated parents can access
-app.get("/parent/dashboard", requireAuth, requireRole("parent"), (req, res) => {
+app.get("/parent/dashboard", requireAuthPage, requireRole("parent"), (req, res) => {
   res.render("dashParent", { title: "HOOT |Parent Dashboard" });
 });
 
