@@ -95,19 +95,19 @@ app.get("/logout", (req, res) => res.render("index", {title: "HOOT | Home"}));
 
 app.get("/home", (req, res) => res.render("index", {title: "HOOT | Home"}));
 
-app.get("/registerTeacher", (req, res) => res.render("registerTeacher", {title: "HOOT | Teacher Sign Up"}, {layout: "layouts/dash"}));
+app.get("/registerTeacher", (req, res) => res.render("registerTeacher", {title: "HOOT | Teacher Sign Up"}));
 
 app.get("/registerParent", (req, res) => res.render("registerParent", {title: "HOOT | Parent Sign Up"}, {layout: "layouts/dash"}));
 
 // Secure Role Based Access Endpoints
 // Teacher dashboard route with requireAuth and requireRole middleware to ensure only authenticated teachers can access
 app.get("/teacher/dashboard", requireAuthPage, requireRole("teacher"), (req, res) => {
-  res.render("dashTeacher", { title: "HOOT | Teacher Dashboard" });
+  res.render("dashTeacher", { title: "HOOT | Teacher Dashboard" }, {layout: "layouts/dash"});
 });
 
 // Parent dashboard route with requireAuth and requireRole middleware to ensure only authenticated parents can access
 app.get("/parent/dashboard", requireAuthPage, requireRole("parent"), (req, res) => {
-  res.render("dashParent", { title: "HOOT | Parent Dashboard" });
+  res.render("dashParent", { title: "HOOT | Parent Dashboard" }, {layout: "layouts/dash"});
 });
 
 // Checks health of the application by responding with 200 OK and { ok: true } if the app is running
