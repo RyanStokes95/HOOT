@@ -13,7 +13,7 @@
 //https://www.youtube.com/watch?v=FgnxcUQ5vho
 // Accessed: 2026-01-09
 
-import request, { agent } from "supertest";
+import request from "supertest";
 import app from "../src/app.js";
 
 // Integration test for Parent Registration and Login

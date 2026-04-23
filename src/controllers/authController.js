@@ -49,6 +49,7 @@ export async function registerParent(req, res) {
         });
         // Catch block to handle unexpected errors and respond with 500 Internal Server Error
     } catch (err) {
+        console.log(err);
         res.status(500).json({ error: "Internal Server Error" });
     }
 }
@@ -92,6 +93,7 @@ export async function registerTeacher(req, res) {
         });
         // Catch block to handle unexpected errors and respond with 500 Internal Server Error
     } catch (err) {
+        console.log(err);
         res.status(500).json({ error: "Internal Server Error" });
     }
 }
@@ -151,6 +153,7 @@ export async function login(req, res) {
             });
         });
     } catch (err) {
+        console.log(err);
         // Catch block to handle unexpected errors and respond with 500 Internal Server Error
         res.status(500).json({ error: "Internal Server Error" });
     }
@@ -170,6 +173,7 @@ export async function logout(req, res) {
             res.status(200).json({ message: "Logout successful" });
         });
     } catch (err) {
+        console.log(err);
         // Catch block to handle unexpected errors and respond with 500 Internal Server Error
         res.status(500).json({ error: "Internal Server Error" });
     }
@@ -204,6 +208,7 @@ export async function me(req, res) {
             } 
         });
     } catch (err) {
+        console.log(err);
         // Catch block to handle unexpected errors and respond with 500 Internal Server Error
         res.status(500).json({ error: "Internal Server Error" });
     }

@@ -1,31 +1,42 @@
+/**
+ * Author: Ryan Stokes
+ * File: scripts.js
+ * Last Modified: 2026-04-23
+ */
+
+// Runs the login and logout functions when the DOM content is loaded, ensuring the elements are available before adding event listeners
 document.addEventListener("DOMContentLoaded", () => {
   initLogin();
   initLogout();
 });
 
+// Function to add submit event listener to the login form, which will call handleLogin when the form is submitted
 function initLogin() {
   const form = document.getElementById("loginForm");
   if (!form) return;
   form.addEventListener("submit", handleLogin);
 }
 
+// Function to add click event listener to the logout button, which will call handleLogout when the button is clicked
 function initLogout() {
   const logoutBtn = document.getElementById("logoutBtn");
-  if (logoutBtn) {
+  if (!logoutBtn) return;
     logoutBtn.addEventListener("click", handleLogout);
-  }
 }
 
+// Function that redirects the user to the appropriate dashboard based on their role after successful login
 function redirectUserToDashboard(role) {
   if (role === "teacher") {
     window.location.href = "/teacher/dashboard";
   } else if (role === "parent") {
     window.location.href = "/parent/dashboard";
   } else {
+    // If role is unknown, redirect to home page as a fallback
     window.location.href = "/";
   }
 }
 
+// Function that redirects the user to the home page after successful logout
 function redirectUserToHome() {
   window.location.href = "/home";
 }
@@ -39,6 +50,7 @@ async function handleLogin(e) {
     const form = e.target;
 
     // Send a POST request to the login endpoint with the email and password from the form
+    // POSTs email and password as JSON in req body
     const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: {
