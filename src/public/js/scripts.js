@@ -1,16 +1,19 @@
 document.addEventListener("DOMContentLoaded", () => {
   initLogin();
-  initRegisterTeacher();
-  initRegisterParent();
   initLogout();
 });
 
 function initLogin() {
   const form = document.getElementById("loginForm");
-  
   if (!form) return;
-
   form.addEventListener("submit", handleLogin);
+}
+
+function initLogout() {
+  const logoutBtn = document.getElementById("logoutBtn");
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", handleLogout);
+  }
 }
 
 function redirectUserToDashboard(role) {
@@ -21,6 +24,10 @@ function redirectUserToDashboard(role) {
   } else {
     window.location.href = "/";
   }
+}
+
+function redirectUserToHome() {
+  window.location.href = "/home";
 }
 
 /* Handles the login form submission by sending a POST request to the server with the email and password, 
@@ -53,6 +60,20 @@ async function handleLogin(e) {
     }
 }
 
-function initRegisterTeacher() {}
-function initRegisterParent() {}
-function initLogout() {}
+async function handleLogout() {
+    // Send a POST request to the logout endpoint to log the user out on the server side (destroy session) and clear the cookie on the client side
+    const res = await fetch("/api/auth/logout", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    });
+
+    // If logout is successful (response status 200), redirect to the home page, otherwise show an error message
+    if (res.ok) {
+        redirectUserToHome();
+    } else {
+        const data = await res.json();
+        alert(data.error || "Logout failed");
+    }
+}

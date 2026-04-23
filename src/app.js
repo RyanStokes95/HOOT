@@ -1,7 +1,7 @@
 /**
  * Author: Ryan Stokes
  * File: app.js
- * Last Modified: 2026-04-20
+ * Last Modified: 2026-04-23
  */
 
 import express from "express";
@@ -57,12 +57,12 @@ process.env.NODE_ENV === "integration";
 let store
 
 // Session middleware configuration
-//if in enabled environment, set up session management
+// if in enabled environment, set up session management
 if(enableSessions) {
     // Needed for Heroku deployment behind a proxy
     app.set("trust proxy", 1);
 
-    //Session and Cookie management setup using express-session and connect-mongo
+    // Session and Cookie management setup using express-session and connect-mongo
     const store = buildSessionStore();
 
     // Session middleware
@@ -72,7 +72,7 @@ if(enableSessions) {
             resave: false,
             saveUninitialized: false,
             store,
-            // Producton cookie settings for security, will only be used in production environment
+            // Production cookie settings for security, will only be used in production environment
             cookie: {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === "production",
@@ -85,9 +85,7 @@ if(enableSessions) {
 };
 
 // Routes mounted on express app
-// Infrastructure testing endpoint
-
-// Basic root endpoint to verify the app is running, currently used to test deployment
+// Infrastructure testing endpoint to verify the app is running and responding to requests, used by Supertest in tests
 app.get("/", (req, res) => res.render("index", {title: "HOOT | Home"}));
 
 // Navigation Endpoints
@@ -97,10 +95,11 @@ app.get("/logout", (req, res) => res.render("index", {title: "HOOT | Home"}));
 
 app.get("/home", (req, res) => res.render("index", {title: "HOOT | Home"}));
 
-app.get("/registerTeacher", (req, res) => res.render("registerTeacher", {title: "HOOT | Teacher Sign Up"}));
+app.get("/registerTeacher", (req, res) => res.render("registerTeacher", {title: "HOOT | Teacher Sign Up"}, {layout: "layouts/dash"}));
 
-app.get("/registerParent", (req, res) => res.render("registerParent", {title: "HOOT | Parent Sign Up"}));
+app.get("/registerParent", (req, res) => res.render("registerParent", {title: "HOOT | Parent Sign Up"}, {layout: "layouts/dash"}));
 
+// Secure Role Based Access Endpoints
 // Teacher dashboard route with requireAuth and requireRole middleware to ensure only authenticated teachers can access
 app.get("/teacher/dashboard", requireAuthPage, requireRole("teacher"), (req, res) => {
   res.render("dashTeacher", { title: "HOOT | Teacher Dashboard" });
@@ -108,14 +107,13 @@ app.get("/teacher/dashboard", requireAuthPage, requireRole("teacher"), (req, res
 
 // Parent dashboard route with requireAuth and requireRole middleware to ensure only authenticated parents can access
 app.get("/parent/dashboard", requireAuthPage, requireRole("parent"), (req, res) => {
-  res.render("dashParent", { title: "HOOT |Parent Dashboard" });
+  res.render("dashParent", { title: "HOOT | Parent Dashboard" });
 });
 
 // Checks health of the application by responding with 200 OK and { ok: true } if the app is running
 app.get("/health", (req, res) => res.status(200).json({ ok: true }));
 
 //API endpoints
-
 app.use("/api/items", itemsRouter);
 
 app.use("/api/auth", authRouter);

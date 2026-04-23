@@ -15,10 +15,6 @@ export function requireAuth(req, res, next) {
 }
 
 export function requireAuthPage(req, res, next) {
-  console.log("SESSION:", req.session);
-  console.log("SESSION ID:", req.sessionID);
-  console.log("USER ID:", req.session?.userId);
-
   if (!req.session || !req.session.userId) {
     return res.redirect("/login");
   }
