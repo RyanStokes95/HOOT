@@ -10,12 +10,11 @@ import expressLayouts from "express-ejs-layouts";
 import path from "path";
 import { fileURLToPath } from "url";
 import { buildSessionStore } from "./sessionStore.js";
-import { requireAuth, requireAuthPage } from "./middleware/authMiddleware.js";
+import { requireAuthPage } from "./middleware/authMiddleware.js";
 import { requireRole } from "./middleware/roleCheck.js";
 import itemsRouter from "./routes/items.js";
 import authRouter from "./routes/auth.js";
 import dotenv from "dotenv";
-import { title } from "process";
 
 dotenv.config();
 
@@ -63,7 +62,7 @@ if(enableSessions) {
     app.set("trust proxy", 1);
 
     // Session and Cookie management setup using express-session and connect-mongo
-    const store = buildSessionStore();
+    store = buildSessionStore();
 
     // Session middleware
     app.use(
