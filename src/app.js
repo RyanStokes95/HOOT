@@ -1,7 +1,7 @@
 /**
  * Author: Ryan Stokes
  * File: app.js
- * Last Modified: 2026-04-23
+ * Last Modified: 2026-04-28
  */
 
 import express from "express";
@@ -16,7 +16,7 @@ import itemsRouter from "./routes/items.js";
 import authRouter from "./routes/auth.js";
 import dotenv from "dotenv";
 
-dotenv.config();
+dotenv.config({ quiet: true });
 
 // __dirname and __filename replacement in ES modules
 const __filename = fileURLToPath(import.meta.url);

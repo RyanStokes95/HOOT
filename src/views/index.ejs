@@ -1,8 +1,94 @@
 <!-- Author - Ryan Stokes -->
 <!-- index.ejs -->
-<!-- Last Modified: 2026-04-21 -->
+<!-- Last Modified: 2026-04-28 -->
  
-<div class="p-5 bg-white rounded-4 shadow-sm border">
-  <h1 class="display-6 fw-bold">HOOT</h1>
-  <p class="text-muted mt-3 mb-0">EJS + Bootstrap is rendering correctly.</p>
+<div class="container py-5">
+
+  <!-- App Description Section -->
+  <div class="text-center mb-5">
+    <h1 class="display-4 fw-bold">Welcome to HOOT</h1>
+
+    <p class="lead text-muted mx-auto" style="max-width: 700px;">
+      HOOT is the all-in-one real-time education platform designed to bridge the gap between 
+      teachers and parents. Track performance, manage homework, and stay 
+      informed through continuous feedback and communication, not just end-of-term reports.
+    </p>
+
+    <div class="mt-4 d-flex justify-content-center gap-3 flex-wrap">
+      <a href="/login" class="btn btn-primary btn-lg">Login</a>
+      <a href="/registerTeacher" class="btn btn-outline-dark btn-lg">Register as Teacher</a>
+      <a href="/registerParent" class="btn btn-outline-secondary btn-lg">Register as Parent</a>
+    </div>
+  </div>
+
+
+  <!-- Features Section -->
+  <div class="row g-4 mt-4">
+
+    <!-- Student Progress -->
+    <div class="col-md-4">
+      <div class="card shadow-lg h-100 p-3">
+        <div class="card-body">
+          <h4 class="card-title mb-3">📊 Student Progress</h4>
+          <p class="text-muted">
+            Teachers submit structured weekly reports on each student’s performance, 
+            identifying areas for improvement.
+          </p>
+          <ul class="text-muted">
+            <li>Weekly performance summaries</li>
+            <li>Progress tracking over time</li>
+            <li>Clear visibility for parents</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Homework Tracking -->
+    <div class="col-md-4">
+      <div class="card shadow-lg h-100 p-3">
+        <div class="card-body">
+          <h4 class="card-title mb-3">📘 Homework Tracking</h4>
+          <p class="text-muted">
+            Daily homework journals allow teachers to assign and track tasks, 
+            giving parents the piece of mind that their child is recording and completing all assigned tasks.
+          </p>
+          <ul class="text-muted">
+            <li>Daily task uploads</li>
+            <li>Tickable completion system</li>
+            <li>Improves accountability</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bulletin System -->
+    <div class="col-md-4">
+      <div class="card shadow-lg h-100 p-3">
+        <div class="card-body">
+          <h4 class="card-title mb-3">📢 Communication</h4>
+          <p class="text-muted">
+            A built-in bulletin system keeps parents informed with important 
+            updates, announcements, and classroom activity.
+          </p>
+          <ul class="text-muted">
+            <li>Teacher announcements</li>
+            <li>Never miss important updates</li>
+            <li>Centralised communication hub</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- Why HOOT? Section -->
+  <div class="text-center mt-5">
+    <h3 class="fw-bold">Why HOOT?</h3>
+    <p class="text-muted mx-auto" style="max-width: 700px;">
+      Traditional communication between schools and parents is infrequent and limited. 
+      HOOT replaces this with continuous, transparent updates, giving parents confidence 
+      and students better support throughout the academic year.
+    </p>
+  </div>
 </div>
