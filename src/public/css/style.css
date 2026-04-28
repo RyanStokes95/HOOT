@@ -17,6 +17,13 @@
   background-color: var(--hoot-primary) !important;
 }
 
+/* Logo */
+.hoot-navbar-logo {
+  height: 45px;
+  width: auto;
+  display: block;
+}
+
 /* Buttons */
 .btn-primary {
   background-color: var(--hoot-primary);
