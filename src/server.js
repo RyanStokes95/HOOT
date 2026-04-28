@@ -1,12 +1,14 @@
 /**
  * Author: Ryan Stokes
  * File: server.js
- * Last Modified: 2026-01-25
+ * Last Modified: 2026-01-28
  */
 
-import "dotenv/config";
+import dotenv from "dotenv";
 import mongoose from "mongoose";
 import app from "./app.js";
+
+dotenv.config({ quiet: true });
 
 //Heroku will set PORT environment variable, otherwise default to 3000
 

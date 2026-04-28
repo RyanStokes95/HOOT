@@ -1,0 +1,56 @@
+/* Author - Ryan Stokes */
+/* style.css */
+/* Last Modified: 2026-04-28 */
+
+/* Override Bootstrap styles to match HOOT's color scheme and design */
+
+/* HOOT Theme */
+
+:root {
+  --hoot-primary: #6f42c1;
+  --hoot-dark: #4b2e83;
+  --hoot-light: #ffffff;
+}
+
+/* Navbar */
+.navbar {
+  background-color: var(--hoot-primary) !important;
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: var(--hoot-primary);
+  border-color: var(--hoot-primary);
+}
+
+.btn-primary:hover {
+  background-color: var(--hoot-dark);
+  border-color: var(--hoot-dark);
+}
+
+/* Outline buttons */
+.btn-outline-dark {
+  border-color: var(--hoot-primary);
+  color: var(--hoot-primary);
+}
+
+.btn-outline-dark:hover {
+  background-color: var(--hoot-primary);
+  color: #fff;
+}
+
+/* Background */
+body.bg-light {
+  background-color: var(--hoot-light) !important;
+}
+
+/* Cards */
+.card {
+  border: none;
+  border-radius: 12px;
+  transition: 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+}
