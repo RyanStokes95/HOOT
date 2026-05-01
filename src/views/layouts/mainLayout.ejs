@@ -1,11 +1,13 @@
 <!-- Author - Ryan Stokes -->
-<!-- dash.ejs -->
-<!-- Last Modified: 2026-04-28 -->
+<!-- mainLayout.ejs -->
+<!-- Last Modified: 2026-05-01 -->
 
 <!--
   This is the main layout template for the HOOT application. 
   It includes the HTML structure, Bootstrap CSS/JS, and a navigation bar. 
   The content of each page will be injected into the <main> tag using EJS templating.
+
+    Note: CSS loaded after Bootstrap to allow for custom overrides.
 -->
 
 <!doctype html>
@@ -26,21 +28,24 @@
     />
   </head>
 
-  <body class="bg-light">
+  <body id="formBody" class="bg-light">
 
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-dark bg-dark">
+    <nav class="navbar navbar-dark">
       <div class="container">
-        <a class="navbar-brand fw-bold" href="/">HOOT</a>
-
+        <a class="navbar-brand d-flex align-items-center fw-bold" href="/">
+          <img src="/images/HOOT-Logo.png" alt="HOOT logo" class="hoot-navbar-logo">
+        </a>
         <div class="ms-auto d-flex gap-2">
-          <a class="btn btn-outline-light btn-sm" id="logoutBtn" href="/login">Logout</a>
+          <a class="btn btn-outline-light btn-sm" href="/login">Login</a>
+          <a class="btn btn-outline-light btn-sm" href="/registerTeacher">Teacher Sign Up</a>
+          <a class="btn btn-outline-light btn-sm" href="/registerParent">Parent Sign Up</a>
         </div>
       </div>
     </nav>
 
     <!-- Page Content Injected Here -->
-    <main class="container py-5">
+    <main>
       <%- body %>
     </main>
 

@@ -1,7 +1,7 @@
 /**
  * Author: Ryan Stokes
  * File: app.js
- * Last Modified: 2026-04-28
+ * Last Modified: 2026-05-01
  */
 
 import express from "express";
@@ -16,6 +16,7 @@ import itemsRouter from "./routes/items.js";
 import authRouter from "./routes/auth.js";
 import dotenv from "dotenv";
 
+// quiet to stop dotenv logging in console when starting the server.
 dotenv.config({ quiet: true });
 
 // __dirname and __filename replacement in ES modules
@@ -42,7 +43,7 @@ app.set("view engine", "ejs");
 // Set the views directory
 app.set("views", path.join(__dirname, "views"));
 // Set the layout for express-ejs-layouts, main.ejs will be the default layout for all views
-app.set("layout", "layouts/main")
+app.set("layout", "layouts/mainLayout")
 // Use express-ejs-layouts middleware to enable layout support in EJS templates
 app.use(expressLayouts);
 
@@ -85,14 +86,14 @@ if(enableSessions) {
 
 // Routes mounted on express app
 // Infrastructure testing endpoint to verify the app is running and responding to requests, used by Supertest in tests
-app.get("/", (req, res) => res.render("index", {title: "HOOT | Home"}));
+app.get("/", (req, res) => res.render("index", {title: "HOOT | Home", layout: "layouts/indexLayout"}));
 
 // Navigation Endpoints
 app.get("/login", (req, res) => res.render("login", {title: "HOOT | Login"}));
 
-app.get("/logout", (req, res) => res.render("index", {title: "HOOT | Home"}));
+app.get("/logout", (req, res) => res.render("index", {title: "HOOT | Home", layout: "layouts/indexLayout"}));
 
-app.get("/home", (req, res) => res.render("index", {title: "HOOT | Home"}));
+app.get("/home", (req, res) => res.render("index", {title: "HOOT | Home", layout: "layouts/indexLayout"}));
 
 app.get("/registerTeacher", (req, res) => res.render("registerTeacher", {title: "HOOT | Teacher Sign Up"}));
 
@@ -101,12 +102,12 @@ app.get("/registerParent", (req, res) => res.render("registerParent", {title: "H
 // Secure Role Based Access Endpoints
 // Teacher dashboard route with requireAuth and requireRole middleware to ensure only authenticated teachers can access
 app.get("/teacher/dashboard", requireAuthPage, requireRole("teacher"), (req, res) => {
-  res.render("dashTeacher", { title: "HOOT | Teacher Dashboard", layout: "layouts/dash" });
+  res.render("dashTeacher", { title: "HOOT | Teacher Dashboard", layout: "layouts/dashLayout" });
 });
 
 // Parent dashboard route with requireAuth and requireRole middleware to ensure only authenticated parents can access
 app.get("/parent/dashboard", requireAuthPage, requireRole("parent"), (req, res) => {
-  res.render("dashParent", { title: "HOOT | Parent Dashboard", layout: "layouts/dash" });
+  res.render("dashParent", { title: "HOOT | Parent Dashboard", layout: "layouts/dashLayout" });
 });
 
 // Checks health of the application by responding with 200 OK and { ok: true } if the app is running

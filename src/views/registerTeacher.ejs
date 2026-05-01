@@ -1,59 +1,59 @@
 <!-- Author - Ryan Stokes -->
 <!-- registerTeacher.ejs -->
-<!-- Last Modified: 2026-04-30 -->
+<!-- Last Modified: 2026-05-01 -->
  
-    <!-- Main Content -->
-    <body class="bg-light">
-    <div class="container min-vh-100 d-flex align-items-center justify-content-center">
-      <div class="col-md-5">
-        <div class="card shadow-sm border-0">
-          <div class="card-body p-4">
-            <h3 class="text-center mb-4">Teacher | Register</h3>
-            <form id="registerFormTeacher" method="POST" action="/api/auth/register-teacher">
-              <div class="mb-3">
-                <label class="form-label">Name</label>
-                <input 
-                  type="text" 
-                  name="name" 
-                  class="form-control" 
-                  required
-                />
-              </div>
-              <div class="mb-3">
-                <label class="form-label">Email</label>
-                <input 
-                  type="email" 
-                  name="email" 
-                  class="form-control" 
-                  required
-                />
-              </div>
-              <div class="mb-3">
-                <label class="form-label">Password</label>
-                <input 
-                  type="password" 
-                  name="password" 
-                  class="form-control" 
-                  required
-                />
-              </div>
-              <div class="mb-3">
-                <label class="form-label">Teacher Code</label>
-                <input 
-                  type="text" 
-                  name="teacherCode" 
-                  class="form-control" 
-                  required
-                />
-              </div>
-              <button class="btn btn-dark w-100">
-                Register
-              </button>
-            </form>
-            <p class="text-center mt-3 text-muted small">
-              Already have an account? <a href="/login">Login</a>
-            </p>
+<!-- Main Content -->
+<body class="bg-light">
+<div class="container min-vh-100 d-flex align-items-center justify-content-center">
+  <div class="col-md-5">
+    <div class="card shadow-lg border-0">
+      <div class="card-body p-4">
+        <h3 class="text-center mb-4">Teacher | Register</h3>
+        <form id="registerFormTeacher" method="POST" action="/api/auth/register-teacher">
+          <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input 
+              type="text" 
+              name="name" 
+              class="form-control" 
+              required
+            />
           </div>
-        </div>
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input 
+              type="email" 
+              name="email" 
+              class="form-control" 
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input 
+              type="password" 
+              name="password" 
+              class="form-control" 
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Teacher Code</label>
+            <input 
+              type="text" 
+              name="teacherCode" 
+              class="form-control" 
+              required
+            />
+          </div>
+          <button class="btn btn-primary w-100">
+            Register
+          </button>
+        </form>
+        <p class="text-center mt-3 text-muted small">
+          Already have an account? <a href="/login">Login</a>
+        </p>
       </div>
     </div>
+  </div>
+</div>
