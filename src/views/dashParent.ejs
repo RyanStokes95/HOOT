@@ -1,6 +1,6 @@
 <!-- Author - Ryan Stokes -->
 <!-- dashParent.ejs -->
-<!-- Last Modified: 2026-04-25 -->
+<!-- Last Modified: 2026-05-05 -->
 
 <div class="p-5 bg-white rounded-4 shadow-sm border mb-4">
   <h1 class="display-6 fw-bold">Welcome to the Parent Dashboard</h1>
@@ -11,63 +11,151 @@
 
 <!-- Performance -->
 <div class="bg-white rounded-4 shadow-sm border p-4 mb-4">
-  <h4 class="fw-bold mb-3">Performance</h4>
+  <h4 class="fw-bold mb-3">John's Performance</h4>
 
   <div class="d-flex overflow-auto gap-3 pb-2">
 
     <!-- Week Card -->
-    <div class="card flex-shrink-0" style="min-width: 250px;">
+    <div class="card shadow-sm flex-shrink-0" style="min-width: 180px;">
       <div class="card-body">
-        <h6 class="fw-bold">Week 1</h6>
-        <p class="text-muted mb-2">Overall: 85%</p>
-        <span class="badge bg-success">Good</span>
+        <h6 class="fw-bold">English</h6>
+        <span class="badge bg-success">Exceeding Expectations</span>
       </div>
     </div>
 
-    <div class="card flex-shrink-0" style="min-width: 250px;">
+    <div class="card shadow-sm flex-shrink-0" style="min-width: 180px;">
       <div class="card-body">
-        <h6 class="fw-bold">Week 2</h6>
-        <p class="text-muted mb-2">Overall: 78%</p>
-        <span class="badge bg-warning text-dark">Average</span>
+        <h6 class="fw-bold">Maths</h6>
+        <span class="badge bg-warning text-dark">On Track</span>
       </div>
     </div>
 
-    <div class="card flex-shrink-0" style="min-width: 250px;">
+    <div class="card shadow-sm flex-shrink-0" style="min-width: 180px;">
       <div class="card-body">
-        <h6 class="fw-bold">Week 3</h6>
-        <p class="text-muted mb-2">Overall: 92%</p>
-        <span class="badge bg-success">Excellent</span>
+        <h6 class="fw-bold">Irish</h6>
+        <span class="badge bg-success">Exceeding Expectations</span>
       </div>
     </div>
 
-    <div class="card flex-shrink-0" style="min-width: 250px;">
+    <div class="card shadow-sm flex-shrink-0" style="min-width: 180px;">
       <div class="card-body">
-        <h6 class="fw-bold">Week 4</h6>
-        <p class="text-muted mb-2">Overall: 70%</p>
-        <span class="badge bg-danger">Needs Attention</span>
+        <h6 class="fw-bold">Science</h6>
+        <span class="badge bg-warning text-dark">On Track</span>
+      </div>
+    </div>
+
+    <div class="card shadow-sm flex-shrink-0" style="min-width: 180px;">
+      <div class="card-body">
+        <h6 class="fw-bold">History</h6>
+        <span class="badge bg-danger">Needs More Work</span>
+      </div>
+    </div>
+
+    <div class="card shadow-sm flex-shrink-0" style="min-width: 180px;">
+      <div class="card-body">
+        <h6 class="fw-bold">Geography</h6>
+        <span class="badge bg-success">Exceeding Expectations</span>
       </div>
     </div>
 
   </div>
 </div>
 
-<!-- Tasks -->
-<div class="bg-white rounded-4 shadow-sm border p-4 mb-4">
-  <h4 class="fw-bold">Tasks</h4>
-  <p class="text-muted">Check outstanding tasks, forms, permissions, and parent actions.</p>
-  <a href="#" class="btn btn-primary btn-sm">View Tasks</a>
-</div>
-
 <!-- Homework -->
 <div class="bg-white rounded-4 shadow-sm border p-4 mb-4">
-  <h4 class="fw-bold">Homework Journal</h4>
-  <p class="text-muted">Keep track of assigned homework.</p>
-  <a href="#" class="btn btn-primary btn-sm">View Homework</a>
+  <button class="btn w-100 d-flex justify-content-between align-items-center"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#homeworkDropdown">
+    <h4 class="fw-bold mb-0">Homework Journal</h4>
+    <span>▼</span>
+  </button>
+
+  <div class="collapse mt-3" id="homeworkDropdown">
+    <p class="text-muted">Keep track of your child's assigned homework.</p>
+
+    <div class="form-check mb-2">
+      <input class="form-check-input" type="checkbox" id="homework1">
+      <label class="form-check-label" for="homework1">
+        Maths worksheet - complete questions 1 to 10
+      </label>
+    </div>
+
+    <div class="form-check mb-2">
+      <input class="form-check-input" type="checkbox" id="homework2">
+      <label class="form-check-label" for="homework2">
+        English reading - read pages 20-30 of "Charlotte's Web"
+      </label>
+    </div>
+
+    <div class="form-check mb-2">
+      <input class="form-check-input" type="checkbox" id="homework3">
+      <label class="form-check-label" for="homework3">
+        Science - revise plants and ecosystems chapter 3 pages 43-47
+      </label>
+    </div>
+  </div>
+</div>
+
+<!-- Tasks -->
+<div class="bg-white rounded-4 shadow-sm border p-4 mb-4">
+  <button class="btn w-100 d-flex justify-content-between align-items-center"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#tasksDropdown">
+    <h4 class="fw-bold mb-0">Tasks</h4>
+    <span>▼</span>
+  </button>
+
+  <div class="collapse mt-3" id="tasksDropdown">
+    <p class="text-muted">Check outstanding forms, permissions, and parent actions.</p>
+
+    <div class="form-check mb-2">
+      <input class="form-check-input" type="checkbox" id="task1">
+      <label class="form-check-label" for="task1">
+        Sign school trip permission form
+      </label>
+    </div>
+
+    <div class="form-check mb-2">
+      <input class="form-check-input" type="checkbox" id="task2">
+      <label class="form-check-label" for="task2">
+        Confirm parent-teacher meeting availability
+      </label>
+    </div>
+
+    <div class="form-check mb-2">
+      <input class="form-check-input" type="checkbox" id="task3">
+      <label class="form-check-label" for="task3">
+        Review latest teacher feedback
+      </label>
+    </div>
+  </div>
 </div>
 
 <!-- Bulletin -->
 <div class="bg-white rounded-4 shadow-sm border p-4 mb-4">
-  <h4 class="fw-bold">Bulletin</h4>
-  <p class="text-muted">Read classroom updates, announcements and teacher messages.</p>
-  <a href="#" class="btn btn-primary btn-sm">View Bulletin</a>
+  <button class="btn w-100 d-flex justify-content-between align-items-center"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#bulletinDropdown">
+    <h4 class="fw-bold mb-0">Bulletin</h4>
+    <span>▼</span>
+  </button>
+
+  <div class="collapse mt-3" id="bulletinDropdown">
+    <p class="text-muted">Read classroom updates, announcements and teacher messages.</p>
+
+    <ul class="list-group">
+      <li class="list-group-item">
+        PE day is every Wednesday. Please bring suitable gear.
+      </li>
+      <li class="list-group-item">
+        School trip forms must be returned by Friday.
+      </li>
+      <li class="list-group-item">
+        New weekly progress reports are now available.
+      </li>
+    </ul>
+  </div>
 </div>
