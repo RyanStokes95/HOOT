@@ -1,7 +1,7 @@
 /**
  * Author: Ryan Stokes
  * File: app.js
- * Last Modified: 2026-05-01
+ * Last Modified: 2026-05-13
  */
 
 import express from "express";
@@ -14,6 +14,7 @@ import { requireAuthPage } from "./middleware/authMiddleware.js";
 import { requireRole } from "./middleware/roleCheck.js";
 import itemsRouter from "./routes/items.js";
 import authRouter from "./routes/auth.js";
+import teacherRouter from "./routes/teacher.js";
 import dotenv from "dotenv";
 
 // quiet to stop dotenv logging in console when starting the server.
@@ -68,8 +69,11 @@ if(enableSessions) {
     // Session middleware
     app.use(
         session({
+            // Secret key for signing the session ID cookie, should be set in environment variables for security
             secret: process.env.SESSION_SECRET,
+            // Don't resave session if unmodified, helps reduce unnecessary session store writes
             resave: false,
+            // Don't create a session until something is stored in it.
             saveUninitialized: false,
             store,
             // Production cookie settings for security, will only be used in production environment
@@ -83,6 +87,26 @@ if(enableSessions) {
         })
     );
 };
+
+//Flow of authentication and session management in the app:
+
+/** 
+    EJS page
+    ↓
+    Form submit / fetch
+    ↓
+    API auth route
+    ↓
+    Controller logic
+    ↓
+    Session created
+    ↓
+    Redirect / frontend navigation
+    ↓
+    Dashboard route
+    ↓
+    Dashboard EJS rendered 
+*/
 
 // Routes mounted on express app
 // Infrastructure testing endpoint to verify the app is running and responding to requests, used by Supertest in tests
@@ -117,6 +141,9 @@ app.get("/health", (req, res) => res.status(200).json({ ok: true }));
 app.use("/api/items", itemsRouter);
 
 app.use("/api/auth", authRouter);
+
+// Protected teacher routes, require authentication and teacher role to access any endpoints defined in teacherRouter
+app.use("/api/teacher", requireAuthPage, requireRole("teacher"), teacherRouter);
 
 export { store };
 export default app;
