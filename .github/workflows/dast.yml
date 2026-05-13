@@ -1,6 +1,9 @@
 name: DAST - OWASP ZAP
 
 on:
+  push:
+    branches:
+      - development
   workflow_dispatch:
   schedule:
     - cron: "0 22 * * 0"
