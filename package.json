@@ -18,7 +18,8 @@
     "express": "^4.19.2",
     "express-ejs-layouts": "^2.5.1",
     "express-session": "^1.18.2",
-    "mongoose": "^9.1.2"
+    "mongoose": "^9.1.2",
+    "express-rate-limit": "^8.5.2"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
