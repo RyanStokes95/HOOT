@@ -1,0 +1,23 @@
+<!-- Author - Ryan Stokes -->
+<!-- mainNavbar.ejs -->
+<!-- Last Modified: 2026-05-05 -->
+
+<!--
+  This is the main navigation bar partial for the HOOT application. 
+  It includes the HTML structure, Bootstrap CSS/JS, and a navigation bar. 
+  The content of this page will be injected into the include tag pointing to the navbarMain partial.
+-->
+
+<!-- Navigation Bar -->
+    <nav class="navbar navbar-dark">
+      <div class="container">
+        <a class="navbar-brand d-flex align-items-center fw-bold" href="/">
+          <img src="/images/HOOT-Logo.png" alt="HOOT logo" class="hoot-navbar-logo">
+        </a>
+        <div class="ms-auto d-flex gap-2">
+          <a class="btn btn-outline-light btn-sm" href="/login">Login</a>
+          <a class="btn btn-outline-light btn-sm" href="/registerTeacher">Teacher Sign Up</a>
+          <a class="btn btn-outline-light btn-sm" href="/registerParent">Parent Sign Up</a>
+        </div>
+      </div>
+    </nav>
