@@ -1,7 +1,7 @@
 /**
  * Author: Ryan Stokes
  * File: Class.js
- * Last Modified: 2026-05-13
+ * Last Modified: 2026-05-14
  */
 
 import mongoose from "mongoose";
@@ -9,6 +9,23 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 // Validation enforced by Mongoose schema below
+
+/** 
+    Teacher creates class
+    ↓
+    Class document created with teacher reference and empty students array
+    ↓
+    Teacher shares class code with parents
+    ↓
+    Parent enters class code to join class
+    ↓
+    If class code is valid, parent is added to students array with reference to parent user document
+    ↓
+    Teacher can add subjects, homework, feedback, bulletins, tasks, and events to arrays in class document
+    ↓
+    Parent can view class information
+*/
+
 
 const classSchema = new Schema(
     {
@@ -43,6 +60,143 @@ const classSchema = new Schema(
                     type: mongoose.Schema.Types.ObjectId,
                     ref: "User",
                     required: true
+                }
+            }
+        ],
+        subjects: [
+            {
+                name: {
+                    type: String,
+                    required: true,
+                    minlength: 2,
+                    maxlength: 50
+                }
+            }
+        ],
+        feedback: [
+            {
+                studentId: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    required: true
+                },
+                weekStarting: {
+                    type: Date,
+                    required: true
+                },
+                subjects : [
+                    {
+                        subjectId: { 
+                            type: mongoose.Schema.Types.ObjectId,
+                            required: true
+                        },
+                        performance: {
+                            type: String,
+                            required: true,
+                            enum: ["Exceeding Expectations", "On Track", "Needs More Work"]
+                        }
+                    }
+                ],
+                createdAt: {
+                    type: Date,
+                    default: Date.now
+                }
+            }
+        ],
+        homework: [
+            {
+                description: {
+                    type: String,
+                    required: true,
+                    minlength: 10,
+                    maxlength: 500
+                },
+                dueDate: {
+                    type: Date,
+                    required: true
+                },
+                createdAt: {
+                    type: Date,
+                    default: Date.now
+                }
+
+            }
+        ], 
+        bulletins: [
+            {
+                title: {
+                    type: String,
+                    required: true,
+                    minlength: 2,
+                    maxlength: 100
+                },
+                content: {
+                    type: String,
+                    required: true,
+                    minlength: 10,
+                    maxlength: 500
+                },
+                createdAt: {
+                    type: Date,
+                    default: Date.now
+                }
+            }
+        ], 
+        tasks: [
+            {
+                title: {
+                    type: String,
+                    required: true,
+                    minlength: 2,
+                    maxlength: 100
+                },
+                description: {
+                    type: String,
+                    required: true,
+                    minlength: 10,
+                    maxlength: 500
+                },
+                assignedTo: [
+                    {
+                        type: mongoose.Schema.Types.ObjectId,
+                        ref: "User",
+                        required: true
+                    }
+                ],
+                dueDate: {
+                    type: Date,
+                    required: true
+                },
+                createdAt: {
+                    type: Date,
+                    default: Date.now
+                }
+            }
+        ],
+        events: [
+            {
+                title: {
+                    type: String,
+                    required: true,
+                    minlength: 2,
+                    maxlength: 100
+                },
+                description: {
+                    type: String,
+                    required: true,
+                    minlength: 10,
+                    maxlength: 500
+                },
+                startDate: {
+                    type: Date,
+                    required: true
+                },
+                endDate: {
+                    type: Date,
+                    required: true
+                },
+                createdAt: {
+                    type: Date,
+                    default: Date.now
                 }
             }
         ]
