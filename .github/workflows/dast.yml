@@ -1,0 +1,26 @@
+name: DAST - OWASP ZAP
+
+on:
+  push:
+    branches:
+      - development
+  workflow_dispatch:
+  schedule:
+    - cron: "0 22 * * 0"
+
+jobs:
+  zap-baseline:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: OWASP ZAP Baseline Scan
+        uses: zaproxy/action-baseline@v0.15.0
+        with:
+          target: "https://hoot-development-app-8a20055a370e.herokuapp.com"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fail_action: false
+          allow_issue_writing: false
+          cmd_options: "-a"

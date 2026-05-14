@@ -28,17 +28,8 @@
 
   <body class="bg-light">
 
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-dark bg-dark">
-      <div class="container">
-        <a class="navbar-brand d-flex align-items-center fw-bold" href="/">
-          <img src="/images/HOOT-Logo.png" alt="HOOT logo" class="hoot-navbar-logo">
-        </a>
-        <div class="ms-auto d-flex gap-2">
-          <a class="btn btn-outline-light btn-sm" id="logoutBtn" href="/login">Logout</a>
-        </div>
-      </div>
-    </nav>
+    <!-- Navigation Bar Partial Injected Here-->
+    <%- include ("../partials/dashNavbar") %>
 
     <!-- Page Content Injected Here -->
     <main class="container py-5">
