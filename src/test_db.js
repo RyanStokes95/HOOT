@@ -6,7 +6,7 @@
 
 import mongoose from "mongoose";
 
-//Test db connection using MONGODB_URI_CI variable
+// Test db connection using MONGODB_URI_CI variable
 
 // Connect and Disconnect functions needed for testing and CI
 

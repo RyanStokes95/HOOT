@@ -9,7 +9,7 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 //User roles to be used in role field enum and to check permissions
-const USER_ROLES = ["teacher", "parent", "student"];
+const USER_ROLES = ["teacher", "parent"];
 
 //Validation enforced by Mongoose schema below
 

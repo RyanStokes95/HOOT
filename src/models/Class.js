@@ -60,6 +60,12 @@ const classSchema = new Schema(
                     type: mongoose.Schema.Types.ObjectId,
                     ref: "User",
                     required: true
+                },
+                status: {
+                    type: String,
+                    required: true,
+                    enum: ["Active", "Pending", "Removed"],
+                    default: "Pending"
                 }
             }
         ],
