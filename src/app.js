@@ -91,7 +91,7 @@ if(enableSessions) {
 
 // CSRF protection middleware, should be used after session middleware since it relies on sessions to store the CSRF token
 // Will be disabled in integration testing environment to allow Supertest to make requests without needing to handle CSRF tokens.
-if (process.env.NODE_ENV !== "integration" && process.env.NODE_ENV !== "development") {
+if (process.env.NODE_ENV !== "integration" && process.env.NODE_ENV !== "test") {
     app.use(csurf());
 
     app.use((req, res, next) => {
