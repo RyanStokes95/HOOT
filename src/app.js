@@ -16,6 +16,7 @@ import itemsRouter from "./routes/items.js";
 import authRouter from "./routes/auth.js";
 import teacherRouter from "./routes/teacher.js";
 import dotenv from "dotenv";
+import csurf from "csurf";
 
 // quiet to stop dotenv logging in console when starting the server.
 dotenv.config({ quiet: true });
@@ -87,6 +88,15 @@ if(enableSessions) {
         })
     );
 };
+
+// CSRF protection middleware, should be used after session middleware since it relies on sessions to store the CSRF token
+app.use(csurf());
+
+app.use((req, res, next) => {
+    // Make the CSRF token available in all EJS templates via res.locals
+    res.locals.csrfToken = req.csrfToken();
+    next();
+});
 
 //Flow of authentication and session management in the app:
 
