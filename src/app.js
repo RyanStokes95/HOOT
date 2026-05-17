@@ -15,7 +15,9 @@ import { requireRole } from "./middleware/roleCheck.js";
 import itemsRouter from "./routes/items.js";
 import authRouter from "./routes/auth.js";
 import teacherRouter from "./routes/teacher.js";
+import pageRouter from "./routes/pages.js";
 import dotenv from "dotenv";
+import { Class } from "./models/Class.js";
 
 // quiet to stop dotenv logging in console when starting the server.
 dotenv.config({ quiet: true });
@@ -109,30 +111,8 @@ if(enableSessions) {
 */
 
 // Routes mounted on express app
-// Infrastructure testing endpoint to verify the app is running and responding to requests, used by Supertest in tests
-app.get("/", (req, res) => res.render("index", {title: "HOOT | Home", layout: "layouts/indexLayout"}));
 
-// Navigation Endpoints
-app.get("/login", (req, res) => res.render("login", {title: "HOOT | Login"}));
-
-app.get("/logout", (req, res) => res.render("index", {title: "HOOT | Home", layout: "layouts/indexLayout"}));
-
-app.get("/home", (req, res) => res.render("index", {title: "HOOT | Home", layout: "layouts/indexLayout"}));
-
-app.get("/registerTeacher", (req, res) => res.render("registerTeacher", {title: "HOOT | Teacher Sign Up"}));
-
-app.get("/registerParent", (req, res) => res.render("registerParent", {title: "HOOT | Parent Sign Up"}));
-
-// Secure Role Based Access Endpoints
-// Teacher dashboard route with requireAuth and requireRole middleware to ensure only authenticated teachers can access
-app.get("/teacher/dashboard", requireAuthPage, requireRole("teacher"), (req, res) => {
-  res.render("dashTeacher", { title: "HOOT | Teacher Dashboard", layout: "layouts/dashLayout" });
-});
-
-// Parent dashboard route with requireAuth and requireRole middleware to ensure only authenticated parents can access
-app.get("/parent/dashboard", requireAuthPage, requireRole("parent"), (req, res) => {
-  res.render("dashParent", { title: "HOOT | Parent Dashboard", layout: "layouts/dashLayout" });
-});
+app.use("/", pageRouter);
 
 // Checks health of the application by responding with 200 OK and { ok: true } if the app is running
 app.get("/health", (req, res) => res.status(200).json({ ok: true }));
