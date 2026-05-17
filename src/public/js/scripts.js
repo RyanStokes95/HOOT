@@ -12,7 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
   initRegisterTeacher();
 });
 
-const csrfToken = document.querySelector('input[name="csrf-token"]').value;
 
 //init functions to add event listeners to the login form, logout button, and registration forms for parents and teachers
 
@@ -89,8 +88,7 @@ async function handleRegisterParent(e) {
   const res = await fetch("/api/auth/register-parent", {
       method: "POST",
       headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-Token": csrfToken
+          "Content-Type": "application/json"
       },
       body: JSON.stringify({
           name: form.name.value,
@@ -120,8 +118,7 @@ async function handleRegisterTeacher(e) {
   const res = await fetch("/api/auth/register-teacher", {
       method: "POST",
       headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-Token": csrfToken
+          "Content-Type": "application/json"
       },
       body: JSON.stringify({
           name: form.name.value,
@@ -152,8 +149,7 @@ async function handleLogin(e) {
   const res = await fetch("/api/auth/login", {
       method: "POST",
       headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-Token": csrfToken
+      "Content-Type": "application/json"
       },
       body: JSON.stringify({
       email: form.email.value,
@@ -177,8 +173,7 @@ async function handleLogout() {
   const res = await fetch("/api/auth/logout", {
       method: "POST",
       headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-Token": csrfToken
+          "Content-Type": "application/json"
       }
   });
 
