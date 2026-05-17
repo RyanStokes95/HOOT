@@ -17,7 +17,6 @@ import authRouter from "./routes/auth.js";
 import teacherRouter from "./routes/teacher.js";
 import pageRouter from "./routes/pages.js";
 import dotenv from "dotenv";
-import { Class } from "./models/Class.js";
 
 // quiet to stop dotenv logging in console when starting the server.
 dotenv.config({ quiet: true });
