@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-
 //init functions to add event listeners to the login form, logout button, and registration forms for parents and teachers
 
 
