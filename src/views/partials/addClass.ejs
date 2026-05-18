@@ -2,6 +2,7 @@
 <!-- addClass.ejs -->
 <!-- Last Modified: 2026-05-18 -->
 
+<!-- Main Content -->
 <h2 class="fw-bold mb-4 text-center">
     Create Class
 </h2>
@@ -10,7 +11,7 @@
     Create a classroom and generate a unique class code for parents to join.
 </p>
 
-<form action="/api/teacher/create-class" method="POST">
+<form id="addClassForm" method="POST" action="/api/teacher/create-class">
 
     <div class="mb-3">
 
@@ -24,8 +25,6 @@
             class="form-control form-control-lg"
             placeholder="e.g. 4th Class A"
             required
-            minlength="2"
-            maxlength="50"
         >
 
     </div>
