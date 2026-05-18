@@ -27,61 +27,68 @@ router.get("/home", (req, res) =>
 );
 
 router.get("/login", (req, res) =>
-  res.render("login", {
-    title: "HOOT | Login"
+  res.render("auth", {
+    title: "HOOT | Login",
+    role: null
   })
 );
 
-router.get("/registerTeacher", (req, res) =>
-  res.render("registerTeacher", {
-    title: "HOOT | Teacher Sign Up"
+router.get("/register/teacher", (req, res) =>
+  res.render("auth", {
+    title: "HOOT | Teacher Sign Up",
+    role: "teacher"
   })
 );
 
-router.get("/registerParent", (req, res) =>
-  res.render("registerParent", {
-    title: "HOOT | Parent Sign Up"
+router.get("/register/parent", (req, res) =>
+  res.render("auth", {
+    title: "HOOT | Parent Sign Up",
+    role: "parent"
   })
 );
 
 // Teacher dashboard
 router.get("/teacher/dashboard", requireAuthPage, requireRole("teacher"), async (req, res) => {
-  const teacherClass = await Class.findOne({
-    teacher: req.session.userId
-  });
-
-  if (!teacherClass) {
-    return res.render("noClassTeacher", {
-      title: "HOOT | Teacher Dashboard",
-      layout: "layouts/mainLayout"
+    const teacherClass = await Class.findOne({
+        teacher: req.session.userId
     });
-  }
 
-  return res.render("dashTeacher", {
-    title: "HOOT | Teacher Dashboard",
-    layout: "layouts/dashLayout",
-    teacherClass
-  });
+    return res.render("dash", {
+        title: "HOOT | Teacher Dashboard",
+        layout: "layouts/dashLayout",
+        user: req.session.user,
+        teacherClass
+    });
 });
+
 
 // Parent dashboard
 router.get("/parent/dashboard", requireAuthPage, requireRole("parent"), async (req, res) => {
-  const parentClass = await Class.findOne({
-    parent: req.session.userId
-  });
-
-  if (!parentClass) {
-    return res.render("noClassParent", {
-      title: "HOOT | Parent Dashboard",
-      layout: "layouts/mainLayout"
+    const parentClass = await Class.findOne({
+        parent: req.session.userId
     });
-  }
 
-  return res.render("dashParent", {
-    title: "HOOT | Parent Dashboard",
-    layout: "layouts/dashLayout",
-    parentClass
-  });
+    return res.render("dash", {
+        title: "HOOT | Parent Dashboard",
+        layout: "layouts/dashLayout",
+        user: req.session.userId,
+        parentClass
+    });
 });
+
+router.get("/teacher/classes/create", (req, res) => {
+    res.render("forms", {
+        title: "HOOT | Add Class",
+        role: "teacher"
+    });
+});
+
+router.get("/parent/students/create", (req, res) => {
+    res.render("forms", {
+        title: "HOOT | Add Student",
+        role: "parent"
+    });
+});
+
 
 export default router;

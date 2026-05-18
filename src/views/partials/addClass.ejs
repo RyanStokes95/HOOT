@@ -1,0 +1,39 @@
+<!-- Author - Ryan Stokes -->
+<!-- addClass.ejs -->
+<!-- Last Modified: 2026-05-18 -->
+
+<h2 class="fw-bold mb-4 text-center">
+    Create Class
+</h2>
+
+<p class="text-muted text-center mb-4">
+    Create a classroom and generate a unique class code for parents to join.
+</p>
+
+<form action="/api/teacher/create-class" method="POST">
+
+    <div class="mb-3">
+
+        <label class="form-label fw-semibold">
+            Class Name
+        </label>
+
+        <input
+            type="text"
+            name="name"
+            class="form-control form-control-lg"
+            placeholder="e.g. 4th Class A"
+            required
+            minlength="2"
+            maxlength="50"
+        >
+
+    </div>
+
+    <button class="btn btn-primary w-100 py-2 fw-semibold">
+
+        Create Class
+
+    </button>
+
+</form>

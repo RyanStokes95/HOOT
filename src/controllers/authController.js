@@ -135,6 +135,12 @@ export async function login(req, res) {
         //Session creation upon successful login
         req.session.userId = user._id.toString();
         req.session.role = user.role;
+        req.session.user = {
+            id: user._id,
+            name: user.name,
+            email: user.email,
+            role: user.role
+        };
         
         // Successful login response with user details (excluding password) and status 200 OK
         req.session.save((err) => {
@@ -144,12 +150,7 @@ export async function login(req, res) {
 
             return res.status(200).json({
                 message: "Login successful",
-                user: {
-                id: user._id,
-                name: user.name,
-                email: user.email,
-                role: user.role
-                }
+                user: req.session.user
             });
         });
     } catch (err) {
