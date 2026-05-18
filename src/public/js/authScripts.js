@@ -1,7 +1,7 @@
 /**
  * Author: Ryan Stokes
- * File: scripts.js
- * Last Modified: 2026-04-30
+ * File: authScripts.js
+ * Last Modified: 2026-05-17
  */
 
 // Runs the login and logout functions when the DOM content is loaded, ensuring the elements are available before adding event listeners

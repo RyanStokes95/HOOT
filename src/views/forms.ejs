@@ -1,0 +1,34 @@
+<!-- Author - Ryan Stokes -->
+<!-- forms.ejs -->
+<!-- Last Modified: 2026-05-18 -->
+ 
+<!-- Main Content -->
+<body class="bg-light">
+
+  <div class="container min-vh-100 d-flex align-items-center justify-content-center">
+
+    <div class="col-md-5">
+
+      <div class="card shadow-lg border-0">
+
+        <div class="card-body p-4">
+
+            <% if (role === "teacher") { %>
+
+                <%- include("./partials/addClass") %>
+
+            <% } else if (role === "parent") { %>
+
+                <%- include("./partials/addStudent") %>
+
+            <% } %>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</body>

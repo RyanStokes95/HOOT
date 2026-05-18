@@ -25,7 +25,6 @@ export async function createClass(req, res) {
             name,
             classCode,
             teacher: teacherId,
-            students: []
         });
         res.status(201).json(newClass);
     } catch (error) {

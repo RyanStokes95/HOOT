@@ -1,0 +1,21 @@
+<main class="container py-5">
+
+    <% if (user && user.role === "teacher") { %>
+
+        <% if (teacherClass) { %>
+
+            <%- include("./partials/dashTeacher") %>
+
+        <% } else { %>
+
+            <%- include("./partials/noClassTeacher") %>
+
+        <% } %>
+
+    <% } else if (user && user.role === "parent") { %>
+
+        <%- include("./partials/dashParent") %>
+
+    <% } %>
+
+</main>
