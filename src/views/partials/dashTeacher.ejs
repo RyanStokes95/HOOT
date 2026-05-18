@@ -1,142 +1,189 @@
 <!-- Author - Ryan Stokes -->
 <!-- dashTeacher.ejs -->
-<!-- Last Modified: 2026-04-25 -->
+<!-- Last Modified: 2026-05-18 -->
 
 <div class="p-5 bg-white rounded-4 shadow-sm border mb-4">
-  <h1 class="display-6 fw-bold">Welcome to the Teacher Dashboard</h1>
-  <p class="text-muted mt-3 mb-0">
-    Manage your class, student feedback, tasks, homework journal, and bulletin updates.
-  </p>
+    <h1 class="display-6 fw-bold">
+        Welcome to the Teacher Dashboard
+    </h1>
+
+    <p class="text-muted mt-3 mb-0">
+        Manage your class, student feedback, tasks, homework journal, and bulletin updates.
+    </p>
 </div>
 
-<!-- Class Overview -->
 <div class="bg-white rounded-4 shadow-sm border p-4 mb-4">
-  <h4 class="fw-bold mb-3">Class Overview</h4>
+    <h4 class="fw-bold mb-3">Class Overview</h4>
 
-  <div class="row g-3">
-    <div class="col-md-4">
-      <div class="border rounded-4 p-3 h-100">
-        <h6 class="fw-bold">Class</h6>
-        <p class="text-muted mb-0">4th Class A</p>
-      </div>
-    </div>
+    <div class="row g-3">
 
-    <div class="col-md-4">
-      <div class="border rounded-4 p-3 h-100">
-        <h6 class="fw-bold">Students</h6>
-        <p class="text-muted mb-0">3 enrolled</p>
-      </div>
-    </div>
+        <div class="col-md-4">
+            <div class="border rounded-4 p-3 h-100">
+                <h6 class="fw-bold">Class</h6>
+                <p class="text-muted mb-0">
+                    <%= teacherClass.name %>
+                </p>
+            </div>
+        </div>
 
-    <div class="col-md-4">
-      <div class="border rounded-4 p-3 h-100">
-        <h6 class="fw-bold">Class Code</h6>
-        <p class="text-muted mb-0">H7K92Q</p>
-      </div>
+        <div class="col-md-4">
+            <div class="border rounded-4 p-3 h-100">
+                <h6 class="fw-bold">Students</h6>
+                <p class="text-muted mb-0">
+                    <%= teacherClass.students.length %> enrolled
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="border rounded-4 p-3 h-100">
+                <h6 class="fw-bold">Class Code</h6>
+                <p class="text-muted mb-0">
+                    <%= teacherClass.classCode %>
+                </p>
+            </div>
+        </div>
+
     </div>
-  </div>
 </div>
 
-<!-- Student List -->
 <div class="bg-white rounded-4 shadow-sm border p-4 mb-4">
-  <h4 class="fw-bold mb-3">Student List</h4>
+    <h4 class="fw-bold mb-3">Student List</h4>
 
-  <div class="table-responsive">
-    <table class="table table-hover align-middle mb-0">
-      <thead>
-        <tr>
-          <th>Student Name</th>
-          <th>Parent</th>
-          <th>Status</th>
-          <th class="text-end">Actions</th>
-        </tr>
-      </thead>
+    <% if (teacherClass.students.length > 0) { %>
 
-      <tbody>
-        <tr>
-          <td>Emma Byrne</td>
-          <td>Sarah Byrne</td>
-          <td><span class="badge bg-success">Approved</span></td>
-          <td class="text-end">
-            <a href="#" class="btn btn-primary btn-sm me-1">Give Feedback</a>
-            <a href="#" class="btn btn-outline-danger btn-sm">Remove</a>
-          </td>
-        </tr>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
 
-        <tr>
-          <td>Jack Murphy</td>
-          <td>David Murphy</td>
-          <td><span class="badge bg-warning text-dark">Pending</span></td>
-          <td class="text-end">
-            <a href="#" class="btn btn-outline-success btn-sm me-1">Approve</a>
-            <a href="#" class="btn btn-outline-danger btn-sm">Remove</a>
-          </td>
-        </tr>
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Parent</th>
+                        <th>Status</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
 
-        <tr>
-          <td>Sophie Kelly</td>
-          <td>Laura Kelly</td>
-          <td><span class="badge bg-success">Approved</span></td>
-          <td class="text-end">
-            <a href="#" class="btn btn-primary btn-sm me-1">Give Feedback</a>
-            <a href="#" class="btn btn-outline-danger btn-sm">Remove</a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+                <tbody>
+                    <% teacherClass.students.forEach(student => { %>
+
+                        <tr>
+                            <td><%= student.name %></td>
+
+                            <td>
+                                <%= student.parent?.name || "Parent linked" %>
+                            </td>
+
+                            <td>
+                                <% if (student.status === "Active") { %>
+                                    <span class="badge bg-success">Active</span>
+                                <% } else if (student.status === "Pending") { %>
+                                    <span class="badge bg-warning text-dark">Pending</span>
+                                <% } else { %>
+                                    <span class="badge bg-secondary">Removed</span>
+                                <% } %>
+                            </td>
+
+                            <td class="text-end">
+
+                                <% if (student.status === "Pending") { %>
+                                    <a href="/teacher/students/<%= student._id %>/approve" class="btn btn-outline-success btn-sm me-1">
+                                        Approve
+                                    </a>
+                                <% } %>
+
+                                <% if (student.status === "Active") { %>
+                                    <a href="/teacher/students/<%= student._id %>/feedback" class="btn btn-primary btn-sm me-1">
+                                        Give Feedback
+                                    </a>
+                                <% } %>
+
+                                <a href="/teacher/students/<%= student._id %>/remove" class="btn btn-outline-danger btn-sm">
+                                    Remove
+                                </a>
+
+                            </td>
+                        </tr>
+
+                    <% }) %>
+                </tbody>
+
+            </table>
+        </div>
+
+    <% } else { %>
+
+        <p class="text-muted mb-0">
+            No students have been linked to this class yet.
+        </p>
+
+    <% } %>
 </div>
 
-<!-- Class Management -->
 <div class="bg-white rounded-4 shadow-sm border p-4 mb-4">
-  <h4 class="fw-bold mb-3">Class Management</h4>
+    <h4 class="fw-bold mb-3">Class Management</h4>
 
-  <div class="accordion" id="classManagementAccordion">
+    <div class="accordion" id="classManagementAccordion">
 
-    <!-- Tasks -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="tasksHeading">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tasksCollapse">
-          Tasks
-        </button>
-      </h2>
-      <div id="tasksCollapse" class="accordion-collapse collapse" data-bs-parent="#classManagementAccordion">
-        <div class="accordion-body d-flex justify-content-between align-items-center">
-          <span class="text-muted">Create tasks, forms, permission requests, or parent action items.</span>
-          <a href="#" class="btn btn-primary btn-sm">Add Task</a>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="tasksHeading">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tasksCollapse">
+                    Tasks (<%= teacherClass.tasks.length %>)
+                </button>
+            </h2>
+
+            <div id="tasksCollapse" class="accordion-collapse collapse" data-bs-parent="#classManagementAccordion">
+                <div class="accordion-body d-flex justify-content-between align-items-center">
+                    <span class="text-muted">
+                        Create tasks, forms, permission requests, or parent action items.
+                    </span>
+
+                    <a href="/teacher/tasks/new" class="btn btn-primary btn-sm">
+                        Add Task
+                    </a>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Homework Journal -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="homeworkHeading">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#homeworkCollapse">
-          Homework Journal
-        </button>
-      </h2>
-      <div id="homeworkCollapse" class="accordion-collapse collapse" data-bs-parent="#classManagementAccordion">
-        <div class="accordion-body d-flex justify-content-between align-items-center">
-          <span class="text-muted">Add homework notes and learning activities for the class.</span>
-          <a href="#" class="btn btn-primary btn-sm">Add Homework</a>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="homeworkHeading">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#homeworkCollapse">
+                    Homework Journal (<%= teacherClass.homework.length %>)
+                </button>
+            </h2>
+
+            <div id="homeworkCollapse" class="accordion-collapse collapse" data-bs-parent="#classManagementAccordion">
+                <div class="accordion-body d-flex justify-content-between align-items-center">
+                    <span class="text-muted">
+                        Add homework notes and learning activities for the class.
+                    </span>
+
+                    <a href="/teacher/homework/new" class="btn btn-primary btn-sm">
+                        Add Homework
+                    </a>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Bulletin -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="bulletinHeading">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#bulletinCollapse">
-          Bulletin
-        </button>
-      </h2>
-      <div id="bulletinCollapse" class="accordion-collapse collapse" data-bs-parent="#classManagementAccordion">
-        <div class="accordion-body d-flex justify-content-between align-items-center">
-          <span class="text-muted">Post classroom updates, announcements, and teacher messages.</span>
-          <a href="#" class="btn btn-primary btn-sm">Add Bulletin</a>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="bulletinHeading">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#bulletinCollapse">
+                    Bulletin (<%= teacherClass.bulletins.length %>)
+                </button>
+            </h2>
+
+            <div id="bulletinCollapse" class="accordion-collapse collapse" data-bs-parent="#classManagementAccordion">
+                <div class="accordion-body d-flex justify-content-between align-items-center">
+                    <span class="text-muted">
+                        Post classroom updates, announcements, and teacher messages.
+                    </span>
+
+                    <a href="/teacher/bulletins/new" class="btn btn-primary btn-sm">
+                        Add Bulletin
+                    </a>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
 
-  </div>
+    </div>
 </div>
