@@ -1,7 +1,7 @@
 /**
  * Author: Ryan Stokes
  * File: app.js
- * Last Modified: 2026-05-13
+ * Last Modified: 2026-05-19
  */
 
 import express from "express";
@@ -15,6 +15,7 @@ import { requireRole } from "./middleware/roleCheck.js";
 import itemsRouter from "./routes/items.js";
 import authRouter from "./routes/auth.js";
 import teacherRouter from "./routes/teacher.js";
+import parentRouter from "./routes/parent.js";
 import pageRouter from "./routes/pages.js";
 import dotenv from "dotenv";
 
@@ -123,6 +124,9 @@ app.use("/api/auth", authRouter);
 
 // Protected teacher routes, require authentication and teacher role to access any endpoints defined in teacherRouter
 app.use("/api/teacher", requireAuthPage, requireRole("teacher"), teacherRouter);
+
+// Protected parent routes, require authentication and parent role to access any endpoints defined in parentRouter
+app.use("/api/parent", requireAuthPage, requireRole("parent"), parentRouter);
 
 export { store };
 export default app;

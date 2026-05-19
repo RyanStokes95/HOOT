@@ -19,7 +19,15 @@
 
     <% } else if (user && user.role === "parent") { %>
 
-        <%- include("./partials/dashParent") %>
+        <% if (parentClass) { %>
+
+            <%- include("./partials/dashParent") %>
+
+        <% } else { %>
+
+            <%- include("./partials/noClassParent") %>
+
+        <% } %>
 
     <% } %>
 

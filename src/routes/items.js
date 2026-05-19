@@ -1,8 +1,10 @@
 /**
  * Author: Ryan Stokes
  * File: items.js
- * Last Modified: 2026-01-25
+ * Last Modified: 2026-05-20
  */
+
+// This file is for testing purposes only, it defines simple routes to create and retrieve items from the database.
 
 import { Router } from "express";
 import Item from "../models/Item.js";

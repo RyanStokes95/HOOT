@@ -51,7 +51,7 @@ router.get("/register/parent", (req, res) =>
 router.get("/teacher/dashboard", requireAuthPage, requireRole("teacher"), async (req, res) => {
     const teacherClass = await Class.findOne({
         teacher: req.session.userId
-    });
+    }).populate("students.parent", "name");
 
     return res.render("dash", {
         title: "HOOT | Teacher Dashboard",
@@ -71,7 +71,7 @@ router.get("/parent/dashboard", requireAuthPage, requireRole("parent"), async (r
     return res.render("dash", {
         title: "HOOT | Parent Dashboard",
         layout: "layouts/dashLayout",
-        user: req.session.userId,
+        user: req.session.user,
         parentClass
     });
 });

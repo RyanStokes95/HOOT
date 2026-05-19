@@ -6,15 +6,15 @@
 
 import express from "express";
 import {
-    createClass
-} from "../controllers/teacherController.js";
+    joinClass
+} from "../controllers/parentController.js";
 import { requireAuth } from "../middleware/authMiddleware.js";
 import { requireRole } from "../middleware/roleCheck.js";
 import { genericLimiter } from "../middleware/rateLimiters.js";
 
 const router = express.Router();
 
-// Route to create a new class, only accessible to authenticated teachers
-router.post("/create-class", requireAuth, requireRole("teacher"), genericLimiter, createClass);
+// Route to join a class, only accessible to authenticated parents
+router.post("/join-class", requireAuth, requireRole("parent"), genericLimiter, joinClass);
 
 export default router;
