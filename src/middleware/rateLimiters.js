@@ -36,7 +36,7 @@ export const authLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, 
 
     // limit each IP to 10 requests per window
-    max: 10, 
+    max: 30, 
 
     // Skip rate limiting in test environments to avoid interference with automated tests
     skip: () => isTest
