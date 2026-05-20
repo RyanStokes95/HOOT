@@ -1,7 +1,7 @@
 /**
  * Author: Ryan Stokes
  * File: teacherController.js
- * Last Modified: 2026-05-13
+ * Last Modified: 2026-05-20
  */
 
 import { Class } from "../models/Class.js";
@@ -40,4 +40,25 @@ function generateClassCode() {
         code += characters.charAt(Math.floor(Math.random() * characters.length));
     }
     return code;
+}
+
+export async function addSubject(req, res) {
+    try {
+        const { subject } = req.body;
+        const teacherId = req.session.userId;
+
+        const teacherClass = await Class.findOne({ teacher: teacherId });
+
+        const newSubject = {
+            name: subject,
+        };
+
+        teacherClass.subjects.push(newSubject);
+
+        await teacherClass.save();
+
+        res.status(200).json({ subject: newSubject.name });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
 }

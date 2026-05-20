@@ -1,3 +1,9 @@
+/**
+ * Author: Ryan Stokes
+ * File: teacher.int.test.js
+ * Last Modified: 2026-05-20
+ */
+
 import request from "supertest";
 import app from "../src/app.js";
 
@@ -29,12 +35,21 @@ describe("Teacher Create Class", () => {
         name: "Test Class"
       });
 
+    const subjectAddRes = await agent
+      .post("/api/teacher/add-subject")
+      .send({
+        subject: "Math"
+      });
+
     console.log(classCreationRes.status, classCreationRes.body);
+    console.log(subjectAddRes.status, subjectAddRes.body);
 
     expect(classCreationRes.status).toBe(201);
     expect(classCreationRes.body).toHaveProperty("name", "Test Class");
     expect(classCreationRes.body).toHaveProperty("teacher");
     expect(classCreationRes.body).toHaveProperty("classCode");
     expect(classCreationRes.body.classCode).toHaveLength(6);
+    expect(subjectAddRes.status).toBe(200);
+    expect(subjectAddRes.body).toHaveProperty("subject", "Math");
   });
 });

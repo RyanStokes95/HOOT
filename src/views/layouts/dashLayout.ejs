@@ -1,6 +1,6 @@
 <!-- Author - Ryan Stokes -->
 <!-- dashLayout.ejs -->
-<!-- Last Modified: 2026-05-05 -->
+<!-- Last Modified: 2026-05-20 -->
 
 <!--
   This is the dashboard layout template for the HOOT application. 
@@ -34,6 +34,28 @@
     <!-- Page Content Injected Here -->
     <%- body %>
 
+    <!-- Modals -->
+    <%const addSubjectForm = include(
+      "../partials/modalForms/addSubject"
+    ) %>;
+
+    <%- include("../partials/modal", {
+        modalId: "addSubjectModal",
+        modalTitle: "Add Subject",
+        body: addSubjectForm
+    }) %>
+
+    <%const addClassForm = include(
+      "../partials/modalForms/addClass"
+    ) %>;
+
+    <%- include("../partials/modal", {
+        modalId: "addClassModal",
+        modalTitle: "Add Class",
+        body: addClassForm
+    }) %>
+    
+
     <!-- Bootstrap JS -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -43,5 +65,5 @@
     <script src="/js/teacherScripts.js" ></script>
     <script src="/js/parentScript.js" ></script>
 
-  </body>
+  </body>  
 </html>
