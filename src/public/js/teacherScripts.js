@@ -1,5 +1,3 @@
-/* global bootstrap */
-
 /**
  * Author: Ryan Stokes
  * File: teacherScripts.js
