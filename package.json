@@ -6,7 +6,7 @@
     "start": "node src/server.js",
     "devStart": "nodemon",
     "test": "cross-env NODE_ENV=test node --experimental-vm-modules ./node_modules/jest/bin/jest.js test/health.test.js",
-    "test:int": "cross-env NODE_ENV=integration node --experimental-vm-modules ./node_modules/jest/bin/jest.js --setupFilesAfterEnv ./test/jest.setup.js --testPathPatterns \"\\\\.int\\\\.test\\\\.js$\"",
+    "test:int": "cross-env NODE_ENV=integration node --experimental-vm-modules ./node_modules/jest/bin/jest.js --runInBand --setupFilesAfterEnv ./test/jest.setup.js --testPathPatterns \"\\\\.int\\\\.test\\\\.js$\"",
     "lint": "eslint ."
   },
   "dependencies": {
