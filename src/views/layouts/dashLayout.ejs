@@ -35,9 +35,9 @@
     <%- body %>
 
     <!-- Modals -->
-    <%const addSubjectForm = include(
+    <% const addSubjectForm = include(
       "../partials/modalForms/addSubject"
-    ) %>;
+    ); %>
 
     <%- include("../partials/modal", {
         modalId: "addSubjectModal",
@@ -45,9 +45,9 @@
         body: addSubjectForm
     }) %>
 
-    <%const addClassForm = include(
+    <% const addClassForm = include(
       "../partials/modalForms/addClass"
-    ) %>;
+    ); %>
 
     <%- include("../partials/modal", {
         modalId: "addClassModal",
