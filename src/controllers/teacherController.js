@@ -1,7 +1,7 @@
 /**
  * Author: Ryan Stokes
  * File: teacherController.js
- * Last Modified: 2026-05-20
+ * Last Modified: 2026-05-21
  */
 
 import { Class } from "../models/Class.js";
@@ -42,6 +42,60 @@ function generateClassCode() {
     return code;
 }
 
+export async function approveStudent(req, res) {
+    try {
+        const { studentId } = req.body;
+        const teacherId = req.session.userId;
+
+        const teacherClass = await Class.findOne({ teacher: teacherId });
+
+        if (!teacherClass) {
+            return res.status(404).json({ message: "Class not found." });
+        }
+
+        const student = teacherClass.students.id(studentId);
+
+        console.log(student)
+
+        if (!student) {
+            return res.status(404).json({ message: "Student not found." });
+        }
+
+        student.status = "Active";
+        await teacherClass.save();
+
+        res.status(200).json({ status: student.status, student: student.name });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+export async function deleteStudent(req, res) {
+    try {
+        const { studentId } = req.body;
+        const teacherId = req.session.userId;
+
+        const teacherClass = await Class.findOne({ teacher: teacherId });
+
+        if (!teacherClass) {
+            return res.status(404).json({ message: "Class not found." });
+        }
+
+        const student = teacherClass.students.id(studentId);
+
+        if (!student) {
+            return res.status(404).json({ message: "Student not found." });
+        }
+
+        await teacherClass.students.pull({ _id: studentId });
+        await teacherClass.save();
+
+        res.status(200).json({ message: "Student deleted." });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
 export async function addSubject(req, res) {
     try {
         const { subject } = req.body;
@@ -58,6 +112,32 @@ export async function addSubject(req, res) {
         await teacherClass.save();
 
         res.status(200).json({ subject: newSubject.name });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+export async function deleteSubject(req, res) {
+    try {
+        const { subjectId } = req.body;
+        const teacherId = req.session.userId;
+
+        const teacherClass = await Class.findOne({ teacher: teacherId });
+
+        if (!teacherClass) {
+            return res.status(404).json({ message: "Class not found." });
+        }
+
+        const subject = teacherClass.subjects.id(subjectId);
+
+        if (!subject) {
+            return res.status(404).json({ message: "Subject not found." });
+        }
+
+        await teacherClass.subjects.pull({ _id: subjectId });
+        await teacherClass.save();
+
+        res.status(200).json({ message: "Subject deleted." });
     } catch (error) {
         res.status(400).json({ message: error.message });
     }

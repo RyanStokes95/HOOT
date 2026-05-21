@@ -1,7 +1,7 @@
 /**
  * Author: Ryan Stokes
  * File: Class.js
- * Last Modified: 2026-05-14
+ * Last Modified: 2026-05-21
  */
 
 import mongoose from "mongoose";
@@ -64,7 +64,7 @@ const classSchema = new Schema(
                 status: {
                     type: String,
                     required: true,
-                    enum: ["Active", "Pending", "Removed"],
+                    enum: ["Active", "Pending"],
                     default: "Pending"
                 }
             }

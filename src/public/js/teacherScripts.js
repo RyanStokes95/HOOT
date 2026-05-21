@@ -3,12 +3,15 @@
 /**
  * Author: Ryan Stokes
  * File: teacherScripts.js
- * Last Modified: 2026-05-20
+ * Last Modified: 2026-05-21
  */
 
 document.addEventListener("DOMContentLoaded", () => {
     initAddClass();
     initAddSubject();
+    initDeleteSubject();
+    initApproveStudent();
+    initDeleteStudent();
 });
 
 function initAddClass() {
@@ -21,6 +24,27 @@ function initAddSubject() {
     const form = document.getElementById("addSubjectForm");
     if (!form) return;
     form.addEventListener("submit", handleAddSubject);
+}
+
+function initApproveStudent() {
+    const approveButtons = document.querySelectorAll(".approve-student-btn");
+    approveButtons.forEach(button => {
+        button.addEventListener("click", handleApproveStudent);
+    });
+}
+
+function initDeleteSubject() {
+    const deleteButtons = document.querySelectorAll(".delete-subject-btn");
+    deleteButtons.forEach(button => {
+        button.addEventListener("click", handleDeleteSubject);
+    });
+}
+
+function initDeleteStudent() {
+    const deleteButtons = document.querySelectorAll(".delete-student-btn");
+    deleteButtons.forEach(button => {
+        button.addEventListener("click", handleDeleteStudent);
+    });
 }
 
 async function handleAddClass(e) {
@@ -81,3 +105,80 @@ async function handleAddSubject(e) {
         alert(data.message || "Failed to add subject");
     }
 };
+
+async function handleDeleteSubject(e) {
+
+    e.preventDefault();
+
+    const subjectId = e.currentTarget.dataset.subjectId;
+
+    const row = e.currentTarget.closest("tr");
+
+    const res = await fetch("/api/teacher/delete-subject", {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            subjectId
+        })
+    });
+
+    if (res.ok) {
+        row.remove();
+    } else {
+        const data = await res.json();
+        alert(data.message || "Failed to delete subject");
+    }
+}
+
+async function handleApproveStudent(e) {
+
+    e.preventDefault();
+    // Get student ID from data attribute of the clicked button
+    const studentId = e.currentTarget.dataset.studentId;
+
+    const res = await fetch("/api/teacher/approve-student", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+                studentId,
+        })
+    });
+
+    if (res.ok) {
+
+        window.location.reload();
+    } else {
+        const data = await res.json();
+        alert(data.message || "Failed to approve student");
+    };
+}
+
+async function handleDeleteStudent(e) {
+
+    e.preventDefault();
+
+    const studentId = e.currentTarget.dataset.studentId;
+
+    const row = e.currentTarget.closest("tr");
+
+    const res = await fetch("/api/teacher/delete-student", {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+                studentId,
+        })
+    });
+
+    if (res.ok) {
+        row.remove();
+    } else {
+        const data = await res.json();
+        alert(data.message || "Failed to remove student");
+    };
+}
