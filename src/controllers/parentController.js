@@ -1,11 +1,12 @@
 /**
  * Author: Ryan Stokes
  * File: parentController.js
- * Last Modified: 2026-05-20
+ * Last Modified: 2026-05-23
  */
 
 import { Class } from "../models/Class.js";
 
+// Function which allows a parent to add a student to a class by using a teachers class code.
 export async function joinClass(req, res) {
     try {
         const { classCode, name } = req.body;

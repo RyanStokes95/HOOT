@@ -1,6 +1,6 @@
 <!-- Author - Ryan Stokes -->
 <!-- dashLayout.ejs -->
-<!-- Last Modified: 2026-05-20 -->
+<!-- Last Modified: 2026-05-24 -->
 
 <!--
   This is the dashboard layout template for the HOOT application. 
@@ -35,9 +35,10 @@
     <%- body %>
 
     <!-- Modals -->
-    <%const addSubjectForm = include(
-      "../partials/modalForms/addSubject"
-    ) %>;
+    <%
+      const addSubjectForm = include(
+        "../partials/modalForms/addSubject"
+    ); %>
 
     <%- include("../partials/modal", {
         modalId: "addSubjectModal",
@@ -45,15 +46,24 @@
         body: addSubjectForm
     }) %>
 
-    <%const addClassForm = include(
-      "../partials/modalForms/addClass"
-    ) %>;
+    <%
+      const addClassForm = include(
+        "../partials/modalForms/addClass"
+    ); %>
 
     <%- include("../partials/modal", {
         modalId: "addClassModal",
         modalTitle: "Add Class",
         body: addClassForm
     }) %>
+
+    <%- include("../partials/modal", {
+        modalId: "editSubjectModal",
+        modalTitle: "Edit Subject",
+        body: include("../partials/modalForms/editSubject")
+    }) %>
+
+     <!-- Additional modals for delete subject, approve student, delete student can be added similarly -->
     
 
     <!-- Bootstrap JS -->

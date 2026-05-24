@@ -2,7 +2,7 @@
 <!-- addClass.ejs -->
 <!-- Last Modified: 2026-05-20 -->
 
-<form id="addClassForm" method="POST" action="/api/teacher/create-class">
+<form id="addClassForm" action="/api/teacher/create-class" method="POST">
 
     <div class="mb-3">
 
@@ -13,17 +13,28 @@
         <input
             type="text"
             name="name"
-            class="form-control form-control-lg"
-            placeholder="e.g. 4th Class A"
+            class="form-control rounded-3"
+            placeholder="Enter class name"
             required
         >
 
     </div>
 
-    <button class="btn btn-primary w-100 py-2 fw-semibold">
 
-        Create Class
+    <div class="d-flex justify-content-end gap-2">
 
-    </button>
+        <button
+            type="button"
+            class="btn btn-light border"
+            data-bs-dismiss="modal"
+        >
+            Cancel
+        </button>
+
+        <button type="submit" class="btn btn-primary">
+            Add Class
+        </button>
+
+    </div>
 
 </form>
