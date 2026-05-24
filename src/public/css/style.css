@@ -10,6 +10,7 @@
   --hoot-primary: #6f42c1;
   --hoot-dark: #4b2e83;
   --hoot-light: #ffffff;
+  --hoot-secondary: #0d6efd;
 }
 
 /* Navbar */
@@ -37,6 +38,16 @@
 .btn-primary:hover {
   background-color: var(--hoot-dark);
   border-color: var(--hoot-dark);
+}
+
+.btn-secondary {
+  background-color: var(--hoot-secondary);
+  border-color: var(--hoot-secondary);
+}
+
+.btn-secondary:hover {
+  background-color: #0a58ca;
+  border-color: #0a58ca;
 }
 
 /* Outline buttons */

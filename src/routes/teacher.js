@@ -10,7 +10,8 @@ import {
     addSubject,
     approveStudent,
     deleteStudent,
-    deleteSubject
+    deleteSubject,
+    editSubject
 } from "../controllers/teacherController.js";
 import { requireAuth } from "../middleware/authMiddleware.js";
 import { requireRole } from "../middleware/roleCheck.js";
@@ -24,6 +25,8 @@ router.post("/create-class", requireAuth, requireRole("teacher"), genericLimiter
 router.post("/add-subject", requireAuth, requireRole("teacher"), genericLimiter, addSubject);
 
 router.put("/approve-student", requireAuth, requireRole("teacher"), genericLimiter, approveStudent);
+
+router.put("/edit-subject", requireAuth, requireRole("teacher"), genericLimiter, editSubject);
 
 router.delete("/delete-student", requireAuth, requireRole("teacher"), genericLimiter, deleteStudent);
 

@@ -1,11 +1,12 @@
 /**
  * Author: Ryan Stokes
  * File: teacherController.js
- * Last Modified: 2026-05-21
+ * Last Modified: 2026-05-24
  */
 
 import { Class } from "../models/Class.js";
 
+// Function which creates a new class
 export async function createClass(req, res) {
     try {
         const { name } = req.body;
@@ -42,6 +43,7 @@ function generateClassCode() {
     return code;
 }
 
+// Function which approves a student by changing their status to "Active" in the students array of the class document.
 export async function approveStudent(req, res) {
     try {
         const { studentId } = req.body;
@@ -70,6 +72,7 @@ export async function approveStudent(req, res) {
     }
 }
 
+// Function which deletes a student from the students array of the class document.
 export async function deleteStudent(req, res) {
     try {
         const { studentId } = req.body;
@@ -96,6 +99,7 @@ export async function deleteStudent(req, res) {
     }
 }
 
+// Function which adds a subject to the subjects array of the class document.
 export async function addSubject(req, res) {
     try {
         const { subject } = req.body;
@@ -111,12 +115,16 @@ export async function addSubject(req, res) {
 
         await teacherClass.save();
 
-        res.status(200).json({ subject: newSubject.name });
+        // Used for testing to be able to retrieve the subject ID to be used in Edit and Delete tests.
+        const addedSubject = teacherClass.subjects[teacherClass.subjects.length - 1];
+
+        res.status(200).json({ subject: addedSubject.name, _id: addedSubject._id });
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
 }
 
+// Function which deletes a subject from the subjects array of the class document.
 export async function deleteSubject(req, res) {
     try {
         const { subjectId } = req.body;
@@ -140,5 +148,37 @@ export async function deleteSubject(req, res) {
         res.status(200).json({ message: "Subject deleted." });
     } catch (error) {
         res.status(400).json({ message: error.message });
+    }
+}
+
+// Function which edits a subject in the subjects array of the class document by changing its name.
+export async function editSubject(req, res) {
+    try {
+        const { subjectId, name } = req.body;
+        const teacherId = req.session.userId;
+
+        const teacherClass = await Class.findOne({ teacher: teacherId });
+
+        if (!teacherClass) {
+            return res.status(404).json({ message: "Class not found." });
+        }
+
+        const subject = teacherClass.subjects.id(subjectId);
+
+        if (!subject) {
+            return res.status(404).json({ message: "Subject not found." });
+        }
+
+        subject.name = name;
+
+        await teacherClass.save();
+
+        return res.status(200).json({
+            message: "Subject updated successfully.",
+            subject: subject.name
+        });
+
+    } catch (error) {
+        return res.status(400).json({ message: error.message });
     }
 }
