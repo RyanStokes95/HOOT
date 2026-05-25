@@ -14,7 +14,10 @@ document.addEventListener("DOMContentLoaded", () => {
     initDeleteSubject();
     initApproveStudent();
     initDeleteStudent();
+    initAddTask();
 });
+
+// Initialize event listeners for all buttons and forms on the teacher dashboard.
 
 function initAddClass() {
     const form = document.getElementById("addClassForm");
@@ -37,6 +40,7 @@ function initEditSubject() {
 function initEditSubjectButtons() {
     const editButtons = document.querySelectorAll(".edit-subject-btn");
 
+    // loop needed to add event listeners to each edit button, which populate the edit form with the current subject information when clicked.
     editButtons.forEach(button => {
         button.addEventListener("click", () => {
             document.getElementById("editSubjectId").value = button.dataset.subjectId;
@@ -65,6 +69,14 @@ function initDeleteStudent() {
         button.addEventListener("click", handleDeleteStudent);
     });
 }
+
+function initAddTask() {
+    const form = document.getElementById("addTaskForm");
+    if (!form) return;
+    form.addEventListener("submit", handleAddTask);
+}
+
+// Handler functions for each form and button, which make API calls to the corresponding API endpoints and update the UI based on the response.
 
 async function handleAddClass(e) {
 
@@ -113,6 +125,14 @@ async function handleAddSubject(e) {
         const modalElement = document.getElementById("addSubjectModal");
 
         const modal = bootstrap.Modal.getInstance(modalElement);
+
+        /* 
+        .blur() is used to remove focus from the submit button after clicking, 
+        which prevents the button from remaining in a focused state and allows 
+        the modal to close properly without any focus-related issues.
+        */
+
+        document.activeElement.blur();
 
         modal.hide();
 
@@ -224,4 +244,48 @@ async function handleDeleteStudent(e) {
         const data = await res.json();
         alert(data.message || "Failed to remove student");
     };
+}
+
+async function handleAddTask(e) {
+
+    e.preventDefault();
+
+    const form = document.getElementById("addTaskForm");
+
+    const res = await fetch("/api/teacher/add-task", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            title: form.title.value,
+            description: form.description.value,
+            dueDate: form.dueDate.value,
+            assignedTo: Array.from(form.querySelectorAll("input[name='assignedTo']:checked")).map(checkbox => checkbox.value)
+        })
+    });
+
+    if (res.ok) {
+
+        const modalElement = document.getElementById("addTaskModal");
+
+        const modal = bootstrap.Modal.getInstance(modalElement);
+
+        /* 
+        .blur() is used to remove focus from the submit button after clicking, 
+        which prevents the button from remaining in a focused state and allows 
+        the modal to close properly without any focus-related issues.
+        */
+
+        document.activeElement.blur();
+
+        modal.hide();
+
+        form.reset();
+
+        window.location.reload();
+    } else {
+        const data = await res.json();
+        alert(data.message || "Failed to add task");
+    }
 }

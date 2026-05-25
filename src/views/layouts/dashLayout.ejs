@@ -57,10 +57,26 @@
         body: addClassForm
     }) %>
 
+    <%
+      const editSubjectForm = include(
+        "../partials/modalForms/editSubject"
+    ); %>
+
     <%- include("../partials/modal", {
         modalId: "editSubjectModal",
         modalTitle: "Edit Subject",
-        body: include("../partials/modalForms/editSubject")
+        body: editSubjectForm
+    }) %>
+
+    <%
+      const addTaskForm = include(
+        "../partials/modalForms/addTask"
+      ); %>
+
+    <%- include("../partials/modal", {
+        modalId: "addTaskModal",
+        modalTitle: "Add Task",
+        body: addTaskForm
     }) %>
 
      <!-- Additional modals for delete subject, approve student, delete student can be added similarly -->

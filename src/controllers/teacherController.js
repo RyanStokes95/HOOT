@@ -5,6 +5,7 @@
  */
 
 import { Class } from "../models/Class.js";
+import { Week } from "../models/Week.js";
 
 // Function which creates a new class
 export async function createClass(req, res) {
@@ -182,3 +183,172 @@ export async function editSubject(req, res) {
         return res.status(400).json({ message: error.message });
     }
 }
+
+export async function addHomework(req, res) {
+    try {
+        const { day, title, description, subjectId, dueDate } = req.body;
+        const teacherId = req.session.userId;
+
+        const week = await Week.findOne({ teacherClass: teacherId });
+
+        if (!week) {
+            return res.status(404).json({ message: "Week not found." });
+        }
+
+        const newHomework = {
+            day,
+            title,
+            description,
+            subject: subjectId,
+            dueDate
+        };
+
+        week.homework.push(newHomework);
+        await week.save();
+
+        res.status(200).json({ message: "Homework added." });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+export async function deleteHomework(req, res) {
+    try {
+        const { homeworkId } = req.body;
+        const teacherId = req.session.userId;
+
+        const week = await Week.findOne({ teacherClass: teacherId });
+
+        if (!week) {
+            return res.status(404).json({ message: "Week not found." });
+        }
+
+        const homework = week.homework.id(homeworkId);
+
+        if (!homework) {
+            return res.status(404).json({ message: "Homework not found." });
+        }
+
+        await week.homework.pull({ _id: homeworkId });
+        await week.save();
+
+        res.status(200).json({ message: "Homework deleted." });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+export async function editHomework(req, res) {
+    try {
+        const { homeworkId, day, title, description, subjectId, dueDate } = req.body;
+        const teacherId = req.session.userId;
+
+        const week = await Week.findOne({ teacherClass: teacherId });
+
+        if (!week) {
+            return res.status(404).json({ message: "Week not found." });
+        }
+
+        const homework = week.homework.id(homeworkId);
+
+        if (!homework) {
+            return res.status(404).json({ message: "Homework not found." });
+        }
+
+        homework.day = day;
+        homework.title = title;
+        homework.description = description;
+        homework.subject = subjectId;
+        homework.dueDate = dueDate;
+        await week.save();
+
+        res.status(200).json({ message: "Homework updated." });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+export async function addTask(req, res) {
+    try {
+        const { title, description, assignedTo, dueDate } = req.body;
+        const teacherId = req.session.userId;
+
+        const teacherClass = await Class.findOne({ teacher: teacherId });
+
+        if (!teacherClass) {
+            return res.status(404).json({ message: "Class not found." });
+        }
+
+        const newTask = {
+            title,
+            description,
+            assignedTo,
+            dueDate
+        };
+
+        teacherClass.tasks.push(newTask);
+        await teacherClass.save();
+
+        res.status(200).json({ message: "Task added." });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+export async function deleteTask(req, res) {
+    try {
+        const { taskId } = req.body;
+        const teacherId = req.session.userId;
+
+        const teacherClass = await Class.findOne({ teacher: teacherId });
+
+        if (!teacherClass) {
+            return res.status(404).json({ message: "Class not found." });
+        }
+
+        const task = teacherClass.tasks.id(taskId);
+
+        if (!task) {
+            return res.status(404).json({ message: "Task not found." });
+        }
+
+        await teacherClass.tasks.pull({ _id: taskId });
+        await teacherClass.save();
+
+        res.status(200).json({ message: "Task deleted." });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+export async function editTask(req, res) {
+    try {
+        const { taskId, title, description, assignedTo, dueDate } = req.body;
+        const teacherId = req.session.userId;
+
+        const teacherClass = await Class.findOne({ teacher: teacherId });
+
+        if (!teacherClass) {
+            return res.status(404).json({ message: "Class not found." });
+        }
+
+        const task = teacherClass.tasks.id(taskId);
+
+        if (!task) {
+            return res.status(404).json({ message: "Task not found." });
+        }
+
+        task.title = title;
+        task.description = description;
+        task.assignedTo = assignedTo;
+        task.dueDate = dueDate;
+        await teacherClass.save();
+
+        res.status(200).json({ message: "Task updated." });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+
+        
