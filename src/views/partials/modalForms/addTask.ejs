@@ -1,0 +1,118 @@
+<!-- Author - Ryan Stokes -->
+<!-- addTask.ejs -->
+<!-- Last Modified: 2026-05-20 -->
+
+<form id="addTaskForm" action="/api/teacher/create-task" method="POST">
+
+    <div class="mb-3">
+
+        <label class="form-label fw-semibold">
+            Name
+        </label>
+
+        <input
+            type="text"
+            name="title"
+            class="form-control rounded-3"
+            placeholder="Enter task name"
+            required
+        >
+
+        <label class="form-label fw-semibold">
+            Description
+        </label>
+
+        <input
+            type="text"
+            name="description"
+            class="form-control rounded-3"
+            placeholder="Enter task description"
+            required
+        >
+
+        <label for="assignedTo" class="form-label fw-semibold">
+        <label class="form-label fw-semibold">
+            Assigned To
+        </label>
+
+        <div class="dropdown w-100">
+
+            <button
+                class="btn btn-outline-secondary dropdown-toggle w-100 text-start"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false">
+
+                Select Parents
+
+            </button>
+
+            <ul class="dropdown-menu parent-dropdown-menu w-100 p-3 shadow-sm">
+
+                <% teacherClass.students.forEach(student => { %>
+
+                    <% if (student.parent && student.status === "Active") { %>
+
+                        <li class="mb-2">
+
+                            <div class="form-check">
+
+                                <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    name="assignedTo"
+                                    value="<%= student.parent._id %>"
+                                    id="parent-<%= student.parent._id %>">
+
+                                <label
+                                    class="form-check-label"
+                                    for="parent-<%= student.parent._id %>">
+
+                                    <%= student.parent.name %> — <%= student.name %>
+
+                                </label>
+
+                            </div>
+
+                        </li>
+
+                    <% } %>
+
+                <% }) %>
+
+            </ul>
+
+        </div>
+
+        <label class="form-label fw-semibold">
+            Due Date
+        </label>
+
+        <input
+            type="text"
+            name="dueDate"
+            class="form-control rounded-3"
+            placeholder="Enter due date (YYYY-MM-DD)"
+            required
+        >
+
+    </div>
+
+
+    <div class="d-flex justify-content-end gap-2">
+
+        <button
+            type="button"
+            class="btn btn-light border"
+            data-bs-dismiss="modal"
+        >
+            Cancel
+        </button>
+
+        <button type="submit" class="btn btn-primary">
+            Add Task
+        </button>
+
+    </div>
+
+</form>

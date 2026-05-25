@@ -1,0 +1,82 @@
+/**
+ * Author: Ryan Stokes
+ * File: Week.js
+ * Last Modified: 2026-05-25
+ */
+
+import mongoose from "mongoose";
+
+const { Schema } = mongoose;
+
+const FEEDBACK_OPTIONS = ["Exceeding Expectations", "On Track", "Needs More Work"];
+
+const weekSchema = new Schema(
+  {
+    teacherClass: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Class",
+      required: true
+    },
+
+    weekStartDate: {
+      type: Date,
+      required: true
+    },
+
+    weekEndDate: {
+      type: Date,
+      required: true
+    },
+
+    weeklyFeedback: [
+      {
+        student: {
+          type: mongoose.Schema.Types.ObjectId,
+          required: true
+        },
+        feedback: {
+          type: String,
+          enum: FEEDBACK_OPTIONS,
+          required: true
+        },
+        comment: {
+          type: String,
+          maxlength: 500
+        }
+      }
+    ],
+
+    dailyHomework: [
+      {
+        day: {
+          type: String,
+          enum: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          required: true
+        },
+        title: {
+          type: String,
+          required: true,
+          maxlength: 100
+        },
+        description: {
+          type: String,
+          maxlength: 1000
+        },
+        subject: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Subject"
+        },
+        dueDate: Date
+      }
+    ]
+  },
+  { timestamps: true }
+);
+
+//
+weekSchema.index(
+  { teacherClass: 1, weekStartDate: 1 },
+  { unique: true }
+);
+
+export const Week = mongoose.model("Week", weekSchema);

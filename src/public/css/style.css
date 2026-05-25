@@ -76,3 +76,7 @@ body.bg-light {
 .card:hover {
   transform: translateY(-3px);
 }
+
+.parent-dropdown-menu {
+  min-width: 400px;
+}

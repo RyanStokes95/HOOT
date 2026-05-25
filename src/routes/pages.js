@@ -6,6 +6,7 @@
 
 import express from "express";
 import { Class } from "../models/Class.js";
+import { getCurrentWeek } from "../controllers/currentWeek.js";
 import { requireAuthPage } from "../middleware/authMiddleware.js";
 import { requireRole } from "../middleware/roleCheck.js";
 
@@ -53,11 +54,27 @@ router.get("/teacher/dashboard", requireAuthPage, requireRole("teacher"), async 
         teacher: req.session.userId
     }).populate("students.parent", "name");
 
+    if (!teacherClass) {
+
+      // If the teacher doesn't have a class, do not render weekly information and pass null for the teacherClass and current
+      return res.render("dash", {
+          title: "HOOT | Teacher Dashboard",
+          layout: "layouts/dashLayout",
+          user: req.session.user,
+          teacherClass: null,
+          currentWeek: null
+      });
+
+    }
+
+    const currentWeek = await getCurrentWeek(teacherClass._id);
+
     return res.render("dash", {
         title: "HOOT | Teacher Dashboard",
         layout: "layouts/dashLayout",
         user: req.session.user,
-        teacherClass
+        teacherClass,
+        currentWeek
     });
 });
 

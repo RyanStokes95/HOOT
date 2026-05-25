@@ -6,9 +6,10 @@
 
 import request from "supertest";
 import app from "../src/app.js";
+import { Week } from "../src/models/Week.js";
 
-describe("Teacher Create Class, Add Subject, Edit Subject, and Delete Subject", () => {
-  it("creates a class for a logged-in teacher", async () => {
+describe("Teacher Workflows", () => {
+  it("creates a class for a logged-in teacher, adds a subject, edits it, and deletes it", async () => {
     const agent = request.agent(app);
 
     //Register and log in a teacher to get an authenticated session for testing the create class endpoint.
@@ -34,6 +35,12 @@ describe("Teacher Create Class, Add Subject, Edit Subject, and Delete Subject", 
       .send({
         name: "Test Class"
       });
+
+    await agent
+      .get("/teacher/dashboard")
+      .expect(200);
+
+    const week = await Week.findOne();
 
     const subjectAddRes = await agent
       .post("/api/teacher/add-subject")
@@ -67,6 +74,7 @@ describe("Teacher Create Class, Add Subject, Edit Subject, and Delete Subject", 
     expect(classCreationRes.body).toHaveProperty("teacher");
     expect(classCreationRes.body).toHaveProperty("classCode");
     expect(classCreationRes.body.classCode).toHaveLength(6);
+    expect(week).not.toBeNull();
     expect(subjectAddRes.status).toBe(200);
     expect(subjectAddRes.body).toHaveProperty("subject", "Math");
     expect(subjectUpdateRes.status).toBe(200);

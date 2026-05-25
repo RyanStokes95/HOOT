@@ -8,6 +8,8 @@ import mongoose from "mongoose";
 
 const { Schema } = mongoose;
 
+const STUDNT_STATUS = ["Active", "Pending"];
+
 // Validation enforced by Mongoose schema below
 
 /** 
@@ -64,7 +66,7 @@ const classSchema = new Schema(
                 status: {
                     type: String,
                     required: true,
-                    enum: ["Active", "Pending"],
+                    enum: STUDNT_STATUS,
                     default: "Pending"
                 }
             }
@@ -79,54 +81,6 @@ const classSchema = new Schema(
                 }
             }
         ],
-        feedback: [
-            {
-                studentId: {
-                    type: mongoose.Schema.Types.ObjectId,
-                    required: true
-                },
-                weekStarting: {
-                    type: Date,
-                    required: true
-                },
-                subjects : [
-                    {
-                        subjectId: { 
-                            type: mongoose.Schema.Types.ObjectId,
-                            required: true
-                        },
-                        performance: {
-                            type: String,
-                            required: true,
-                            enum: ["Exceeding Expectations", "On Track", "Needs More Work"]
-                        }
-                    }
-                ],
-                createdAt: {
-                    type: Date,
-                    default: Date.now
-                }
-            }
-        ],
-        homework: [
-            {
-                description: {
-                    type: String,
-                    required: true,
-                    minlength: 10,
-                    maxlength: 500
-                },
-                dueDate: {
-                    type: Date,
-                    required: true
-                },
-                createdAt: {
-                    type: Date,
-                    default: Date.now
-                }
-
-            }
-        ], 
         bulletins: [
             {
                 title: {
@@ -178,34 +132,6 @@ const classSchema = new Schema(
                 }
             }
         ],
-        events: [
-            {
-                title: {
-                    type: String,
-                    required: true,
-                    minlength: 2,
-                    maxlength: 100
-                },
-                description: {
-                    type: String,
-                    required: true,
-                    minlength: 10,
-                    maxlength: 500
-                },
-                startDate: {
-                    type: Date,
-                    required: true
-                },
-                endDate: {
-                    type: Date,
-                    required: true
-                },
-                createdAt: {
-                    type: Date,
-                    default: Date.now
-                }
-            }
-        ]
     },
     { timestamps: true }
 )
