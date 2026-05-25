@@ -4,8 +4,6 @@
  * Last Modified: 2026-05-25
  */
 
-import request from "supertest";
-import app from "../src/app.js";
 import { getMonday, getFriday } from "../src/controllers/currentWeek.js";
 
 describe("Current Week Calculation", () => {
