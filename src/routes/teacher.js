@@ -25,7 +25,10 @@ import { genericLimiter } from "../middleware/rateLimiters.js";
 
 const router = express.Router();
 
-// Route to create a new class, only accessible to authenticated teachers
+// All routes in this file require authentication, teacher role, and are rate limited to prevent abuse.
+
+// Create routes use the POST method.
+
 router.post("/create-class", requireAuth, requireRole("teacher"), genericLimiter, createClass);
 
 router.post("/add-subject", requireAuth, requireRole("teacher"), genericLimiter, addSubject);
@@ -34,6 +37,8 @@ router.post("/add-homework", requireAuth, requireRole("teacher"), genericLimiter
 
 router.post("/add-task", requireAuth, requireRole("teacher"), genericLimiter, addTask);
 
+// Update routes use the PUT method.
+
 router.put("/approve-student", requireAuth, requireRole("teacher"), genericLimiter, approveStudent);
 
 router.put("/edit-subject", requireAuth, requireRole("teacher"), genericLimiter, editSubject);
@@ -41,6 +46,8 @@ router.put("/edit-subject", requireAuth, requireRole("teacher"), genericLimiter,
 router.put("/edit-homework", requireAuth, requireRole("teacher"), genericLimiter, editHomework);
 
 router.put("/edit-task", requireAuth, requireRole("teacher"), genericLimiter, editTask);
+
+// Delete routes use the DELETE method.
 
 router.delete("/delete-student", requireAuth, requireRole("teacher"), genericLimiter, deleteStudent);
 

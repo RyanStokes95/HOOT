@@ -57,6 +57,7 @@ function getFriday(monday) {
   return friday;
 }
 
+// Function to get current week, runs when teacher dash is accessed and is rendered.
 export async function getCurrentWeek(teacherClassId) {
     const weekStartDate = getMonday();
     const weekEndDate = getFriday(weekStartDate);

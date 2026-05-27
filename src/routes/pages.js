@@ -49,6 +49,14 @@ router.get("/register/parent", (req, res) =>
 );
 
 // Teacher dashboard
+
+/*  
+  - Teacher logs in
+  - Session is created with user information, including role and user ID.
+  - teacherClass is queried using the teacher's user ID from the session to find the class they teach.
+  - If a class is found, getCurrentWeek is called with the teacherClass ID to calculate the current week based on the class's start date.
+  - The dashboard view is rendered with the teacher's user information, their class details, and the current week information.
+*/
 router.get("/teacher/dashboard", requireAuthPage, requireRole("teacher"), async (req, res) => {
     const teacherClass = await Class.findOne({
         teacher: req.session.userId

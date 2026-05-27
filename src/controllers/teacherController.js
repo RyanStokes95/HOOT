@@ -6,6 +6,7 @@
 
 import { Class } from "../models/Class.js";
 import { Week } from "../models/Week.js";
+import { getMonday } from "./currentWeek.js";
 
 // Function which creates a new class
 export async function createClass(req, res) {
@@ -186,24 +187,38 @@ export async function editSubject(req, res) {
 
 export async function addHomework(req, res) {
     try {
-        const { day, title, description, subjectId, dueDate } = req.body;
+        console.log(req.session.userId);
+        const { title, description, subject, dueDate } = req.body;
         const teacherId = req.session.userId;
+        const day = new Date().toLocaleDateString("en-US", { weekday: "long" });
 
-        const week = await Week.findOne({ teacherClass: teacherId });
+        const teacherClass = await Class.findOne({ teacher: teacherId });
+
+        if (!teacherClass) {
+            return res.status(404).json({ message: "Class not found." });
+        }
+
+        const weekStartDate = getMonday(new Date());
+
+        const week = await Week.findOne({ teacherClass: teacherClass._id, weekStartDate });
 
         if (!week) {
             return res.status(404).json({ message: "Week not found." });
         }
 
+        console.log(day);
+
         const newHomework = {
-            day,
+            day: day,
             title,
             description,
-            subject: subjectId,
+            subject,
             dueDate
         };
 
-        week.homework.push(newHomework);
+        console.log(newHomework);
+
+        week.dailyHomework.push(newHomework);
         await week.save();
 
         res.status(200).json({ message: "Homework added." });
