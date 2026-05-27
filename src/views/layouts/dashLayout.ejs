@@ -79,6 +79,17 @@
         body: addTaskForm
     }) %>
 
+    <%
+      const addHomeworkForm = include(
+        "../partials/modalForms/addHomework"
+      ); %>
+
+    <%- include("../partials/modal", {
+        modalId: "addHomeworkModal",
+        modalTitle: "Add Homework",
+        body: addHomeworkForm
+    }) %>
+
      <!-- Additional modals for delete subject, approve student, delete student can be added similarly -->
     
 

@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initApproveStudent();
     initDeleteStudent();
     initAddTask();
+    initAddHomework();
 });
 
 // Initialize event listeners for all buttons and forms on the teacher dashboard.
@@ -70,6 +71,12 @@ function initDeleteStudent() {
     });
 }
 
+function initAddHomework() {
+    const form = document.getElementById("addHomeworkForm");
+    if (!form) return;
+    form.addEventListener("submit", handleAddHomework);
+}
+
 function initAddTask() {
     const form = document.getElementById("addTaskForm");
     if (!form) return;
@@ -102,6 +109,53 @@ async function handleAddClass(e) {
         alert(data.message || "Failed to create class");
     }
 };
+
+async function handleAddHomework(e) {
+
+    e.preventDefault();
+
+    const form = e.target;
+
+    const res = await fetch("/api/teacher/add-homework", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        
+        body: JSON.stringify({
+            title: form.title.value,
+            description: form.description.value,
+            dueDate: form.dueDate.value,
+            subject: form.subject.value
+        })
+    });
+
+    if (res.ok) {
+
+        const modalElement = document.getElementById("addHomeworkModal");
+
+        const modal = bootstrap.Modal.getInstance(modalElement);
+
+        /*
+        .blur() is used to remove focus from the submit button after clicking, 
+        which prevents the button from remaining in a focused state and allows 
+        the modal to close properly without any focus-related issues.
+        */
+
+        document.activeElement.blur();
+
+        //Page reset after modal submission to reflect changes without needing to manually refresh the page.
+        modal.hide();
+
+        form.reset();
+
+        window.location.reload();
+    } else {
+        const data = await res.json();
+        alert(data.message || "Failed to add homework");
+    }
+}
 
 async function handleAddSubject(e) {
 

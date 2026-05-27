@@ -51,6 +51,15 @@ describe("Teacher Workflows", () => {
       // Store the subject ID returned from the add subject response to use in the edit and delete tests.
       const subjectId = subjectAddRes.body._id;
 
+      const addHomeworkRes = await agent
+      .post("/api/teacher/add-homework")
+      .send({
+        title: "Homework 1",
+        description: "This is the first homework assignment.",
+        subject: subjectId,
+        dueDate: "2024-06-01"
+      });
+
       const subjectUpdateRes = await agent
       .put("/api/teacher/edit-subject")
       .send({
@@ -68,6 +77,7 @@ describe("Teacher Workflows", () => {
     console.log(subjectAddRes.status, subjectAddRes.body);
     console.log(subjectUpdateRes.status, subjectUpdateRes.body);
     console.log(deleteSubjectRes.status, deleteSubjectRes.body);
+    console.log(addHomeworkRes.status, addHomeworkRes.body);
 
     expect(classCreationRes.status).toBe(201);
     expect(classCreationRes.body).toHaveProperty("name", "Test Class");
@@ -81,5 +91,7 @@ describe("Teacher Workflows", () => {
     expect(subjectUpdateRes.body).toHaveProperty("subject", "English");
     expect(deleteSubjectRes.status).toBe(200);
     expect(deleteSubjectRes.body).toHaveProperty("message", "Subject deleted.");
+    expect(addHomeworkRes.status).toBe(200);
+    expect(addHomeworkRes.body).toHaveProperty("message", "Homework added.");
   });
 });

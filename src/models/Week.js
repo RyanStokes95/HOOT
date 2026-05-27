@@ -50,7 +50,6 @@ const weekSchema = new Schema(
       {
         day: {
           type: String,
-          enum: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
           required: true
         },
         title: {
@@ -66,7 +65,10 @@ const weekSchema = new Schema(
           type: mongoose.Schema.Types.ObjectId,
           ref: "Subject"
         },
-        dueDate: Date
+        dueDate: {
+          type: String,
+          required: true
+        }
       }
     ]
   },
