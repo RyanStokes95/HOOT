@@ -1,21 +1,51 @@
 <!-- Author - Ryan Stokes -->
 <!-- dashNavbar.ejs -->
-<!-- Last Modified: 2026-05-05 -->
+<!-- Last Modified: 2026-05-28 -->
 
 <!--
-  This is the dashboard navigation bar partial for the HOOT application. 
-  It includes the HTML structure, Bootstrap CSS/JS, and a navigation bar. 
-  The content of this page will be injected into the include tag pointing to the navbarMain partial.
+    Dashboard navigation bar partial for the HOOT application.
 -->
 
 <!-- Navigation Bar -->
-    <nav class="navbar navbar-dark bg-dark">
-      <div class="container">
-        <a class="navbar-brand d-flex align-items-center fw-bold" href="/">
-          <img src="/images/HOOT-Logo.png" alt="HOOT logo" class="hoot-navbar-logo">
+
+<nav class="navbar navbar-dark bg-dark">
+
+    <div class="container">
+
+        <!-- Logo -->
+
+        <a
+            class="navbar-brand d-flex align-items-center fw-bold"
+            href="/">
+
+            <img
+                src="/images/HOOT-Logo.png"
+                alt="HOOT logo"
+                class="hoot-navbar-logo">
+
         </a>
-        <div class="ms-auto d-flex gap-2">
-          <a class="btn btn-outline-light btn-sm" id="logoutBtn" href="/login">Logout</a>
+
+        <!-- Right Side Actions -->
+
+        <div class="ms-auto d-flex align-items-center gap-3">
+
+            <!-- Account Icon -->
+
+            <i class="fa-solid fa-circle-user text-white fs-3"></i>
+
+            <!-- Logout Button -->
+
+            <a
+                class="btn btn-sm"
+                id="logoutBtn"
+                href="/login">
+
+                <i class="fa-solid fa-arrow-right-from-bracket text-white fs-3"></i>
+
+            </a>
+
         </div>
-      </div>
-    </nav>
+
+    </div>
+
+</nav>

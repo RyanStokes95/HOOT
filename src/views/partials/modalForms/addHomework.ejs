@@ -43,13 +43,29 @@
                 Select Subject
             </option>
 
-            <% teacherClass.subjects.forEach(subject => { %>
+           <%
+                let subjects = [];
 
-                <option value="<%= subject._id %>">
-                    <%= subject.name %>
-                </option>
+                if (teacherClass && teacherClass.subjects) {
+                    subjects = teacherClass.subjects;
+                }
+            %>
 
-            <% }) %>
+                <% subjects.forEach(subject => { %>
+
+                    <option value="<%= subject._id %>">
+                        <%= subject.name %>
+                    </option>
+
+                <% }) %>
+
+                <% if (subjects.length === 0) { %>
+
+                    <option disabled>
+                        No subjects available
+                    </option>
+
+                <% } %>
 
         </select>
 
