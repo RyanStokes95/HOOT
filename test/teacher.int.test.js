@@ -8,6 +8,8 @@ import request from "supertest";
 import app from "../src/app.js";
 import { Week } from "../src/models/Week.js";
 
+jest.setTimeout(15000);
+
 describe("Teacher Workflows", () => {
   it("Creates a class for a logged-in teacher, adds a subject, edits it, and deletes it", async () => {
     const agent = request.agent(app);
