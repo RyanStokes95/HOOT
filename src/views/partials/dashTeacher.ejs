@@ -136,17 +136,25 @@
                                 <% } %>
 
                                 <% if (student.status === "Active") { %>
-                                    <a href="/teacher/students/<%= student._id %>/feedback" class="btn btn-primary btn-sm me-1">
-                                        Give Feedback
-                                    </a>
+                                    <button
+                                        type="button"
+                                        class="btn btn-sm me-1"
+                                        data-student-is="<%= student._id %>"
+                                        >
+
+                                        <i class="fa-regular fa-pen-to-square text-primary fs-5"></i>
+
+                                    </button>
                                 <% } %>
 
-                                <a 
-                                href="#"
-                                class="btn btn-outline-danger btn-sm delete-student-btn"
+                                <button
+                                type="button"
+                                class="btn btn-sm delete-student-btn"
                                 data-student-id="<%= student._id %>">
-                                    Remove
-                                </a>
+
+                                    <i class="fa-solid fa-trash text-danger"></i>
+
+                                </button>
 
                             </td>
                         </tr>
@@ -164,80 +172,6 @@
         </p>
 
     <% } %>
-</div>
-
-<div class="bg-white rounded-4 shadow-sm border p-4 mb-4">
-
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4 class="fw-bold mb-0">Subjects</h4>
-
-        <button
-            type="button"
-            class="btn btn-primary btn-sm"
-            data-bs-toggle="modal"
-            data-bs-target="#addSubjectModal"
-        >
-            Add Subject
-        </button>
-    </div>
-
-    <% if (teacherClass.subjects && teacherClass.subjects.length > 0) { %>
-
-        <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-
-                <thead>
-                    <tr>
-                        <th>Subject Name</th>
-                        <th class="text-end">Actions</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <% teacherClass.subjects.forEach(subject => { %>
-
-                        <tr>
-                            <td>
-                                <%= subject.name %>
-                            </td>
-
-                            <td class="text-end">
-                                <button
-                                    type="button"
-                                    class="btn btn-dark btn-sm edit-subject-btn"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#editSubjectModal"
-                                    data-subject-id="<%= subject._id %>"
-                                    data-subject-name="<%= subject.name %>"
-                                >
-                                    Edit
-                                </button>
-
-                                <a 
-                                    href="#" 
-                                    class="btn btn-outline-danger btn-sm delete-subject-btn" 
-                                    data-subject-id="<%= subject._id %>">
-                                    
-                                    Delete
-
-                                </a>
-                            </td>
-                        </tr>
-
-                    <% }) %>
-                </tbody>
-
-            </table>
-        </div>
-
-    <% } else { %>
-
-        <p class="text-muted mb-0">
-            No subjects have been added to this class yet.
-        </p>
-
-    <% } %>
-
 </div>
 
 <div class="bg-white rounded-4 shadow-sm border p-4 mb-4">
@@ -315,11 +249,93 @@
                     </span>
                 </div>
 
-                <a href="/teacher/bulletins/new" class="btn btn-warning w-100 mt-3">
+                <button
+                    type="button"
+                    class="btn btn-warning w-100 mt-3"
+                    data-bs-toggle="modal"
+                    data-bs-target="#addBulletinModal"
+                >
                     Add Bulletin
-                </a>
+                </button>
             </div>
         </div>
 
     </div>
+</div>
+
+<div class="bg-white rounded-4 shadow-sm border p-4 mb-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="fw-bold mb-0">Subjects</h4>
+
+        <button
+            type="button"
+            class="btn btn-primary btn-sm"
+            data-bs-toggle="modal"
+            data-bs-target="#addSubjectModal"
+        >
+            Add Subject
+        </button>
+    </div>
+
+    <% if (teacherClass.subjects && teacherClass.subjects.length > 0) { %>
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+
+                <thead>
+                    <tr>
+                        <th>Subject Name</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <% teacherClass.subjects.forEach(subject => { %>
+
+                        <tr>
+                            <td>
+                                <%= subject.name %>
+                            </td>
+
+                            <td class="text-end">
+                                <button
+                                    type="button"
+                                    class="btn btn-sm edit-subject-btn"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#editSubjectModal"
+                                    data-subject-id="<%= subject._id %>"
+                                    data-subject-name="<%= subject.name %>"
+                                >
+                                
+                                    <i class="fa-solid fa-gear text-secondary"></i>
+
+                                </button>
+
+                                <button
+                                    type="button"  
+                                    class="btn btn-sm delete-subject-btn" 
+                                    data-subject-id="<%= subject._id %>"
+                                >
+                                    
+                                    <i class="fa-solid fa-trash text-danger"></i>
+
+                                </button>
+                            </td>
+                        </tr>
+
+                    <% }) %>
+                </tbody>
+
+            </table>
+        </div>
+
+    <% } else { %>
+
+        <p class="text-muted mb-0">
+            No subjects have been added to this class yet.
+        </p>
+
+    <% } %>
+
 </div>

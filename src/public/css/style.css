@@ -7,6 +7,8 @@
 /* HOOT Theme */
 
 :root {
+  --bs-primary: #6f42c1;
+  --bs-primary-rgb: 111, 66, 193;
   --hoot-primary: #6f42c1;
   --hoot-dark: #4b2e83;
   --hoot-light: #ffffff;

@@ -49,37 +49,38 @@
 
             <ul class="dropdown-menu parent-dropdown-menu w-100 p-3 shadow-sm">
 
-                <% teacherClass.students.forEach(student => { %>
+                <% if (teacherClass && teacherClass.students && teacherClass.students.length > 0) { %>
 
-                    <% if (student.parent && student.status === "Active") { %>
+                    <% teacherClass.students.forEach(student => { %>
 
-                        <li class="mb-2">
+                        <% if (student.parent && student.status === "Active") { %>
 
-                            <div class="form-check">
+                            <li class="mb-2">
+                                <div class="form-check">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        name="assignedTo"
+                                        value="<%= student.parent._id %>"
+                                        id="parent-<%= student.parent._id %>">
 
-                                <input
-                                    class="form-check-input"
-                                    type="checkbox"
-                                    name="assignedTo"
-                                    value="<%= student.parent._id %>"
-                                    id="parent-<%= student.parent._id %>">
+                                    <label
+                                        class="form-check-label"
+                                        for="parent-<%= student.parent._id %>">
+                                        <%= student.parent.name %> — <%= student.name %>
+                                    </label>
+                                </div>
+                            </li>
 
-                                <label
-                                    class="form-check-label"
-                                    for="parent-<%= student.parent._id %>">
+                        <% } %>
 
-                                    <%= student.parent.name %> — <%= student.name %>
+                    <% }) %>
 
-                                </label>
+                <% } else { %>
 
-                            </div>
+                    <li>No Students</li>
 
-                        </li>
-
-                    <% } %>
-
-                <% }) %>
-
+                <% } %>
             </ul>
 
         </div>

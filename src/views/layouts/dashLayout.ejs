@@ -90,6 +90,17 @@
         body: addHomeworkForm
     }) %>
 
+    <%
+      const addBulletinForm = include(
+        "../partials/modalForms/addBulletin"
+      ); %>
+
+    <%- include("../partials/modal", {
+        modalId: "addBulletinModal",
+        modalTitle: "Add Bulletin",
+        body: addBulletinForm
+    }) %>
+
      <!-- Additional modals for delete subject, approve student, delete student can be added similarly -->
     
 
@@ -97,6 +108,10 @@
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     ></script>
+
+    <script 
+      src="https://kit.fontawesome.com/70a7a34e40.js" crossorigin="anonymous">
+    </script>
 
     <script src="/js/authScripts.js"></script>
     <script src="/js/teacherScripts.js" ></script>

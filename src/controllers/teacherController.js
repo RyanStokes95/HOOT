@@ -365,5 +365,80 @@ export async function editTask(req, res) {
     }
 }
 
+export async function addBulletin(req, res) {
+    try {
+        const { title, content } = req.body;
+        const teacherId = req.session.userId;
 
-        
+        const teacherClass = await Class.findOne({ teacher: teacherId });
+
+        if (!teacherClass) {
+            return res.status(404).json({ message: "Class not found." });
+        }
+
+        const newBulletin = {
+            title,
+            content
+        };
+
+        teacherClass.bulletins.push(newBulletin);
+        await teacherClass.save();
+
+        res.status(200).json({ message: "Bulletin added." });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+export async function deleteBulletin(req, res) {
+    try {
+        const { bulletinId } = req.body;
+        const teacherId = req.session.userId;
+
+        const teacherClass = await Class.findOne({ teacher: teacherId });
+
+        if (!teacherClass) {
+            return res.status(404).json({ message: "Class not found." });
+        }
+
+        const bulletin = teacherClass.bulletins.id(bulletinId);
+
+        if (!bulletin) {
+            return res.status(404).json({ message: "Bulletin not found." });
+        }
+
+        await teacherClass.bulletins.pull({ _id: bulletinId });
+        await teacherClass.save();
+
+        res.status(200).json({ message: "Bulletin deleted." });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+export async function editBulletin(req, res) {
+    try {
+        const { bulletinId, title, content } = req.body;
+        const teacherId = req.session.userId;
+
+        const teacherClass = await Class.findOne({ teacher: teacherId });
+
+        if (!teacherClass) {
+            return res.status(404).json({ message: "Class not found." });
+        }
+
+        const bulletin = teacherClass.bulletins.id(bulletinId);
+
+        if (!bulletin) {
+            return res.status(404).json({ message: "Bulletin not found." });
+        }
+
+        bulletin.title = title;
+        bulletin.content = content;
+        await teacherClass.save();
+
+        res.status(200).json({ message: "Bulletin updated." });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
