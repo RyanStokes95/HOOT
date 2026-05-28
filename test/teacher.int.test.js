@@ -9,7 +9,7 @@ import app from "../src/app.js";
 import { Week } from "../src/models/Week.js";
 
 describe("Teacher Workflows", () => {
-  it("creates a class for a logged-in teacher, adds a subject, edits it, and deletes it", async () => {
+  it("Creates a class for a logged-in teacher, adds a subject, edits it, and deletes it", async () => {
     const agent = request.agent(app);
 
     //Register and log in a teacher to get an authenticated session for testing the create class endpoint.
@@ -73,25 +73,34 @@ describe("Teacher Workflows", () => {
         subjectId: subjectId
       });
 
-    console.log(classCreationRes.status, classCreationRes.body);
-    console.log(subjectAddRes.status, subjectAddRes.body);
-    console.log(subjectUpdateRes.status, subjectUpdateRes.body);
-    console.log(deleteSubjectRes.status, deleteSubjectRes.body);
-    console.log(addHomeworkRes.status, addHomeworkRes.body);
+      const addBulletinRes = await agent
+      .post("/api/teacher/add-bulletin")
+      .send({
+        title: "Bulletin 1",
+        content: "This is the first bulletin.",
+      });
 
     expect(classCreationRes.status).toBe(201);
     expect(classCreationRes.body).toHaveProperty("name", "Test Class");
     expect(classCreationRes.body).toHaveProperty("teacher");
     expect(classCreationRes.body).toHaveProperty("classCode");
     expect(classCreationRes.body.classCode).toHaveLength(6);
+
     expect(week).not.toBeNull();
+
     expect(subjectAddRes.status).toBe(200);
     expect(subjectAddRes.body).toHaveProperty("subject", "Math");
+
     expect(subjectUpdateRes.status).toBe(200);
     expect(subjectUpdateRes.body).toHaveProperty("subject", "English");
+
     expect(deleteSubjectRes.status).toBe(200);
     expect(deleteSubjectRes.body).toHaveProperty("message", "Subject deleted.");
+
     expect(addHomeworkRes.status).toBe(200);
     expect(addHomeworkRes.body).toHaveProperty("message", "Homework added.");
+    
+    expect(addBulletinRes.status).toBe(200);
+    expect(addBulletinRes.body).toHaveProperty("message", "Bulletin added.");
   });
 });

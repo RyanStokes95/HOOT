@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initDeleteStudent();
     initAddTask();
     initAddHomework();
+    initAddBulletin();
 });
 
 // Initialize event listeners for all buttons and forms on the teacher dashboard.
@@ -81,6 +82,12 @@ function initAddTask() {
     const form = document.getElementById("addTaskForm");
     if (!form) return;
     form.addEventListener("submit", handleAddTask);
+}
+
+function initAddBulletin() {
+    const form = document.getElementById("addBulletinForm");
+    if (!form) return;
+    form.addEventListener("submit", handleAddBulletin);
 }
 
 // Handler functions for each form and button, which make API calls to the corresponding API endpoints and update the UI based on the response.
@@ -341,5 +348,47 @@ async function handleAddTask(e) {
     } else {
         const data = await res.json();
         alert(data.message || "Failed to add task");
+    }
+}
+
+async function handleAddBulletin(e) {
+
+    e.preventDefault();
+
+    const form = document.getElementById("addBulletinForm");
+
+    const res = await fetch("/api/teacher/add-bulletin", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            title: form.title.value,
+            content: form.content.value
+        })
+    });
+
+    if (res.ok) {
+
+        const modalElement = document.getElementById("addBulletinModal");
+
+        const modal = bootstrap.Modal.getInstance(modalElement);
+
+        /* 
+        .blur() is used to remove focus from the submit button after clicking, 
+        which prevents the button from remaining in a focused state and allows 
+        the modal to close properly without any focus-related issues.
+        */
+
+        document.activeElement.blur();
+
+        modal.hide();
+
+        form.reset();
+
+        window.location.reload();
+    } else {
+        const data = await res.json();
+        alert(data.message || "Failed to add bulletin");
     }
 }

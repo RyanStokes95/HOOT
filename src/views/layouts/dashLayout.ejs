@@ -90,6 +90,17 @@
         body: addHomeworkForm
     }) %>
 
+    <%
+      const addBulletinForm = include(
+        "../partials/modalForms/addBulletin"
+      ); %>
+
+    <%- include("../partials/modal", {
+        modalId: "addBulletinModal",
+        modalTitle: "Add Bulletin",
+        body: addBulletinForm
+    }) %>
+
      <!-- Additional modals for delete subject, approve student, delete student can be added similarly -->
     
 
