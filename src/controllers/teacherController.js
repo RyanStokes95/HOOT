@@ -101,6 +101,55 @@ export async function deleteStudent(req, res) {
     }
 }
 
+export async function addFeedback(req, res) {
+    try {
+        const { studentId, feedback } = req.body;
+        const teacherId = req.session.userId;
+
+        const teacherClass = await Class.findOne({ teacher: teacherId });
+
+        if (!teacherClass) {
+            return res.status(404).json({ message: "Class not found." });
+        }
+
+        const student = teacherClass.students.id(studentId);
+
+        if (!student) {
+            return res.status(404).json({ message: "Student not found." });
+        }
+
+        const weekStartDate = getMonday(new Date());
+
+        const week = await Week.findOne({ teacherClass: teacherClass._id, weekStartDate });
+
+        if (!week) {
+            return res.status(404).json({ message: "Week not found." });
+        }
+
+        // Remove any existing feedback for the student for the current week before adding the new feedback.
+        // Allows for ammedning of feedback.
+        week.weeklyFeedback = week.weeklyFeedback.filter(item => {
+            return item.student.toString() !== studentId;
+        });
+
+        for (const [subjectId, rating] of Object.entries(feedback)) {
+            week.weeklyFeedback.push({
+                student: studentId,
+                subject: subjectId,
+                feedback: rating
+            });
+        }
+
+        await week.save();
+
+        res.status(200).json({ message: "Feedback added." });
+    } catch (error) {
+        return res.status(400).json({
+            message: error.message
+        });
+    }
+}
+
 // Function which adds a subject to the subjects array of the class document.
 export async function addSubject(req, res) {
     try {

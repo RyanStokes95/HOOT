@@ -1,0 +1,99 @@
+<!-- addFeedback.ejs -->
+
+<div class="modal fade" id="feedbackModal-<%= student._id %>" tabindex="-1">
+
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+
+        <div class="modal-content rounded-4 border-0 shadow">
+
+            <form class="addFeedbackForm" action="/api/teacher/add-feedback" method="POST">
+
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold">
+                        Feedback for <%= student.name %>
+                    </h5>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <input type="hidden" name="studentId" value="<%= student._id %>">
+
+                    <% teacherClass.subjects.forEach(subject => { %>
+
+                        <div class="d-flex justify-content-between align-items-center border rounded-4 p-3 mb-3">
+
+                            <span class="fw-semibold">
+                                <%= subject.name %>
+                            </span>
+
+                            <div class="btn-group" role="group">
+
+                                <input
+                                    type="radio"
+                                    class="btn-check"
+                                    name="feedback[<%= subject._id %>]"
+                                    id="good-<%= student._id %>-<%= subject._id %>"
+                                    value="Exceeding Expectations"
+                                    required>
+
+                                <label
+                                    class="btn btn-outline-success btn-sm"
+                                    for="good-<%= student._id %>-<%= subject._id %>">
+                                    Exceeding Expectations
+                                </label>
+
+                                <input
+                                    type="radio"
+                                    class="btn-check"
+                                    name="feedback[<%= subject._id %>]"
+                                    id="okay-<%= student._id %>-<%= subject._id %>"
+                                    value="On Track">
+
+                                <label
+                                    class="btn btn-outline-warning btn-sm"
+                                    for="okay-<%= student._id %>-<%= subject._id %>">
+                                    On Track
+                                </label>
+
+                                <input
+                                    type="radio"
+                                    class="btn-check"
+                                    name="feedback[<%= subject._id %>]"
+                                    id="work-<%= student._id %>-<%= subject._id %>"
+                                    value="Needs More Work">
+
+                                <label
+                                    class="btn btn-outline-danger btn-sm"
+                                    for="work-<%= student._id %>-<%= subject._id %>">
+                                    Needs More Work
+                                </label>
+
+                            </div>
+
+                        </div>
+
+                    <% }) %>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-light border" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+
+                    <button type="submit" class="btn btn-primary">
+                        Save Feedback
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
