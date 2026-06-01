@@ -325,13 +325,11 @@ async function handleAddFeedback(e) {
     const feedback = {};
     // Loops through form data entries to find feedback for each subject.
     for (const [key, value] of formData.entries()) {
-        if (key.startsWith("feedback[")) {
-            const subjectId = key
-                // Remove "feedback[" prefix and "]" suffix to get the subject ID
-                .replace("feedback[", "")
-                .replace("]", "");
-
-            // Store the feedback value for the corresponding subject ID in the feedback object, which will be sent in the request body to the server.
+        // regex pattern matches keys in the format "feedback[subjectId]", where subjectId is a 24-character hexadecimal string (MongoDB ObjectId).
+        if (/^feedback\[[a-f0-9]{24}\]$/i.test(key)) {
+            // Extracts the subjectId from the key by removing the "feedback[" prefix and "]" suffix.
+            const subjectId = key.slice(9, -1);
+            // Stores the feedback value in the feedback object using the subjectId as the key.
             feedback[subjectId] = value;
         }
     }
