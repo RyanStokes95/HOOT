@@ -105,7 +105,6 @@ export async function addFeedback(req, res) {
     try {
         const { studentId, feedback } = req.body;
         const teacherId = req.session.userId;
-        const day = new Date().toLocaleDateString("en-US", { weekday: "long" });
 
         const teacherClass = await Class.findOne({ teacher: teacherId });
 
