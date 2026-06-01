@@ -17,7 +17,6 @@ export async function registerParent(req, res) {
     try {
         // Extracts username, email, and password from request body
         const { name, email, password } = req.body;
-        console.log(req.body);
         // If any field is missing, respond with 400 Bad Request
         if (!name || !email || !password) {
             return res.status(400).json({ error: "All Fields are required" });

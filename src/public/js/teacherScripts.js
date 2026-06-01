@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initAddTask();
     initAddHomework();
     initAddBulletin();
+    initAddFeedback();
 });
 
 // Initialize event listeners for all buttons and forms on the teacher dashboard.
@@ -69,6 +70,14 @@ function initDeleteStudent() {
     const deleteButtons = document.querySelectorAll(".delete-student-btn");
     deleteButtons.forEach(button => {
         button.addEventListener("click", handleDeleteStudent);
+    });
+}
+
+function initAddFeedback() {
+    const forms = document.querySelectorAll(".addFeedbackForm");
+
+    forms.forEach(form => {
+        form.addEventListener("submit", handleAddFeedback);
     });
 }
 
@@ -305,6 +314,61 @@ async function handleDeleteStudent(e) {
         const data = await res.json();
         alert(data.message || "Failed to remove student");
     };
+}
+
+async function handleAddFeedback(e) {
+    e.preventDefault();
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    const feedback = {};
+    // Loops through form data entries to find feedback for each subject.
+    for (const [key, value] of formData.entries()) {
+        if (key.startsWith("feedback[")) {
+            const subjectId = key
+                // Remove "feedback[" prefix and "]" suffix to get the subject ID
+                .replace("feedback[", "")
+                .replace("]", "");
+
+            // Store the feedback value for the corresponding subject ID in the feedback object, which will be sent in the request body to the server.
+            feedback[subjectId] = value;
+        }
+    }
+
+    const res = await fetch("/api/teacher/add-feedback", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            studentId: formData.get("studentId"),
+            feedback
+        })
+    });
+
+    if (res.ok) {
+        const modalElement = form.closest(".modal");
+
+        const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
+
+        /*
+        .blur() is used to remove focus from the submit button after clicking, 
+        which prevents the button from remaining in a focused state and allows 
+        the modal to close properly without any focus-related issues.
+        */
+
+        document.activeElement.blur();
+
+        modal.hide();
+
+        form.reset();
+
+        window.location.reload();
+    } else {
+        const data = await res.json();
+        alert(data.message || "Failed to add feedback");
+    }
 }
 
 async function handleAddTask(e) {

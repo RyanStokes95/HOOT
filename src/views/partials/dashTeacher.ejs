@@ -136,11 +136,15 @@
                                 <% } %>
 
                                 <% if (student.status === "Active") { %>
+                                    <%- include("../partials/modalForms/addFeedback", {
+                                        student,
+                                        teacherClass
+                                    }) %>
                                     <button
                                         type="button"
-                                        class="btn btn-sm me-1"
-                                        data-student-is="<%= student._id %>"
-                                        >
+                                        class="btn btn-sm me-1 add-feedback-btn"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#feedbackModal-<%= student._id %>">
 
                                         <i class="fa-regular fa-pen-to-square text-primary fs-5"></i>
 

@@ -26,7 +26,8 @@ import {
     editTask,
     addBulletin,
     deleteBulletin,
-    editBulletin
+    editBulletin,
+    addFeedback,
 } from "../controllers/teacherController.js";
 import { requireAuth } from "../middleware/authMiddleware.js";
 import { requireRole } from "../middleware/roleCheck.js";
@@ -39,6 +40,8 @@ const router = express.Router();
 router.post("/create-class", requireAuth, requireRole("teacher"), genericLimiter, createClass);
 
 router.post("/add-subject", requireAuth, requireRole("teacher"), genericLimiter, addSubject);
+
+router.post("/add-feedback", requireAuth, requireRole("teacher"), genericLimiter, addFeedback);
 
 router.post("/add-homework", requireAuth, requireRole("teacher"), genericLimiter, addHomework);
 

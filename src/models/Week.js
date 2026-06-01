@@ -34,15 +34,15 @@ const weekSchema = new Schema(
           type: mongoose.Schema.Types.ObjectId,
           required: true
         },
+        subject: {
+          type: mongoose.Schema.Types.ObjectId,
+          required: true
+        },
         feedback: {
           type: String,
           enum: FEEDBACK_OPTIONS,
           required: true
         },
-        comment: {
-          type: String,
-          maxlength: 500
-        }
       }
     ],
 
