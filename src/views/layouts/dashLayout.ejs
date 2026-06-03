@@ -35,71 +35,73 @@
     <%- body %>
 
     <!-- Modals -->
-    <%
-      const addSubjectForm = include(
-        "../partials/modalForms/addSubject"
-    ); %>
-
-    <%- include("../partials/modal", {
-        modalId: "addSubjectModal",
-        modalTitle: "Add Subject",
-        body: addSubjectForm
-    }) %>
-
-    <%
-      const addClassForm = include(
-        "../partials/modalForms/addClass"
-    ); %>
-
-    <%- include("../partials/modal", {
-        modalId: "addClassModal",
-        modalTitle: "Add Class",
-        body: addClassForm
-    }) %>
-
-    <%
-      const editSubjectForm = include(
-        "../partials/modalForms/editSubject"
-    ); %>
-
-    <%- include("../partials/modal", {
-        modalId: "editSubjectModal",
-        modalTitle: "Edit Subject",
-        body: editSubjectForm
-    }) %>
-
-    <%
-      const addTaskForm = include(
-        "../partials/modalForms/addTask"
+    <% if (user.role === "teacher") { %>
+      <%
+        const addSubjectForm = include(
+          "../partials/modalForms/addSubject"
       ); %>
 
-    <%- include("../partials/modal", {
-        modalId: "addTaskModal",
-        modalTitle: "Add Task",
-        body: addTaskForm
-    }) %>
+      <%- include("../partials/modal", {
+          modalId: "addSubjectModal",
+          modalTitle: "Add Subject",
+          body: addSubjectForm
+      }) %>
 
-    <%
-      const addHomeworkForm = include(
-        "../partials/modalForms/addHomework"
+      <%
+        const addClassForm = include(
+          "../partials/modalForms/addClass"
       ); %>
 
-    <%- include("../partials/modal", {
-        modalId: "addHomeworkModal",
-        modalTitle: "Add Homework",
-        body: addHomeworkForm
-    }) %>
+      <%- include("../partials/modal", {
+          modalId: "addClassModal",
+          modalTitle: "Add Class",
+          body: addClassForm
+      }) %>
 
-    <%
-      const addBulletinForm = include(
-        "../partials/modalForms/addBulletin"
+      <%
+        const editSubjectForm = include(
+          "../partials/modalForms/editSubject"
       ); %>
 
-    <%- include("../partials/modal", {
-        modalId: "addBulletinModal",
-        modalTitle: "Add Bulletin",
-        body: addBulletinForm
-    }) %>
+      <%- include("../partials/modal", {
+          modalId: "editSubjectModal",
+          modalTitle: "Edit Subject",
+          body: editSubjectForm
+      }) %>
+
+      <%
+        const addTaskForm = include(
+          "../partials/modalForms/addTask"
+        ); %>
+
+      <%- include("../partials/modal", {
+          modalId: "addTaskModal",
+          modalTitle: "Add Task",
+          body: addTaskForm
+      }) %>
+
+      <%
+        const addHomeworkForm = include(
+          "../partials/modalForms/addHomework"
+        ); %>
+
+      <%- include("../partials/modal", {
+          modalId: "addHomeworkModal",
+          modalTitle: "Add Homework",
+          body: addHomeworkForm
+      }) %>
+
+      <%
+        const addBulletinForm = include(
+          "../partials/modalForms/addBulletin"
+        ); %>
+
+      <%- include("../partials/modal", {
+          modalId: "addBulletinModal",
+          modalTitle: "Add Bulletin",
+          body: addBulletinForm
+      }) %>
+    } %>
 
      <!-- Additional modals for delete subject, approve student, delete student can be added similarly -->
     
