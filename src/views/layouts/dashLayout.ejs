@@ -35,7 +35,7 @@
     <%- body %>
 
     <!-- Modals -->
-    <% if (user.role === "teacher") { %>
+    <% if (user && user.role === "teacher") { %>
       <%
         const addSubjectForm = include(
           "../partials/modalForms/addSubject"
@@ -101,7 +101,7 @@
           modalTitle: "Add Bulletin",
           body: addBulletinForm
       }) %>
-    } %>
+    <% } %>
 
      <!-- Additional modals for delete subject, approve student, delete student can be added similarly -->
     
