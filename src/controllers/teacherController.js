@@ -17,9 +17,7 @@ export async function createClass(req, res) {
         const classCode = generateClassCode();
 
         // Check if the teacher already has a class. If they do, return a 400 status with an error message.
-        const existingClass = await Class.findOne({ 
-            teacher: teacherId,
-         });
+        const existingClass = await getClassByTeacherId(teacherId);
 
          if (existingClass) {
             return res.status(400).json({ message: "You already have a class." });
@@ -52,9 +50,17 @@ function generateClassCode() {
     return code;
 }
 
+// Helper functions to retrieve the class document associated with a teacher ID and the week document associated with a class ID.
 function getClassByTeacherId(teacherId) {
     const teacherClass =  Class.findOne({ teacher: teacherId });
     return teacherClass;
+}
+
+// Helper function to retrieve the week document associated with a class ID and the current week's start date
+function getWeekByClassId(classId) {
+    const weekStartDate = getMonday(new Date());
+    const week = Week.findOne({ teacherClass: classId, weekStartDate });
+    return week;
 }
 
 // Function which approves a student by changing their status to "Active" in the students array of the class document.
@@ -64,7 +70,7 @@ export async function approveStudent(req, res) {
         const teacherId = req.session.userId;
 
         // Find the class document associated with the teacher ID and check if it exists. If it doesn't, return a 404 status with an error message.
-        const teacherClass = await Class.findOne({ teacher: teacherId });
+        const teacherClass = await getClassByTeacherId(teacherId);
 
         if (!teacherClass) {
             return res.status(404).json({ message: "Class not found." });
@@ -94,7 +100,7 @@ export async function deleteStudent(req, res) {
         const teacherId = req.session.userId;
 
         // Find the class document associated with the teacher ID and check if it exists. If it doesn't, return a 404 status with an error message.
-        const teacherClass = await Class.findOne({ teacher: teacherId });
+        const teacherClass = await getClassByTeacherId(teacherId);
 
         if (!teacherClass) {
             return res.status(404).json({ message: "Class not found." });
@@ -124,26 +130,28 @@ export async function deleteStudent(req, res) {
 
 // Feedback Functions
 
+// Function which adds feedback for a student for the current week by pushing a new feedback object to the weeklyFeedback array of the week document.
 export async function addFeedback(req, res) {
     try {
         const { studentId, feedback } = req.body;
         const teacherId = req.session.userId;
 
-        const teacherClass = await Class.findOne({ teacher: teacherId });
+        // Find the class document associated with the teacher ID and check if it exists. If it doesn't, return a 404 status with an error message.
+        const teacherClass = await getClassByTeacherId(teacherId);
 
         if (!teacherClass) {
             return res.status(404).json({ message: "Class not found." });
         }
 
+        // Find the student in the students array of the class document using the student ID and check if they exist.
         const student = teacherClass.students.id(studentId);
 
         if (!student) {
             return res.status(404).json({ message: "Student not found." });
         }
 
-        const weekStartDate = getMonday(new Date());
-
-        const week = await Week.findOne({ teacherClass: teacherClass._id, weekStartDate });
+        // Find the week document associated with the class ID and current week's start date and check if it exists. If it doesn't, return a 404 status with an error message.
+        const week = await getWeekByClassId(teacherClass._id);
 
         if (!week) {
             return res.status(404).json({ message: "Week not found." });
@@ -155,6 +163,10 @@ export async function addFeedback(req, res) {
             return item.student.toString() !== studentId;
         });
 
+        /* 
+            Loop through each of the feedback entires (i.e. each subject) and push a new feedback object to the weeklyFeedback array 
+            of the week document with the student ID, subject ID and feedback rating, then save the updated week document.
+        */
         for (const [subjectId, rating] of Object.entries(feedback)) {
             week.weeklyFeedback.push({
                 student: studentId,
@@ -179,8 +191,14 @@ export async function addSubject(req, res) {
         const { subject } = req.body;
         const teacherId = req.session.userId;
 
-        const teacherClass = await Class.findOne({ teacher: teacherId });
+        // Find the class document associated with the teacher ID and check if it exists. If it doesn't, return a 404 status with an error message.
+        const teacherClass = await getClassByTeacherId(teacherId);
 
+        if (!teacherClass) {
+            return res.status(404).json({ message: "Class not found." });
+        }
+
+        // Create a new subject object with the provided subject name and push it to the subjects array of the class document, then save the updated class document.
         const newSubject = {
             name: subject,
         };
@@ -204,18 +222,21 @@ export async function deleteSubject(req, res) {
         const { subjectId } = req.body;
         const teacherId = req.session.userId;
 
-        const teacherClass = await Class.findOne({ teacher: teacherId });
+        // Find the class document associated with the teacher ID and check if it exists. If it doesn't, return a 404 status with an error message.
+        const teacherClass = await getClassByTeacherId(teacherId);
 
         if (!teacherClass) {
             return res.status(404).json({ message: "Class not found." });
         }
 
+        // Find the subject in the subjects array of the class document using the subject ID and check if it exists.
         const subject = teacherClass.subjects.id(subjectId);
 
         if (!subject) {
             return res.status(404).json({ message: "Subject not found." });
         }
 
+        // Remove the subject from the subjects array and save the updated class document.
         await teacherClass.subjects.pull({ _id: subjectId });
         await teacherClass.save();
 
@@ -231,18 +252,21 @@ export async function editSubject(req, res) {
         const { subjectId, name } = req.body;
         const teacherId = req.session.userId;
 
-        const teacherClass = await Class.findOne({ teacher: teacherId });
+        // Find the class document associated with the teacher ID and check if it exists. If it doesn't, return a 404 status with an error message.
+        const teacherClass = await getClassByTeacherId(teacherId);
 
         if (!teacherClass) {
             return res.status(404).json({ message: "Class not found." });
         }
 
+        // Find the subject in the subjects array of the class document using the subject ID and check if it exists.
         const subject = teacherClass.subjects.id(subjectId);
 
         if (!subject) {
             return res.status(404).json({ message: "Subject not found." });
         }
 
+        // Update the subject's name with the new value provided in the request body, then save the updated class document.
         subject.name = name;
 
         await teacherClass.save();
@@ -259,29 +283,28 @@ export async function editSubject(req, res) {
 
 // Homework Functions
 
+// Function which adds homework for a subject for a specific day by pushing a new homework object to the dailyHomework array of the week document.
 export async function addHomework(req, res) {
     try {
-        console.log(req.session.userId);
         const { title, description, subject, dueDate } = req.body;
         const teacherId = req.session.userId;
         const day = new Date().toLocaleDateString("en-US", { weekday: "long" });
 
-        const teacherClass = await Class.findOne({ teacher: teacherId });
+        // Find the class document associated with the teacher ID and check if it exists. If it doesn't, return a 404 status with an error message.
+        const teacherClass = await getClassByTeacherId(teacherId);
 
         if (!teacherClass) {
             return res.status(404).json({ message: "Class not found." });
         }
 
-        const weekStartDate = getMonday(new Date());
-
-        const week = await Week.findOne({ teacherClass: teacherClass._id, weekStartDate });
+        // Find the week document associated with the class ID and current week's start date and check if it exists. If it doesn't, return a 404 status with an error message.
+        const week = await getWeekByClassId(teacherClass._id);
 
         if (!week) {
             return res.status(404).json({ message: "Week not found." });
         }
 
-        console.log(day);
-
+        // Create a new homework object with the provided details and push it to the dailyHomework array of the week document, then save the updated week document.
         const newHomework = {
             day: day,
             title,
@@ -289,8 +312,6 @@ export async function addHomework(req, res) {
             subject,
             dueDate
         };
-
-        console.log(newHomework);
 
         week.dailyHomework.push(newHomework);
         await week.save();
@@ -301,23 +322,27 @@ export async function addHomework(req, res) {
     }
 }
 
+// Function which deletes a homework entry from the dailyHomework array of the week document.
 export async function deleteHomework(req, res) {
     try {
         const { homeworkId } = req.body;
         const teacherId = req.session.userId;
 
-        const week = await Week.findOne({ teacherClass: teacherId });
+        // Find the week document associated with the class ID and current week's start date and check if it exists. If it doesn't, return a 404 status with an error message.
+        const week = await getWeekByClassId(teacherId);
 
         if (!week) {
             return res.status(404).json({ message: "Week not found." });
         }
 
+        // Find the homework in the dailyHomework array of the week document using the homework ID and check if it exists.
         const homework = week.homework.id(homeworkId);
 
         if (!homework) {
             return res.status(404).json({ message: "Homework not found." });
         }
 
+        // Remove the homework from the dailyHomework array and save the updated week document.
         await week.homework.pull({ _id: homeworkId });
         await week.save();
 
@@ -327,23 +352,27 @@ export async function deleteHomework(req, res) {
     }
 }
 
+// Function which edits a homework entry in the dailyHomework array of the week document by changing its details.
 export async function editHomework(req, res) {
     try {
         const { homeworkId, day, title, description, subjectId, dueDate } = req.body;
         const teacherId = req.session.userId;
 
-        const week = await Week.findOne({ teacherClass: teacherId });
+        // Find the week document associated with the class ID and current week's start date and check if it exists. If it doesn't, return a 404 status with an error message.
+        const week = await getWeekByClassId(teacherId);
 
         if (!week) {
             return res.status(404).json({ message: "Week not found." });
         }
 
+        // Find the homework in the dailyHomework array of the week document using the homework ID and check if it exists.
         const homework = week.homework.id(homeworkId);
 
         if (!homework) {
             return res.status(404).json({ message: "Homework not found." });
         }
 
+        // Update the homework's details with the new values provided in the request body, then save the updated week document.
         homework.day = day;
         homework.title = title;
         homework.description = description;
@@ -359,17 +388,20 @@ export async function editHomework(req, res) {
 
 // Task Functions
 
+// Function which adds a task to the tasks array of the class document.
 export async function addTask(req, res) {
     try {
         const { title, description, assignedTo, dueDate } = req.body;
         const teacherId = req.session.userId;
 
-        const teacherClass = await Class.findOne({ teacher: teacherId });
+        // Find the class document associated with the teacher ID and check if it exists. If it doesn't, return a 404 status with an error message.
+        const teacherClass = await getClassByTeacherId(teacherId);
 
         if (!teacherClass) {
             return res.status(404).json({ message: "Class not found." });
         }
 
+        // Create a new task object with the provided details and push it to the tasks array of the class document, then save the updated class document.
         const newTask = {
             title,
             description,
@@ -386,23 +418,27 @@ export async function addTask(req, res) {
     }
 }
 
+// Function which deletes a task from the tasks array of the class document.
 export async function deleteTask(req, res) {
     try {
         const { taskId } = req.body;
         const teacherId = req.session.userId;
 
-        const teacherClass = await Class.findOne({ teacher: teacherId });
+        // Find the class document associated with the teacher ID and check if it exists. If it doesn't, return a 404 status with an error message.
+        const teacherClass = await getClassByTeacherId(teacherId);
 
         if (!teacherClass) {
             return res.status(404).json({ message: "Class not found." });
         }
 
+        // Find the task in the tasks array of the class document using the task ID and check if it exists.
         const task = teacherClass.tasks.id(taskId);
 
         if (!task) {
             return res.status(404).json({ message: "Task not found." });
         }
 
+        // Remove the task from the tasks array and save the updated class document.
         await teacherClass.tasks.pull({ _id: taskId });
         await teacherClass.save();
 
@@ -412,23 +448,27 @@ export async function deleteTask(req, res) {
     }
 }
 
+// Function which edits a task in the tasks array of the class document by changing its details.
 export async function editTask(req, res) {
     try {
         const { taskId, title, description, assignedTo, dueDate } = req.body;
         const teacherId = req.session.userId;
 
-        const teacherClass = await Class.findOne({ teacher: teacherId });
+        // Find the class document associated with the teacher ID and check if it exists. If it doesn't, return a 404 status with an error message.
+        const teacherClass = await getClassByTeacherId(teacherId);
 
         if (!teacherClass) {
             return res.status(404).json({ message: "Class not found." });
         }
 
+        // Find the task in the tasks array of the class document using the task ID and check if it exists.
         const task = teacherClass.tasks.id(taskId);
 
         if (!task) {
             return res.status(404).json({ message: "Task not found." });
         }
 
+        // Update the task's details with the new values provided in the request body, then save the updated class document.
         task.title = title;
         task.description = description;
         task.assignedTo = assignedTo;
@@ -443,17 +483,20 @@ export async function editTask(req, res) {
 
 // Bulletin Functions
 
+// Function which adds a bulletin to the bulletins array of the class document.
 export async function addBulletin(req, res) {
     try {
         const { title, content } = req.body;
         const teacherId = req.session.userId;
 
-        const teacherClass = await Class.findOne({ teacher: teacherId });
+        // Find the class document associated with the teacher ID and check if it exists. If it doesn't, return a 404 status with an error message.
+        const teacherClass = await getClassByTeacherId(teacherId);
 
         if (!teacherClass) {
             return res.status(404).json({ message: "Class not found." });
         }
 
+        // Create a new bulletin object with the provided details and push it to the bulletins array of the class document, then save the updated class document.
         const newBulletin = {
             title,
             content
@@ -468,23 +511,27 @@ export async function addBulletin(req, res) {
     }
 }
 
+// Function which deletes a bulletin from the bulletins array of the class document.
 export async function deleteBulletin(req, res) {
     try {
         const { bulletinId } = req.body;
         const teacherId = req.session.userId;
 
-        const teacherClass = await Class.findOne({ teacher: teacherId });
+        // Find the class document associated with the teacher ID and check if it exists. If it doesn't, return a 404 status with an error message.
+        const teacherClass = await getClassByTeacherId(teacherId);
 
         if (!teacherClass) {
             return res.status(404).json({ message: "Class not found." });
         }
 
+        // Find the bulletin in the bulletins array of the class document using the bulletin ID and check if it exists.
         const bulletin = teacherClass.bulletins.id(bulletinId);
 
         if (!bulletin) {
             return res.status(404).json({ message: "Bulletin not found." });
         }
 
+        // Remove the bulletin from the bulletins array and save the updated class document.
         await teacherClass.bulletins.pull({ _id: bulletinId });
         await teacherClass.save();
 
@@ -494,23 +541,27 @@ export async function deleteBulletin(req, res) {
     }
 }
 
+// Function which edits a bulletin in the bulletins array of the class document by changing its title and content.
 export async function editBulletin(req, res) {
     try {
         const { bulletinId, title, content } = req.body;
         const teacherId = req.session.userId;
 
-        const teacherClass = await Class.findOne({ teacher: teacherId });
+        // Find the class document associated with the teacher ID and check if it exists. If it doesn't, return a 404 status with an error message.
+        const teacherClass = await getClassByTeacherId(teacherId);
 
         if (!teacherClass) {
             return res.status(404).json({ message: "Class not found." });
         }
 
+        // Find the bulletin in the bulletins array of the class document using the bulletin ID and check if it exists.
         const bulletin = teacherClass.bulletins.id(bulletinId);
 
         if (!bulletin) {
             return res.status(404).json({ message: "Bulletin not found." });
         }
 
+        // Update the bulletin's title and content with the new values provided in the request body, then save the updated class document.
         bulletin.title = title;
         bulletin.content = content;
         await teacherClass.save();
