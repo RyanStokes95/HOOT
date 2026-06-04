@@ -1,7 +1,6 @@
 /**
  * Author: Ryan Stokes
  * File: parentScript.js
- * Last Modified: 2026-05-19
  */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -10,11 +9,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function initAddStudent() {
     const form = document.getElementById("addStudentForm");
+    console.log("loaded");
     if (!form) return;
     form.addEventListener("submit", handleAddStudent);
 }
 
 async function handleAddStudent(e) {
+
+    console.log("start");
 
     e.preventDefault();
 

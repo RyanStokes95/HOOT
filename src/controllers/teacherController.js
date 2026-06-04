@@ -1,7 +1,6 @@
 /**
  * Author: Ryan Stokes
  * File: teacherController.js
- * Last Modified: 2026-05-24
  */
 
 import { Class } from "../models/Class.js";
@@ -14,8 +13,10 @@ export async function createClass(req, res) {
         const { name } = req.body;
         const teacherId = req.session.userId;
 
+        // Generate a unique class code for the new class using the generateClassCode function in this file.
         const classCode = generateClassCode();
 
+        // Check if the teacher already has a class. If they do, return a 400 status with an error message.
         const existingClass = await Class.findOne({ 
             teacher: teacherId,
          });
@@ -24,6 +25,7 @@ export async function createClass(req, res) {
             return res.status(400).json({ message: "You already have a class." });
         }
 
+        // Create a new class document in the database with the provided name, generated class code, and teacher ID.
         const newClass = await Class.create({
             name,
             classCode,
@@ -37,6 +39,11 @@ export async function createClass(req, res) {
 
 // Function which generates a random 6-character alphanumeric class code.
 function generateClassCode() {
+    /*  
+        In this function, we define a string of possible characters (uppercase letters and numbers) and 
+        then use a loop to randomly select 6 characters from that string to create the class code. The generated 
+        code is returned as a string.
+    */
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     let code = "";
     for (let i = 0; i < 6; i++) {
@@ -45,26 +52,32 @@ function generateClassCode() {
     return code;
 }
 
+function getClassByTeacherId(teacherId) {
+    const teacherClass =  Class.findOne({ teacher: teacherId });
+    return teacherClass;
+}
+
 // Function which approves a student by changing their status to "Active" in the students array of the class document.
 export async function approveStudent(req, res) {
     try {
         const { studentId } = req.body;
         const teacherId = req.session.userId;
 
+        // Find the class document associated with the teacher ID and check if it exists. If it doesn't, return a 404 status with an error message.
         const teacherClass = await Class.findOne({ teacher: teacherId });
 
         if (!teacherClass) {
             return res.status(404).json({ message: "Class not found." });
         }
 
+        // Find the student in the students array of the class document using the student ID and check if they exist.
         const student = teacherClass.students.id(studentId);
-
-        console.log(student)
 
         if (!student) {
             return res.status(404).json({ message: "Student not found." });
         }
 
+        // Change the student's status to "Active" and save the updated class document.
         student.status = "Active";
         await teacherClass.save();
 
@@ -80,18 +93,21 @@ export async function deleteStudent(req, res) {
         const { studentId } = req.body;
         const teacherId = req.session.userId;
 
+        // Find the class document associated with the teacher ID and check if it exists. If it doesn't, return a 404 status with an error message.
         const teacherClass = await Class.findOne({ teacher: teacherId });
 
         if (!teacherClass) {
             return res.status(404).json({ message: "Class not found." });
         }
 
+        // Find the student in the students array of the class document using the student ID and check if they exist.
         const student = teacherClass.students.id(studentId);
 
         if (!student) {
             return res.status(404).json({ message: "Student not found." });
         }
 
+        // Remove the student from the students array and save the updated class document.
         await teacherClass.students.pull({ _id: studentId });
         await teacherClass.save();
 
@@ -100,6 +116,13 @@ export async function deleteStudent(req, res) {
         res.status(400).json({ message: error.message });
     }
 }
+
+/* 
+    The feedback and Homework save to the week model instead of the class model as they are specific to a week,
+    whereas the subjects, tasks and bulletins are saved to the class model as they are not specific to a week. 
+*/
+
+// Feedback Functions
 
 export async function addFeedback(req, res) {
     try {
@@ -234,6 +257,8 @@ export async function editSubject(req, res) {
     }
 }
 
+// Homework Functions
+
 export async function addHomework(req, res) {
     try {
         console.log(req.session.userId);
@@ -332,6 +357,8 @@ export async function editHomework(req, res) {
     }
 }
 
+// Task Functions
+
 export async function addTask(req, res) {
     try {
         const { title, description, assignedTo, dueDate } = req.body;
@@ -413,6 +440,8 @@ export async function editTask(req, res) {
         res.status(400).json({ message: error.message });
     }
 }
+
+// Bulletin Functions
 
 export async function addBulletin(req, res) {
     try {

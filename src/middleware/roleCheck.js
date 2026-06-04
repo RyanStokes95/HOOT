@@ -1,7 +1,6 @@
 /**
  * Author: Ryan Stokes
  * File: roleCheck.js
- * Last Modified: 2026-05-05
  */
 
 // This middleware is used to check if the user has the required role to access a route.

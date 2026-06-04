@@ -1,7 +1,6 @@
 /**
  * Author: Ryan Stokes
  * File: teacher.js
- * Last Modified: 2026-05-28
  */
 
 // Contains all the API routes that relate to the teacher role.

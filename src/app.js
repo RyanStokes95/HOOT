@@ -1,7 +1,7 @@
 /**
  * Author: Ryan Stokes
  * File: app.js
- * Last Modified: 2026-05-19
+ * Last Modified: 2026-06-03
  */
 
 import express from "express";
@@ -112,6 +112,7 @@ if(enableSessions) {
 
 // Routes mounted on express app
 
+// Page routes for rendering EJS templates, includes public pages and protected dashboard pages for teachers and parents
 app.use("/", pageRouter);
 
 // Checks health of the application by responding with 200 OK and { ok: true } if the app is running
@@ -120,6 +121,7 @@ app.get("/health", (req, res) => res.status(200).json({ ok: true }));
 //API endpoints
 app.use("/api/items", itemsRouter);
 
+// Authentication routes for registering and logging in teachers and parents, handles session creation and management
 app.use("/api/auth", authRouter);
 
 // Protected teacher routes, require authentication and teacher role to access any endpoints defined in teacherRouter

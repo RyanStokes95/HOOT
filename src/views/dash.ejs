@@ -1,6 +1,5 @@
 <!-- Author - Ryan Stokes -->
 <!-- dash.ejs -->
-<!-- Last Modified: 2026-05-18 -->
  
 <!-- Main Content -->
 <main class="container py-5">
@@ -19,7 +18,7 @@
 
     <% } else if (user && user.role === "parent") { %>
 
-        <% if (parentClass) { %>
+        <% if (classDashboards && classDashboards.length > 0) { %>
 
             <%- include("./partials/dashParent") %>
 

@@ -1,7 +1,6 @@
 /**
  * Author: Ryan Stokes
  * File: auth.js
- * Last Modified: 2026-01-25
  */
 
 import express from "express";

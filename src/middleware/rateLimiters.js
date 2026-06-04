@@ -1,11 +1,6 @@
 /**
-
  * Author: Ryan Stokes
-
  * File: rateLimiters.js
-
- * Last Modified: 2026-05-20
-
  */
 
 import rateLimit from "express-rate-limit";

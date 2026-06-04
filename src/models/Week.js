@@ -1,7 +1,6 @@
 /**
  * Author: Ryan Stokes
  * File: Week.js
- * Last Modified: 2026-05-25
  */
 
 import mongoose from "mongoose";

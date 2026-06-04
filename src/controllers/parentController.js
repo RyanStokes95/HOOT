@@ -1,7 +1,6 @@
 /**
  * Author: Ryan Stokes
  * File: parentController.js
- * Last Modified: 2026-05-23
  */
 
 import { Class } from "../models/Class.js";
@@ -12,6 +11,7 @@ export async function joinClass(req, res) {
         const { classCode, name } = req.body;
         const parentId = req.session.userId;
 
+        // Validate class code format
         if (typeof classCode !== "string" ||
             // regex expression to check if class code is 6 characters long and only contains uppercase letters and numbers
             !/^[A-Z0-9]{6}$/.test(classCode)
@@ -20,12 +20,14 @@ export async function joinClass(req, res) {
             return res.status(400).json({ message: "Invalid class code format." });
         }
 
+        // Check if the class code exists in the database
         const classToJoin = await Class.findOne({ classCode });
 
         if (!classToJoin) {
             return res.status(404).json({ message: "Class not found." });
         }
 
+        // Adds the student to the class's students array with their name and parent ID
         classToJoin.students.push({ name: name, parent: parentId });
 
         await classToJoin.save();

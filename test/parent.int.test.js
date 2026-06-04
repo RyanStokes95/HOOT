@@ -7,8 +7,8 @@
 import request from "supertest";
 import app from "../src/app.js";
 
-describe("Teacher Create Class", () => {
-  it("creates a class for a logged-in teacher", async () => {
+describe("Parent Join Class", () => {
+  it("allows a parent to join a class", async () => {
     const teacherAgent = request.agent(app);
     const parentAgent = request.agent(app);
 
