@@ -1,7 +1,6 @@
 /**
  * Author: Ryan Stokes
  * File: jest.config.js
- * Last Modified: 2026-01-25
  */
 
 //Code taken and inspired by https://www.youtube.com/watch?v=FKnzS_icp20&list=PLlxGQpt_kNBcVSpnseYS7_zTO-NmxHLKl

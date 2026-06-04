@@ -1,7 +1,6 @@
 /**
  * Author: Ryan Stokes
  * File: db.js
- * Last Modified: 2026-01-25
  */
 
 import mongoose from "mongoose";

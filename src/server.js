@@ -1,7 +1,6 @@
 /**
  * Author: Ryan Stokes
  * File: server.js
- * Last Modified: 2026-05-14
  */
 
 import dotenv from "dotenv";

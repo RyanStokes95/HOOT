@@ -1,7 +1,6 @@
 /**
  * Author: Ryan Stokes
  * File: authController.js
- * Last Modified: 2026-01-25
  */
 
 import bcrypt from "bcrypt";
@@ -9,8 +8,6 @@ import { User } from "../models/User.js";
 import dotenv from "dotenv";
 
 dotenv.config();
-
-//bcrypt code modified version of code found at https://www.geeksforgeeks.org/node-js/npm-bcrypt/
 
 // Controller function to handle parent registration
 export async function registerParent(req, res) {

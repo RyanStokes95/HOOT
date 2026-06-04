@@ -1,7 +1,6 @@
 /**
  * Author: Ryan Stokes
  * File: authMiddleware.js
- * Last Modified: 2026-05-05
  */
 
 /** 

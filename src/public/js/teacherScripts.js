@@ -3,7 +3,6 @@
 /**
  * Author: Ryan Stokes
  * File: teacherScripts.js
- * Last Modified: 2026-05-24
  */
 
 document.addEventListener("DOMContentLoaded", () => {

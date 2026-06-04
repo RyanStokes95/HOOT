@@ -1,7 +1,6 @@
 /**
  * Authors: Ryan Stokes
  * File: currentWeek.js
- * Last Modified: 2026-05-25
  */
 
 import { Week } from "../models/Week.js";

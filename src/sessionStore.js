@@ -1,7 +1,6 @@
 /**
  * Author: Ryan Stokes
  * File: sessionStore.js
- * Last Modified: 2026-01-25
  */
 
 import MongoStore from "connect-mongo";

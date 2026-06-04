@@ -1,7 +1,6 @@
 /**
  * Author: Ryan Stokes
  * File: teacher.js
- * Last Modified: 2026-05-18
  */
 
 import express from "express";
