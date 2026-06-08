@@ -26,7 +26,7 @@ export async function renderParentDashboard(req, res) {
             title: "HOOT | Parent Dashboard",
             layout: "layouts/dashLayout",
             user: req.session.user,
-            parentClasses: []
+            classDashboards: []
         });
     }
 
