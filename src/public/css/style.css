@@ -87,3 +87,16 @@ body.bg-light {
 .parent-dropdown-menu {
   min-width: 400px;
 }
+
+.input-error {
+    border: 2px solid red !important;
+    box-shadow: none !important;
+}
+
+.input-valid {
+    border: 2px solid green !important;
+}
+
+.error-text {
+    color: red !important;
+}
