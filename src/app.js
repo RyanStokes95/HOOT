@@ -119,6 +119,7 @@ app.use("/", pageRouter);
 app.get("/health", (req, res) => res.status(200).json({ ok: true }));
 
 //API endpoints
+// Test route to verify API is working, responds with 200 OK and { api: "working" } if the route is hit successfully
 app.use("/api/items", itemsRouter);
 
 // Authentication routes for registering and logging in teachers and parents, handles session creation and management
