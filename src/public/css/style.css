@@ -5,6 +5,8 @@
 
 /* HOOT Theme */
 
+/* !important - Overrides Bootstrap's default styles */
+
 :root {
   --bs-primary: #6f42c1;
   --bs-primary-rgb: 111, 66, 193;
@@ -44,6 +46,10 @@
 .btn-secondary {
   background-color: var(--hoot-secondary);
   border-color: var(--hoot-secondary);
+}
+
+.bg-secondary {
+  background-color: var(--hoot-secondary) !important;
 }
 
 .btn-secondary:hover {

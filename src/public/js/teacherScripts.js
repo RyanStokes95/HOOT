@@ -98,7 +98,30 @@ function initAddBulletin() {
     form.addEventListener("submit", handleAddBulletin);
 }
 
+function modalReset(form, modalId) {
+    const modalElement = document.getElementById(modalId);
+
+        const modal = bootstrap.Modal.getInstance(modalElement);
+
+        /* 
+        .blur() is used to remove focus from the submit button after clicking, 
+        which prevents the button from remaining in a focused state and allows 
+        the modal to close properly without any focus-related issues.
+        */
+
+        document.activeElement.blur();
+
+        modal.hide();
+
+        form.reset();
+
+        window.location.reload();
+}
+
 // Handler functions for each form and button, which make API calls to the corresponding API endpoints and update the UI based on the response.
+
+// e refers to the event object passed to the handler function when an event occurs, such as a form submission or button click.
+// preventDefault() is called to stop the default behavior of the event (such asform submission causing a page reload).
 
 async function handleAddClass(e) {
 
@@ -147,25 +170,7 @@ async function handleAddHomework(e) {
     });
 
     if (res.ok) {
-
-        const modalElement = document.getElementById("addHomeworkModal");
-
-        const modal = bootstrap.Modal.getInstance(modalElement);
-
-        /*
-        .blur() is used to remove focus from the submit button after clicking, 
-        which prevents the button from remaining in a focused state and allows 
-        the modal to close properly without any focus-related issues.
-        */
-
-        document.activeElement.blur();
-
-        //Page reset after modal submission to reflect changes without needing to manually refresh the page.
-        modal.hide();
-
-        form.reset();
-
-        window.location.reload();
+        modalReset(form, "addHomeworkModal");
     } else {
         const data = await res.json();
         alert(data.message || "Failed to add homework");
@@ -190,24 +195,7 @@ async function handleAddSubject(e) {
 
     // If subject addition is successful (response status 200), show a success message, otherwise show an error message
     if (res.ok) {
-
-        const modalElement = document.getElementById("addSubjectModal");
-
-        const modal = bootstrap.Modal.getInstance(modalElement);
-
-        /* 
-        .blur() is used to remove focus from the submit button after clicking, 
-        which prevents the button from remaining in a focused state and allows 
-        the modal to close properly without any focus-related issues.
-        */
-
-        document.activeElement.blur();
-
-        modal.hide();
-
-        form.reset();
-
-        window.location.reload();
+        modalReset(form, "addSubjectModal");
     } else {
         const data = await res.json();
         alert(data.message || "Failed to add subject");
@@ -215,6 +203,7 @@ async function handleAddSubject(e) {
 };
 
 async function handleEditSubject(e) {
+
     e.preventDefault();
 
     const form = document.getElementById("editSubjectForm");
@@ -231,7 +220,7 @@ async function handleEditSubject(e) {
     });
 
     if (res.ok) {
-        window.location.reload();
+        modalReset(form, "editSubjectModal");
     } else {
         const data = await res.json();
         alert(data.message || "Failed to edit subject");
@@ -281,7 +270,6 @@ async function handleApproveStudent(e) {
     });
 
     if (res.ok) {
-
         window.location.reload();
     } else {
         const data = await res.json();
@@ -316,6 +304,7 @@ async function handleDeleteStudent(e) {
 }
 
 async function handleAddFeedback(e) {
+
     e.preventDefault();
 
     const form = e.currentTarget;
@@ -386,26 +375,10 @@ async function handleAddTask(e) {
             assignedTo: Array.from(form.querySelectorAll("input[name='assignedTo']:checked")).map(checkbox => checkbox.value)
         })
     });
-
+    
     if (res.ok) {
 
-        const modalElement = document.getElementById("addTaskModal");
-
-        const modal = bootstrap.Modal.getInstance(modalElement);
-
-        /* 
-        .blur() is used to remove focus from the submit button after clicking, 
-        which prevents the button from remaining in a focused state and allows 
-        the modal to close properly without any focus-related issues.
-        */
-
-        document.activeElement.blur();
-
-        modal.hide();
-
-        form.reset();
-
-        window.location.reload();
+        modalReset(form, "addTaskModal");
     } else {
         const data = await res.json();
         alert(data.message || "Failed to add task");
@@ -431,23 +404,7 @@ async function handleAddBulletin(e) {
 
     if (res.ok) {
 
-        const modalElement = document.getElementById("addBulletinModal");
-
-        const modal = bootstrap.Modal.getInstance(modalElement);
-
-        /* 
-        .blur() is used to remove focus from the submit button after clicking, 
-        which prevents the button from remaining in a focused state and allows 
-        the modal to close properly without any focus-related issues.
-        */
-
-        document.activeElement.blur();
-
-        modal.hide();
-
-        form.reset();
-
-        window.location.reload();
+        modalReset(form,"addBulletinModal");
     } else {
         const data = await res.json();
         alert(data.message || "Failed to add bulletin");
