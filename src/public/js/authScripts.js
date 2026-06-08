@@ -184,3 +184,97 @@ async function handleLogout() {
       alert(data.error || "Logout failed");
   }
 }
+
+// Auth input scripts
+
+// NAME validation
+const nameInput = document.getElementById("name");
+const nameError = document.getElementById("nameError");
+
+nameInput.addEventListener("input", () => {
+    const nameRegex = /^[A-Za-z ]{5,}$/;
+    const value = nameInput.value;
+
+    if (nameRegex.test(value)) {
+        nameInput.classList.add("input-valid");
+        nameInput.classList.remove("input-error");
+        nameError.textContent = "";
+        nameError.classList.remove("error-text");
+    } else {
+        nameInput.classList.add("input-error");
+        nameInput.classList.remove("input-valid");
+        nameError.classList.add("error-text");
+        nameError.textContent = "Name must be at least 3 characters";
+    }
+});
+
+
+// EMAIL validation
+const emailInput = document.getElementById("email");
+const emailError = document.getElementById("emailError");
+
+emailInput.addEventListener("input", () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const value = emailInput.value;
+
+    if (emailRegex.test(value)) {
+        emailInput.classList.add("input-valid");
+        emailInput.classList.remove("input-error");
+        emailError.textContent = "";
+        emailError.classList.remove("error-text");
+    } else {
+        emailInput.classList.add("input-error");
+        emailInput.classList.remove("input-valid");
+        emailError.classList.add("error-text");
+        emailError.textContent = "Email must contain @ and end with a valid domain.";
+    }
+});
+
+
+// PASSWORD validation
+const passwordInput = document.getElementById("password");
+const passwordError = document.getElementById("passwordError");
+
+const passwordRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$%^&*]).{8,}$/;
+
+passwordInput.addEventListener("input", () => {
+    const value = passwordInput.value;
+
+    if (passwordRegex.test(value)) {
+        passwordInput.classList.add("input-valid");
+        passwordInput.classList.remove("input-error");
+        passwordError.textContent = "";
+        passwordError.classList.remove("error-text");
+    } else {
+        passwordInput.classList.add("input-error");
+        passwordInput.classList.remove("input-valid");
+        passwordError.classList.add("error-text");
+        passwordError.textContent =
+            "Password must be at least 8 characters long and include uppercase, lowercase, number, and special character.";
+    }
+});
+
+
+// CODE validation
+const codeInput = document.getElementById("code");
+const codeError = document.getElementById("codeError");
+
+const codeRegex = /^[A-Za-z0-9]{10,}$/;
+
+codeInput.addEventListener("input", () => {
+    const value = codeInput.value;
+
+    if (codeRegex.test(value)) {
+        codeInput.classList.add("input-valid");
+        codeInput.classList.remove("input-error");
+        codeError.textContent = "";
+        codeError.classList.remove("error-text");
+    } else {
+        codeInput.classList.add("input-error");
+        codeInput.classList.remove("input-valid");
+        codeError.classList.add("error-text");
+        codeError.textContent =
+            "Code must be atleast 10 Characters";
+    }
+});
