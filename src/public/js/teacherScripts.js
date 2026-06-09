@@ -118,6 +118,24 @@ function modalReset(form, modalId) {
         window.location.reload();
 }
 
+// Quick JS fix for dropdown, to be expanded upon and put in a function
+
+document.addEventListener("click", (e) => {
+    const dropdown = document.getElementById("parentDropdown");
+
+    if (dropdown.contains(e.target)) {
+        const trigger = dropdown.querySelector(".dropdown-trigger");
+
+        if (e.target === trigger || trigger.contains(e.target)) {
+            dropdown.classList.toggle("open");
+        }
+
+        return;
+    }
+
+    dropdown.classList.remove("open");
+});
+
 // Handler functions for each form and button, which make API calls to the corresponding API endpoints and update the UI based on the response.
 
 // e refers to the event object passed to the handler function when an event occurs, such as a form submission or button click.

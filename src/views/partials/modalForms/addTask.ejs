@@ -35,54 +35,33 @@
             Assigned To
         </label>
 
-        <div class="dropdown w-100">
+        <div class="custom-dropdown" id="parentDropdown">
 
-            <button
-                class="btn btn-outline-secondary dropdown-toggle w-100 text-start"
-                type="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false">
-
+            <button type="button" class="dropdown-trigger">
                 Select Parents
-
+                <i class="fa-solid fa-chevron-down"></i>
             </button>
 
-            <ul class="dropdown-menu parent-dropdown-menu w-100 p-3 shadow-sm">
+            <div class="dropdown-panel">
 
-                <% if (teacherClass && teacherClass.students && teacherClass.students.length > 0) { %>
+                <% teacherClass.students.forEach(student => { %>
+                    <% if (student.parent && student.status === "Active") { %>
 
-                    <% teacherClass.students.forEach(student => { %>
+                        <label class="dropdown-item">
+                            <input
+                                type="checkbox"
+                                name="assignedTo"
+                                value="<%= student.parent._id %>">
 
-                        <% if (student.parent && student.status === "Active") { %>
+                            <span>
+                                <%= student.parent.name %> — <%= student.name %>
+                            </span>
+                        </label>
 
-                            <li class="mb-2">
-                                <div class="form-check">
-                                    <input
-                                        class="form-check-input"
-                                        type="checkbox"
-                                        name="assignedTo"
-                                        value="<%= student.parent._id %>"
-                                        id="parent-<%= student.parent._id %>">
+                    <% } %>
+                <% }) %>
 
-                                    <label
-                                        class="form-check-label"
-                                        for="parent-<%= student.parent._id %>">
-                                        <%= student.parent.name %> — <%= student.name %>
-                                    </label>
-                                </div>
-                            </li>
-
-                        <% } %>
-
-                    <% }) %>
-
-                <% } else { %>
-
-                    <li>No Students</li>
-
-                <% } %>
-            </ul>
-
+            </div>
         </div>
 
         <label class="form-label fw-semibold">

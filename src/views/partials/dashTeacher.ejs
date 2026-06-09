@@ -2,45 +2,51 @@
 <!-- dashTeacher.ejs -->
 <!-- Last Modified: 2026-05-21 -->
 
-<div class="dashboard-hero bg-white rounded-4 shadow-sm border mb-4 p-4 p-md-5">
+<div class="bg-white border rounded-3 shadow-sm p-4 mb-4">
 
-    <div class="row align-items-center g-4">
+    <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
 
-        <div class="col-md-8">
+        <div>
 
-            <span class="badge rounded-pill text-bg-light border mb-3">
+            <span class="badge rounded-pill text-bg-light border mb-2">
                 Teacher Dashboard
             </span>
 
-            <h1 class="fw-bold mb-2">
-                Welcome <%= user.name %>
-            </h1>
+            <h5 class="fw-semibold mb-2">
+                <%= user.name %>
+            </h5>
 
-            <p class="text-muted mb-0">
-                Manage students, weekly feedback, homework, tasks, and classroom updates from one place.
+            <p class="text-muted small mb-0">
+                Manage students, homework, feedback and classroom activity.
             </p>
 
         </div>
 
         <% if (currentWeek) { %>
 
-            <div class="col-md-4">
+            <div class="d-flex align-items-center gap-3">
 
-                <div class="current-week-card rounded-4 border p-3 text-md-end bg-light">
+                <button class="week-nav-btn">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
 
-                    <p class="text-muted small fw-semibold mb-1">
+                <div class="text-center px-2">
+                    <div class="text-muted small mb-1">
                         Current Week
-                    </p>
+                    </div>
 
-                    <h6 class="fw-bold mb-0">
+                    <div class="fw-semibold">
                         <%= currentWeek.weekStartDate.toDateString() %>
-                    </h6>
+                    </div>
 
-                    <p class="text-muted small mb-0">
-                        to <%= currentWeek.weekEndDate.toDateString() %>
-                    </p>
-
+                    <small class="text-muted">
+                        <%= currentWeek.weekEndDate.toDateString() %>
+                    </small>
                 </div>
+
+                <button class="week-nav-btn">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
 
             </div>
 
@@ -50,39 +56,39 @@
 
 </div>
 
-<div class="bg-white rounded-4 shadow-sm border p-4 mb-4">
-    <h4 class="fw-bold mb-3">Class Overview</h4>
+<div class="bg-white border rounded-3 p-3 mb-4 shadow-sm">
 
-    <div class="row g-3">
+    <div class="row text-center g-0">
 
-        <div class="col-md-4">
-            <div class="border rounded-4 p-3 h-100">
-                <h6 class="fw-bold">Class</h6>
-                <p class="text-muted mb-0">
-                    <%= teacherClass.name %>
-                </p>
+        <div class="col-md-4 py-2">
+            <small class="text-muted text-uppercase d-block mb-1">
+                Class
+            </small>
+            <div class="fw-semibold">
+                <%= teacherClass.name %>
             </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="border rounded-4 p-3 h-100">
-                <h6 class="fw-bold">Students</h6>
-                <p class="text-muted mb-0">
-                    <%= teacherClass.students.length %> enrolled
-                </p>
+        <div class="col-md-4 py-2 border-start border-end">
+            <small class="text-muted text-uppercase d-block mb-1">
+                Students
+            </small>
+            <div class="fw-semibold">
+                <%= teacherClass.students.length %>
             </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="border rounded-4 p-3 h-100">
-                <h6 class="fw-bold">Class Code</h6>
-                <p class="text-muted mb-0">
-                    <%= teacherClass.classCode %>
-                </p>
+        <div class="col-md-4 py-2">
+            <small class="text-muted text-uppercase d-block mb-1">
+                Code
+            </small>
+            <div class="fw-semibold">
+                <%= teacherClass.classCode %>
             </div>
         </div>
 
     </div>
+
 </div>
 
 <div class="bg-white rounded-4 shadow-sm border p-4 mb-4">
@@ -179,7 +185,6 @@
 </div>
 
 <div class="bg-white rounded-4 shadow-sm border p-4 mb-4">
-    <h4 class="fw-bold mb-4">Quick Add</h4>
 
     <div class="row g-4">
 
@@ -199,14 +204,24 @@
                     </span>
                 </div>
 
-                <button
-                    type="button"
-                    class="btn btn-secondary w-100 mt-3"
-                    data-bs-toggle="modal"
-                    data-bs-target="#addTaskModal"
-                >
-                    Add Task
-                </button>
+                <div class="d-flex gap-2 mt-3">
+                    <button
+                        type="button"
+                        class="btn btn-secondary flex-fill"
+                        data-bs-toggle="modal"
+                        data-bs-target="#addTaskModal"
+                    >
+                    <i class="fa-solid fa-plus"></i>
+                    Quick Add
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary flex-fill"
+                    >
+                        Open Tasks
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -226,14 +241,24 @@
                     </span>
                 </div>
 
-                <button
-                    type="button"
-                    class="btn btn-success w-100 mt-3"
-                    data-bs-toggle="modal"
-                    data-bs-target="#addHomeworkModal"
-                >
-                    Add Homework
-                </button>
+                <div class="d-flex gap-2 mt-3">
+                    <button
+                        type="button"
+                        class="btn btn-success flex-fill"
+                        data-bs-toggle="modal"
+                        data-bs-target="#addHomeworkModal"
+                    >
+                        <i class="fa-solid fa-plus"></i>
+                        Quick Add
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn btn-success flex-fill"
+                    >
+                        Open Homework
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -253,14 +278,24 @@
                     </span>
                 </div>
 
-                <button
-                    type="button"
-                    class="btn btn-warning w-100 mt-3"
-                    data-bs-toggle="modal"
-                    data-bs-target="#addBulletinModal"
-                >
-                    Add Bulletin
-                </button>
+                <div class="d-flex gap-2 mt-3">
+                    <button
+                        type="button"
+                        class="btn btn-warning flex-fill"
+                        data-bs-toggle="modal"
+                        data-bs-target="#addBulletinModal"
+                    >
+                        <i class="fa-solid fa-plus"></i>
+                        Quick Add
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn btn-warning flex-fill"
+                    >
+                        Open Bulletins
+                    </button>
+                </div>
             </div>
         </div>
 
