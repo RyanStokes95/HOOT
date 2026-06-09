@@ -17,11 +17,13 @@
 }
 
 /* Navbar */
+
 .navbar {
   background-color: var(--hoot-primary) !important;
 }
 
 /* Logo */
+
 .hoot-navbar-logo {
   height: 45px;
   width: auto;
@@ -33,6 +35,7 @@
 }
 
 /* Buttons */
+
 .btn-primary {
   background-color: var(--hoot-primary);
   border-color: var(--hoot-primary);
@@ -58,6 +61,7 @@
 }
 
 /* Outline buttons */
+
 .btn-outline-dark {
   border-color: var(--hoot-primary);
   color: var(--hoot-primary);
@@ -69,11 +73,13 @@
 }
 
 /* Background */
+
 body.bg-light {
   background-color: var(--hoot-light) !important;
 }
 
 /* Cards */
+
 .card {
   border: none;
   border-radius: 12px;
@@ -88,6 +94,8 @@ body.bg-light {
   min-width: 400px;
 }
 
+/* Input Validation */
+
 .input-error {
     border: 2px solid red !important;
     box-shadow: none !important;
@@ -99,4 +107,60 @@ body.bg-light {
 
 .error-text {
     color: red !important;
+}
+
+/* Parent Dropdown */
+
+/* CSS override used as Bootsrap was causing z-index issues where dropdown was not reacting to clicks */
+
+.custom-dropdown {
+    position: relative;
+    width: 230%;
+}
+
+.dropdown-trigger {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    background: #fff;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.dropdown-panel {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+
+    background: white;
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 10px;
+    padding: 10px;
+
+    max-height: 220px;
+    overflow-y: auto;
+
+    display: none;
+    z-index: 3000;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.custom-dropdown.open .dropdown-panel {
+    display: block;
+}
+
+.dropdown-item {
+    display: flex;
+    gap: 10px;
+    padding: 6px 8px;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.dropdown-item:hover {
+    background: #f5f5f5;
 }
