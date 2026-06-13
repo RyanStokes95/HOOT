@@ -1,0 +1,108 @@
+<!-- Author - Ryan Stokes -->
+<!-- tasks.ejs -->
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                <h5 class="fw-bold mb-0">Tasks</h5>
+                <small class="text-muted">
+                    Manage class assignments
+                </small>
+            </div>
+
+            <button
+                class="btn btn-sm btn-secondary"
+                data-bs-toggle="modal"
+                data-bs-target="#addTaskModal"
+            >
+                Add Task
+            </button>
+        </div>
+
+        <% if (!teacherClass.tasks || teacherClass.tasks.length === 0) { %>
+
+            <div class="text-center py-4">
+                <small class="text-muted">No tasks yet</small>
+            </div>
+
+        <% } else { %>
+
+            <div class="list-group">
+
+                <% teacherClass.tasks.forEach(task => { %>
+
+                    <div class="list-group-item border-0 border-bottom py-3 px-0">
+
+                        <div class="d-flex justify-content-between align-items-start">
+
+                            <div class="me-3 flex-grow-1">
+
+                                <div class="fw-semibold">
+                                    <%= task.title %>
+                                </div>
+
+                                <div class="text-muted small">
+                                    <%= task.description || 'No description' %>
+                                </div>
+
+                                <div class="mt-1">
+                                    <small class="text-muted">Assigned:</small>
+                                    <small class="fw-semibold">
+                                        <%= task.assignedTo?.map(a => a.name).join(', ') || 'None' %>
+                                    </small>
+                                </div>
+
+                            </div>
+
+                            <div class="text-end" style="min-width: 180px;">
+
+                                <div class="small text-muted">
+                                    Due
+                                </div>
+
+                                <div class="fw-semibold small mb-2">
+                                    <%= task.dueDate
+                                        ? new Date(task.dueDate).toLocaleDateString()
+                                        : '—' %>
+                                </div>
+
+                                <div class="d-flex justify-content-end gap-2">
+
+                                    <button
+                                        class="btn btn-sm edit-subject-btn"
+                                        data-task-id="<%= task._id %>"
+                                    >
+                                        <i class="fa-solid fa-gear text-secondary"></i>
+                                    </button>
+
+                                    <form
+                                        method="POST"
+                                        action="/tasks/<%= task._id %>/delete"
+                                    >
+                                        <button
+                                            type="submit"
+                                            class="btn btn-sm delete-task-btn"
+                                            data-task-id="<%= task._id %>"
+                                        >
+                                            <i class="fa-solid fa-trash text-danger"></i>
+                                        </button>
+                                    </form>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                <% }) %>
+
+            </div>
+
+        <% } %>
+
+    </div>
+</div>

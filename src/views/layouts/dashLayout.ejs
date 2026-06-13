@@ -72,18 +72,18 @@
           modalTitle: "Edit Subject",
           body: editSubjectForm
       }) %>
+      <% if (teacherClass !== null) { %>
+        <%
+          const addTaskForm = include(
+            "../partials/modalForms/addTask"
+          ); %>
 
-      <%
-        const addTaskForm = include(
-          "../partials/modalForms/addTask"
-        ); %>
-
-      <%- include("../partials/modal", {
-          modalId: "addTaskModal",
-          modalTitle: "Add Task",
-          body: addTaskForm
-      }) %>
-
+        <%- include("../partials/modal", {
+            modalId: "addTaskModal",
+            modalTitle: "Add Task",
+            body: addTaskForm
+        }) %>
+      <% } %>
       <%
         const addHomeworkForm = include(
           "../partials/modalForms/addHomework"
