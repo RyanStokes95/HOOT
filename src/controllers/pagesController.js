@@ -108,7 +108,8 @@ export async function renderTeacherDashboard(req, res) {
             layout: "layouts/dashLayout",
             user: req.session.user,
             teacherClass: null,
-            currentWeek: null
+            currentWeek: null,
+            weekOffset: null
         });
 
     }
@@ -119,7 +120,11 @@ export async function renderTeacherDashboard(req, res) {
     );
 
     // Get or create the current week document for this class
-    const currentWeek = await getCurrentWeek(teacherClass._id);
+    const weekOffset = Number(req.query.weekOffset || 0);
+    const currentWeek = await getCurrentWeek(
+        teacherClass._id,
+        weekOffset
+    );
 
     // Convert Mongoose document to plain object so it can be safely modified
     const weekObj = currentWeek.toObject();
@@ -136,7 +141,8 @@ export async function renderTeacherDashboard(req, res) {
         layout: "layouts/dashLayout",
         user: req.session.user,
         teacherClass,
-        currentWeek: weekObj
+        currentWeek: weekObj,
+        weekOffset
     });
 
 }
