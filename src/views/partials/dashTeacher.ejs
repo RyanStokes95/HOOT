@@ -1,13 +1,11 @@
 <!-- Author - Ryan Stokes -->
 <!-- dashTeacher.ejs -->
-<!-- Last Modified: 2026-05-21 -->
 
 <div class="bg-white border rounded-3 shadow-sm p-4 mb-4">
 
     <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
 
         <div>
-
             <span class="badge rounded-pill text-bg-light border mb-2">
                 Teacher Dashboard
             </span>
@@ -19,41 +17,35 @@
             <p class="text-muted small mb-0">
                 Manage students, homework, feedback and classroom activity.
             </p>
-
         </div>
 
         <% if (currentWeek) { %>
+        <div class="d-flex align-items-center gap-3">
 
-            <div class="d-flex align-items-center gap-3">
+            <button class="week-nav-btn">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
 
-                <button class="week-nav-btn">
-                    <i class="fa-solid fa-chevron-left"></i>
-                </button>
+            <div class="text-center px-2">
+                <div class="text-muted small mb-1">Current Week</div>
 
-                <div class="text-center px-2">
-                    <div class="text-muted small mb-1">
-                        Current Week
-                    </div>
-
-                    <div class="fw-semibold">
-                        <%= currentWeek.weekStartDate.toDateString() %>
-                    </div>
-
-                    <small class="text-muted">
-                        <%= currentWeek.weekEndDate.toDateString() %>
-                    </small>
+                <div class="fw-semibold">
+                    <%= currentWeek.weekStartDate.toDateString() %>
                 </div>
 
-                <button class="week-nav-btn">
-                    <i class="fa-solid fa-chevron-right"></i>
-                </button>
-
+                <small class="text-muted">
+                    <%= currentWeek.weekEndDate.toDateString() %>
+                </small>
             </div>
 
+            <button class="week-nav-btn">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+
+        </div>
         <% } %>
 
     </div>
-
 </div>
 
 <div class="bg-white border rounded-3 p-3 mb-4 shadow-sm">
@@ -61,63 +53,176 @@
     <div class="row text-center g-0">
 
         <div class="col-md-4 py-2">
-            <small class="text-muted text-uppercase d-block mb-1">
-                Class
-            </small>
-            <div class="fw-semibold">
-                <%= teacherClass.name %>
-            </div>
+            <small class="text-muted text-uppercase d-block mb-1">Class</small>
+            <div class="fw-semibold"><%= teacherClass.name %></div>
         </div>
 
         <div class="col-md-4 py-2 border-start border-end">
-            <small class="text-muted text-uppercase d-block mb-1">
-                Students
-            </small>
-            <div class="fw-semibold">
-                <%= teacherClass.students.length %>
-            </div>
+            <small class="text-muted text-uppercase d-block mb-1">Students</small>
+            <div class="fw-semibold"><%= teacherClass.students.length %></div>
         </div>
 
         <div class="col-md-4 py-2">
-            <small class="text-muted text-uppercase d-block mb-1">
-                Code
-            </small>
-            <div class="fw-semibold">
-                <%= teacherClass.classCode %>
-            </div>
+            <small class="text-muted text-uppercase d-block mb-1">Code</small>
+            <div class="fw-semibold"><%= teacherClass.classCode %></div>
+        </div>
+
+    </div>
+</div>
+
+<div class="bg-white border rounded-4 shadow-sm p-3 mb-3">
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+        <div class="fw-semibold text-muted small">
+            Quick Actions
+        </div>
+
+        <div class="d-flex flex-wrap gap-2">
+
+            <button class="btn btn-sm btn-secondary rounded-pill px-3"
+                data-bs-toggle="modal"
+                data-bs-target="#addTaskModal">
+                + Task
+            </button>
+
+            <button class="btn btn-sm btn-success rounded-pill px-3"
+                data-bs-toggle="modal"
+                data-bs-target="#addHomeworkModal">
+                + Homework
+            </button>
+
+            <button class="btn btn-sm btn-warning rounded-pill px-3"
+                data-bs-toggle="modal"
+                data-bs-target="#addBulletinModal">
+                + Bulletin
+            </button>
+
+            <button class="btn btn-sm btn-primary rounded-pill px-3"
+                data-bs-toggle="modal"
+                data-bs-target="#addSubjectModal">
+                + Subject
+            </button>
+
         </div>
 
     </div>
 
 </div>
 
-<div class="bg-white rounded-4 shadow-sm border p-4 mb-4">
-    <h4 class="fw-bold mb-3">Student List</h4>
+<div class="bg-white border rounded-4 shadow-sm p-4 mb-4">
 
-    <% if (teacherClass.students.length > 0) { %>
+    <div class="row g-4 align-items-start">
 
-        <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
+        <div class="col-lg-7">
 
-                <thead>
-                    <tr>
-                        <th>Student Name</th>
-                        <th>Parent</th>
-                        <th>Status</th>
-                        <th class="text-end">Actions</th>
-                    </tr>
-                </thead>
+            <div class="fw-bold fs-5 mb-1">
+                Class Management
+            </div>
 
-                <tbody>
-                    <% teacherClass.students.forEach(student => { %>
+            <div class="text-muted small mb-3">
+                Manage students, tasks, homework, bulletins and subjects
+            </div>
 
+            <ul class="nav nav-pills flex-wrap gap-2">
+
+                <button class="nav-link rounded-pill px-3 fw-semibold active"
+                    data-bs-toggle="tab"
+                    data-bs-target="#students-tab">
+
+                    Students
+                    <span class="badge bg-primary ms-1">
+                        <%= teacherClass.students.length %>
+                    </span>
+
+                </button>
+                </li>
+
+                <li class="nav-item">
+                    <button class="nav-link rounded-pill px-3 fw-semibold task-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#tasks-tab">
+
+                        Tasks
+                        <span class="badge bg-secondary ms-1">
+                            <%= teacherClass.tasks ? teacherClass.tasks.length : 0 %>
+                        </span>
+
+                    </button>
+                </li>
+
+                <li class="nav-item">
+                    <button class="nav-link rounded-pill px-3 fw-semibold homework-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#homework-tab">
+
+                        Homework
+                        <span class="badge bg-success ms-1">
+                            <%= currentWeek.dailyHomework.length %>
+                        </span>
+
+                    </button>
+                </li>
+
+                <li class="nav-item">
+                    <button class="nav-link rounded-pill px-3 fw-semibold bulletin-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#bulletins-tab">
+
+                        Bulletins
+                        <span class="badge bg-warning text-dark ms-1">
+                            <%= teacherClass.bulletins.length %>
+                        </span>
+
+                    </button>
+                </li>
+
+                <li class="nav-item">
+                    <button class="nav-link rounded-pill px-3 fw-semibold subject-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#subjects-tab">
+
+                        Subjects
+                        <span class="badge bg-info ms-1">
+                            <%= teacherClass.subjects.length %>
+                        </span>
+
+                    </button>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="tab-content">
+
+<div class="tab-pane fade show active" id="students-tab">
+
+    <div class="bg-white rounded-4 shadow-sm border p-4 mb-4">
+
+        <h4 class="fw-bold mb-3">Student List</h4>
+
+        <% if (teacherClass.students.length > 0) { %>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Parent</th>
+                            <th>Status</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <% teacherClass.students.forEach(student => { %>
                         <tr>
                             <td><%= student.name %></td>
-
-                            <td>
-                                <%= student.parent.name %>
-                            </td>
-
+                            <td><%= student.parent.name %></td>
                             <td>
                                 <% if (student.status === "Active") { %>
                                     <span class="badge bg-success">Active</span>
@@ -127,7 +232,6 @@
                                     <span class="badge bg-secondary">Removed</span>
                                 <% } %>
                             </td>
-
                             <td class="text-end">
 
                                 <% if (student.status === "Pending") { %>
@@ -168,176 +272,227 @@
 
                             </td>
                         </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        <% } else { %>
+            <p class="text-muted mb-0">No students linked.</p>
+        <% } %>
+
+    </div>
+
+</div>
+
+<div class="tab-pane fade" id="tasks-tab">
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+
+                <div>
+                    <h5 class="fw-bold mb-0">Tasks</h5>
+                    <small class="text-muted">Manage class assignments</small>
+                </div>
+
+                <button class="btn btn-sm btn-secondary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#addTaskModal">
+                    Add Task
+                </button>
+
+            </div>
+
+            <% if (!teacherClass.tasks || teacherClass.tasks.length === 0) { %>
+                <div class="text-center py-4">
+                    <small class="text-muted">No tasks yet</small>
+                </div>
+            <% } else { %>
+
+                <div class="list-group">
+
+                    <% teacherClass.tasks.forEach(task => { %>
+
+                        <div class="list-group-item border-0 border-bottom py-3 px-0">
+
+                            <div class="d-flex justify-content-between align-items-start">
+
+                                <div class="me-3 flex-grow-1">
+
+                                    <div class="fw-semibold"><%= task.title %></div>
+
+                                    <div class="text-muted small">
+                                        <%= task.description || 'No description' %>
+                                    </div>
+
+                                    <div class="mt-1">
+                                        <small class="text-muted">Assigned:</small>
+                                        <small class="fw-semibold">
+                                            <%= task.assignedTo?.map(a => a.name).join(', ') || 'None' %>
+                                        </small>
+                                    </div>
+
+                                </div>
+
+                                <div class="text-end" style="min-width:180px;">
+
+                                    <div class="small text-muted">Due</div>
+
+                                    <div class="fw-semibold small mb-2">
+                                        <%= task.dueDate ? new Date(task.dueDate).toLocaleDateString() : '—' %>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
 
                     <% }) %>
-                </tbody>
 
-            </table>
+                </div>
+
+            <% } %>
+
         </div>
-
-    <% } else { %>
-
-        <p class="text-muted mb-0">
-            No students have been linked to this class yet.
-        </p>
-
-    <% } %>
-</div>
-
-<div class="bg-white rounded-4 shadow-sm border p-4 mb-4">
-
-    <div class="row g-4">
-
-        <!-- Tasks -->
-        <div class="col-md-4">
-            <div class="border rounded-4 p-4 h-100 shadow-sm">
-                <div class="d-flex justify-content-between align-items-start mb-3">
-                    <div>
-                        <h5 class="fw-bold mb-1">Tasks</h5>
-                        <p class="text-muted small mb-0">
-                            Parent forms, permissions, and action items.
-                        </p>
-                    </div>
-
-                    <span class="badge bg-secondary rounded-pill">
-                        <%= teacherClass.bulletins.length %>
-                    </span>
-                </div>
-
-                <div class="d-flex gap-2 mt-3">
-                    <button
-                        type="button"
-                        class="btn btn-secondary flex-fill"
-                        data-bs-toggle="modal"
-                        data-bs-target="#addTaskModal"
-                    >
-                    <i class="fa-solid fa-plus"></i>
-                    Quick Add
-                    </button>
-
-                    <button
-                        type="button"
-                        class="btn btn-secondary flex-fill"
-                    >
-                        Open Tasks
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Homework -->
-        <div class="col-md-4">
-            <div class="border rounded-4 p-4 h-100 shadow-sm">
-                <div class="d-flex justify-content-between align-items-start mb-3">
-                    <div>
-                        <h5 class="fw-bold mb-1">Homework Journal</h5>
-                        <p class="text-muted small mb-0">
-                            Add homework notes and class learning activities.
-                        </p>
-                    </div>
-
-                    <span class="badge bg-success rounded-pill">
-                        <%= currentWeek.dailyHomework.length %>
-                    </span>
-                </div>
-
-                <div class="d-flex gap-2 mt-3">
-                    <button
-                        type="button"
-                        class="btn btn-success flex-fill"
-                        data-bs-toggle="modal"
-                        data-bs-target="#addHomeworkModal"
-                    >
-                        <i class="fa-solid fa-plus"></i>
-                        Quick Add
-                    </button>
-
-                    <button
-                        type="button"
-                        class="btn btn-success flex-fill"
-                    >
-                        Open Homework
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Bulletin -->
-        <div class="col-md-4">
-            <div class="border rounded-4 p-4 h-100 shadow-sm">
-                <div class="d-flex justify-content-between align-items-start mb-3">
-                    <div>
-                        <h5 class="fw-bold mb-1">Bulletin</h5>
-                        <p class="text-muted small mb-0">
-                            Post classroom updates and announcements.
-                        </p>
-                    </div>
-
-                    <span class="badge bg-warning text-dark rounded-pill">
-                        <%= teacherClass.bulletins.length %>
-                    </span>
-                </div>
-
-                <div class="d-flex gap-2 mt-3">
-                    <button
-                        type="button"
-                        class="btn btn-warning flex-fill"
-                        data-bs-toggle="modal"
-                        data-bs-target="#addBulletinModal"
-                    >
-                        <i class="fa-solid fa-plus"></i>
-                        Quick Add
-                    </button>
-
-                    <button
-                        type="button"
-                        class="btn btn-warning flex-fill"
-                        href="/parent/dashboard/bulletin"
-                    >
-                        Open Bulletins
-                    </button>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-<div class="bg-white rounded-4 shadow-sm border p-4 mb-4">
-
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4 class="fw-bold mb-0">Subjects</h4>
-
-        <button
-            type="button"
-            class="btn btn-primary btn-sm"
-            data-bs-toggle="modal"
-            data-bs-target="#addSubjectModal"
-        >
-            Add Subject
-        </button>
     </div>
 
-    <% if (teacherClass.subjects && teacherClass.subjects.length > 0) { %>
+</div>
 
-        <div class="table-responsive">
+<div class="tab-pane fade" id="homework-tab">
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+
+                <div>
+                    <h5 class="fw-bold mb-0">Homework</h5>
+                    <small class="text-muted">Manage class Homework</small>
+                </div>
+
+                <button class="btn btn-sm btn-success"
+                    data-bs-toggle="modal"
+                    data-bs-target="#addHomeworkModal">
+                    Add Homework
+                </button>
+
+            </div>
+
+            <% if (currentWeek.dailyHomework.length === 0) { %>
+
+                <div class="text-center py-4">
+                    <small class="text-muted">No homework yet</small>
+                </div>
+
+            <% } else { %>
+
+                <div class="list-group">
+
+                    <% currentWeek.dailyHomework.forEach(hw => { %>
+
+                        <div class="list-group-item border-0 border-bottom py-3 px-0">
+
+                            <div class="fw-semibold"><%= hw.day %></div>
+                            <div class="fw-semibold"><%= hw.title %></div>
+                            <div class="text-muted small"><%= hw.description %></div>
+                            <div class="fw-semibold"><%= hw.subjectName %></div>
+
+                        </div>
+
+                    <% }) %>
+
+                </div>
+
+            <% } %>
+
+        </div>
+    </div>
+
+</div>
+
+<div class="tab-pane fade" id="bulletins-tab">
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+
+                <div>
+                    <h5 class="fw-bold mb-0">Bulletins</h5>
+                    <small class="text-muted">Manage class bulletins</small>
+                </div>
+
+                <button class="btn btn-sm btn-warning"
+                    data-bs-toggle="modal"
+                    data-bs-target="#addBulletinModal">
+                    Add Bulletins
+                </button>
+
+            </div>
+
+            <% if (teacherClass.bulletins.length === 0) { %>
+
+                <div class="text-center py-4">
+                    <small class="text-muted">No bulletins yet</small>
+                </div>
+
+            <% } else { %>
+
+                <div class="list-group">
+
+                    <% teacherClass.bulletins.forEach(bulletin => { %>
+
+                        <div class="list-group-item border-0 border-bottom py-3 px-0">
+
+                            <div class="fw-semibold"><%= bulletin.title %></div>
+                            <div class="text-muted small"><%= bulletin.content %></div>
+
+                        </div>
+
+                    <% }) %>
+
+                </div>
+
+            <% } %>
+
+        </div>
+    </div>
+
+</div>
+
+<div class="tab-pane fade" id="subjects-tab">
+
+    <div class="bg-white rounded-4 shadow-sm border p-4 mb-4">
+
+         <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="fw-bold mb-0">Subjects</h4>
+
+            <button
+                type="button"
+                class="btn btn-primary btn-sm"
+                data-bs-toggle="modal"
+                data-bs-target="#addSubjectModal"
+            >
+                Add Subject
+            </button>
+        </div>
+
+        <% if (teacherClass.subjects.length > 0) { %>
+
             <table class="table table-hover align-middle mb-0">
-
                 <thead>
                     <tr>
-                        <th>Subject Name</th>
+                        <th>Name</th>
                         <th class="text-end">Actions</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     <% teacherClass.subjects.forEach(subject => { %>
-
                         <tr>
-                            <td>
-                                <%= subject.name %>
-                            </td>
-
+                            <td><%= subject.name %></td>
                             <td class="text-end">
                                 <button
                                     type="button"
@@ -351,31 +506,20 @@
                                     <i class="fa-solid fa-gear text-secondary"></i>
 
                                 </button>
-
-                                <button
-                                    type="button"  
-                                    class="btn btn-sm delete-subject-btn" 
-                                    data-subject-id="<%= subject._id %>"
-                                >
-                                    
+                                <button class="btn btn-sm delete-subject-btn"
+                                    data-subject-id="<%= subject._id %>">
                                     <i class="fa-solid fa-trash text-danger"></i>
-
                                 </button>
                             </td>
                         </tr>
-
                     <% }) %>
                 </tbody>
-
             </table>
-        </div>
 
-    <% } else { %>
+        <% } else { %>
+            <p class="text-muted mb-0">No subjects added.</p>
+        <% } %>
 
-        <p class="text-muted mb-0">
-            No subjects have been added to this class yet.
-        </p>
-
-    <% } %>
+    </div>
 
 </div>
