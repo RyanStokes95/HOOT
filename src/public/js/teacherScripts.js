@@ -355,6 +355,7 @@ async function handleAddFeedback(e) {
         },
         body: JSON.stringify({
             studentId: formData.get("studentId"),
+            weekOffset: formData.get("weekOffset"),
             feedback
         })
     });

@@ -192,7 +192,7 @@ const nameInput = document.getElementById("name");
 const nameError = document.getElementById("nameError");
 
 nameInput.addEventListener("input", () => {
-    const nameRegex = /^[A-Za-z ]{5,}$/;
+    const nameRegex = /^[A-Za-z .,'-]{3,}$/;
     const value = nameInput.value;
 
     if (nameRegex.test(value)) {
