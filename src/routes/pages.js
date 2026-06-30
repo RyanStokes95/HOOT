@@ -50,6 +50,7 @@ router.get("/register/parent", (req, res) =>
   })
 );
 
+
 // Dashboard pages, protected by authentication and role-based access control, with rate limiting applied.
 
 // Teacher dashboard

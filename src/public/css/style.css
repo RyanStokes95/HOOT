@@ -14,6 +14,7 @@
   --hoot-dark: #4b2e83;
   --hoot-light: #ffffff;
   --hoot-secondary: #0d6efd;
+  --bs-info-rgb: 110, 111, 112;
 }
 
 /* Navbar */
@@ -163,4 +164,53 @@ body.bg-light {
 
 .dropdown-item:hover {
     background: #f5f5f5;
+}
+
+/* Teacher Dash Tabs */
+
+.nav-pills .nav-link {
+    background: white;
+    border: 1px solid #dee2e6;
+    color: #333;
+    transition: all 0.2s ease;
+}
+
+.nav-pills .nav-link.active {
+    background: #6f42c1;
+    color: white;
+    border-color: #6f42c1;
+}
+
+.nav-pills .nav-link .badge {
+    transition: all 0.2s ease;
+}
+
+.nav-pills .nav-link.active .badge {
+    background: #ffffff !important;
+    color: #000 !important;
+    border: 1px solid rgba(0,0,0,0.15);
+}
+
+.task-tab.active {
+    background: #0d6efd !important;
+    border-color: #0d6efd !important;
+    color: white !important;
+}
+
+.homework-tab.active {
+    background: #198754 !important;
+    border-color: #198754 !important;
+    color: white !important;
+}
+
+.bulletin-tab.active {
+    background: #ffc107 !important;
+    border-color: #ffc107 !important;
+    color: black !important;
+}
+
+.subject-tab.active {
+    background: #6c757d !important;
+    border-color: #6c757d !important;
+    color: white !important;
 }

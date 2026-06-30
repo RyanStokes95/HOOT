@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initApproveStudent();
     initDeleteStudent();
     initAddTask();
+    initDeleteTask();
     initAddHomework();
     initAddBulletin();
     initAddFeedback();
@@ -90,6 +91,13 @@ function initAddTask() {
     const form = document.getElementById("addTaskForm");
     if (!form) return;
     form.addEventListener("submit", handleAddTask);
+}
+
+function initDeleteTask() {
+    const deleteButtons = document.querySelectorAll(".delete-task-btn");
+    deleteButtons.forEach(button => {
+        button.addEventListener("click", handleDeleteTask);
+    });
 }
 
 function initAddBulletin() {
@@ -347,6 +355,7 @@ async function handleAddFeedback(e) {
         },
         body: JSON.stringify({
             studentId: formData.get("studentId"),
+            weekOffset: formData.get("weekOffset"),
             feedback
         })
     });
@@ -403,6 +412,34 @@ async function handleAddTask(e) {
     }
 }
 
+async function handleDeleteTask(e) {
+
+    e.preventDefault();
+
+    const taskId = e.currentTarget.dataset.taskId;
+
+    // matches your current structure
+    const row = e.currentTarget.closest(".list-group-item");
+
+    const res = await fetch("/api/teacher/delete-task", {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ taskId })
+    });
+
+    if (res.ok) {
+
+        // remove task from UI
+        if (row) row.remove();
+
+    } else {
+
+        const data = await res.json();
+        alert(data.message || "Failed to delete task");
+    }
+}
 async function handleAddBulletin(e) {
 
     e.preventDefault();

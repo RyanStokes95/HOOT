@@ -41,7 +41,20 @@ const weekSchema = new Schema(
           type: String,
           enum: FEEDBACK_OPTIONS,
           required: true
+        }
+      }
+    ],
+
+    weeklyFeedbackCompleted: [
+      {
+        student: {
+          type: mongoose.Schema.Types.ObjectId,
+          required: true
         },
+        completed: {
+          type: Boolean,
+          deafult: false
+        }
       }
     ],
 

@@ -57,8 +57,12 @@ function getFriday(monday) {
 }
 
 // Function to get current week, runs when teacher dash is accessed and is rendered.
-export async function getCurrentWeek(teacherClassId) {
+export async function getCurrentWeek(teacherClassId, weekOffset = 0) {
     const weekStartDate = getMonday();
+
+    // Move forwards or backwards by whole weeks
+    weekStartDate.setDate(weekStartDate.getDate() + (weekOffset * 7));
+
     const weekEndDate = getFriday(weekStartDate);
 
     const currentWeek = await Week.findOneAndUpdate(

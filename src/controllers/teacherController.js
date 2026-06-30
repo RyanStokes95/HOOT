@@ -5,7 +5,7 @@
 
 import { Class } from "../models/Class.js";
 import { Week } from "../models/Week.js";
-import { getMonday } from "./currentWeek.js";
+import { getMonday, getCurrentWeek } from "./currentWeek.js";
 
 // Function which creates a new class
 export async function createClass(req, res) {
@@ -133,7 +133,7 @@ export async function deleteStudent(req, res) {
 // Function which adds feedback for a student for the current week by pushing a new feedback object to the weeklyFeedback array of the week document.
 export async function addFeedback(req, res) {
     try {
-        const { studentId, feedback } = req.body;
+        const { studentId, feedback, weekOffset } = req.body;
         const teacherId = req.session.userId;
 
         // Find the class document associated with the teacher ID and check if it exists. If it doesn't, return a 404 status with an error message.
@@ -151,7 +151,10 @@ export async function addFeedback(req, res) {
         }
 
         // Find the week document associated with the class ID and current week's start date and check if it exists. If it doesn't, return a 404 status with an error message.
-        const week = await getWeekByClassId(teacherClass._id);
+        const week = await getCurrentWeek(
+            teacherClass._id,
+            Number(weekOffset || 0)
+        );
 
         if (!week) {
             return res.status(404).json({ message: "Week not found." });
@@ -163,6 +166,8 @@ export async function addFeedback(req, res) {
             return item.student.toString() !== studentId;
         });
 
+        console.log("weekOffset:", req.body.weekOffset);
+
         /* 
             Loop through each of the feedback entires (i.e. each subject) and push a new feedback object to the weeklyFeedback array 
             of the week document with the student ID, subject ID and feedback rating, then save the updated week document.
@@ -171,7 +176,20 @@ export async function addFeedback(req, res) {
             week.weeklyFeedback.push({
                 student: studentId,
                 subject: subjectId,
-                feedback: rating
+                feedback: rating,
+            });
+        }
+
+        const completedRecord = week.weeklyFeedbackCompleted.find(
+            entry => entry.student.toString() === studentId
+        );
+
+        if (completedRecord) {
+            completedRecord.completed = true;
+        } else {
+            week.weeklyFeedbackCompleted.push({
+                student: studentId,
+                completed: true
             });
         }
 

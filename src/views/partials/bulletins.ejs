@@ -1,0 +1,89 @@
+<!-- Author - Ryan Stokes -->
+<!-- bulletins.ejs -->
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                <h5 class="fw-bold mb-0">Bulletins</h5>
+                <small class="text-muted">
+                    Manage class bulletins
+                </small>
+            </div>
+
+            <button
+                class="btn btn-sm btn-warning"
+                data-bs-toggle="modal"
+                data-bs-target="#addBulletinModal"
+            >
+                Add Bulletins
+            </button>
+        </div>
+
+        <% if (teacherClass.bulletins.length === 0) { %>
+
+            <div class="text-center py-4">
+                <small class="text-muted">No bulletins yet</small>
+            </div>
+
+        <% } else { %>
+
+            <div class="list-group">
+
+                <% teacherClass.bulletins.forEach(bulletin => { %>
+
+                    <div class="list-group-item border-0 border-bottom py-3 px-0">
+
+                        <div class="d-flex justify-content-between align-items-start">
+
+                            <div class="me-3 flex-grow-1">
+
+                                <div class="fw-semibold">
+                                    <%= bulletin.title %>
+                                </div>
+
+                                <div class="text-muted small">
+                                    <%= bulletin.content %>
+                                </div>
+
+                            </div>
+
+                                <div class="d-flex justify-content-end gap-2">
+
+                                    <button
+                                        class="btn btn-sm edit-subject-btn"
+                                        data-bulletin-id="<%= bulletin._id %>"
+                                    >
+                                        <i class="fa-solid fa-gear text-secondary"></i>
+                                    </button>
+
+                                    <form
+                                        method="POST"
+                                        action="/bulletins/<%= bulletin._id %>/delete"
+                                    >
+                                        <button
+                                            type="submit"
+                                            class="btn btn-sm delete-bulletin-btn"
+                                            data-bulletin-id="<%= bulletin._id %>"
+                                        >
+                                            <i class="fa-solid fa-trash text-danger"></i>
+                                        </button>
+                                    </form>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                <% }) %>
+
+            </div>
+
+        <% } %>
+
+    </div>
+</div>

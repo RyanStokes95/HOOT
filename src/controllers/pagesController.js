@@ -84,30 +84,65 @@ export async function renderTeacherDashboard(req, res) {
     // Find the class associated with the logged-in teacher using their user ID from the session, and populate student parent information
     const teacherClass = await Class.findOne({
         teacher: req.session.userId
-    }).populate("students.parent", "name");
+    })
+    .populate([
+        {
+            path: "students.parent",
+            select: "name"
+        },
+        {
+            path: "tasks.assignedTo",
+            select: "firstName lastName name"
+        },
+        {
+            path: "subjects",
+            select: "name"
+        }
+    ]);
 
     if (!teacherClass) {
 
-        // If the teacher doesn't have a class, do not render weekly information and pass null for the teacherClass and current
+        // If the teacher doesn't have a class, do not render weekly information and pass null values
         return res.render("dash", {
             title: "HOOT | Teacher Dashboard",
             layout: "layouts/dashLayout",
             user: req.session.user,
             teacherClass: null,
-            currentWeek: null
+            currentWeek: null,
+            weekOffset: null
         });
 
     }
 
-    // If the teacher has a class, get the current week information for that class
-    const currentWeek = await getCurrentWeek(teacherClass._id);
+    // Map subject IDs to subject names for quick lookup when rendering homework
+    const subjectMap = new Map(
+        teacherClass.subjects.map(s => [s._id.toString(), s.name])
+    );
 
-    // If the teacher has a class, render the dashboard with the class and current week information
+    // Get or create the current week document for this class
+    const weekOffset = Number(req.query.weekOffset || 0);
+    const currentWeek = await getCurrentWeek(
+        teacherClass._id,
+        weekOffset
+    );
+
+    // Convert Mongoose document to plain object so it can be safely modified
+    const weekObj = currentWeek.toObject();
+
+    // Attach subject names to each homework item for display in the dashboard
+    weekObj.dailyHomework = currentWeek.dailyHomework.map(hw => ({
+        ...hw.toObject(),
+        subjectName: subjectMap.get(hw.subject?.toString()) || "Unknown"
+    }));
+
+    // Render teacher dashboard with class and enriched week data
     return res.render("dash", {
         title: "HOOT | Teacher Dashboard",
         layout: "layouts/dashLayout",
         user: req.session.user,
         teacherClass,
-        currentWeek
+        currentWeek: weekObj,
+        weekOffset
     });
+
 }
