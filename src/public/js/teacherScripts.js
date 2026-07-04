@@ -7,16 +7,30 @@
 
 document.addEventListener("DOMContentLoaded", () => {
     initAddClass();
+    // Subject
     initAddSubject();
     initEditSubject();
     initEditSubjectButtons();
     initDeleteSubject();
+    // Student
     initApproveStudent();
     initDeleteStudent();
+    // Task
     initAddTask();
+    initEditTask();
+    initEditTaskButtons();
     initDeleteTask();
+    // Homework
     initAddHomework();
+    initDeleteHomework();
+    iniEditHomeworkButtons();
+    initEditHomework();
+    // Bulletin
     initAddBulletin();
+    initEditBulletin();
+    initEditBulletinButtons();
+    initDeleteBulletin();
+    // Feedback
     initAddFeedback();
 });
 
@@ -87,10 +101,52 @@ function initAddHomework() {
     form.addEventListener("submit", handleAddHomework);
 }
 
+function initEditHomework() {
+    const form = document.getElementById("editHomeworkForm");
+    if (!form) return;
+    form.addEventListener("submit", handleEditHomework);
+}
+
+function iniEditHomeworkButtons() {
+    const editButtons = document.querySelectorAll(".edit-homework-btn");
+    editButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            document.getElementById("editHomeworkId").value = button.dataset.homeworkId;
+            document.getElementById("editHomeworkTitle").value = button.dataset.homeworkTitle;
+            document.getElementById("editHomeworkDescription").value = button.dataset.homeworkDescription;
+            document.getElementById("editHomeworkDueDate").value = button.dataset.homeworkDueDate;
+            document.getElementById("editHomeworkSubject").value = button.dataset.homeworkSubject;
+        });
+    });
+}
+
+function initDeleteHomework() {
+    const deleteButtons = document.querySelectorAll(".delete-homework-btn");
+    deleteButtons.forEach(button => {
+        button.addEventListener("click", handleDeleteHomework);
+    });
+}
+
 function initAddTask() {
     const form = document.getElementById("addTaskForm");
     if (!form) return;
     form.addEventListener("submit", handleAddTask);
+}
+
+function initEditTask() {
+    const form = document.getElementById("editTaskForm");
+    if (!form) return;
+    form.addEventListener("submit", handleEditTask);
+}
+
+function initEditTaskButtons() {
+    const editButtons = document.querySelectorAll(".edit-task-btn");
+    editButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            document.getElementById("editTaskId").value = button.dataset.taskId;
+            document.getElementById("editTaskName").value = button.dataset.taskName;
+        });
+    });
 }
 
 function initDeleteTask() {
@@ -104,6 +160,30 @@ function initAddBulletin() {
     const form = document.getElementById("addBulletinForm");
     if (!form) return;
     form.addEventListener("submit", handleAddBulletin);
+}
+
+function initEditBulletin() {
+    const form = document.getElementById("editBulletinForm");
+    if (!form) return;
+    form.addEventListener("submit", handleEditBulletin);
+}
+
+function initEditBulletinButtons() {
+    const editButtons = document.querySelectorAll(".edit-bulletin-btn");
+    editButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            document.getElementById("editBulletinId").value = button.dataset.bulletinId;
+            document.getElementById("editBulletinTitle").value = button.dataset.bulletinTitle;
+            document.getElementById("editBulletinContent").value = button.dataset.bulletinContent;
+        });
+    });
+}
+
+function initDeleteBulletin() {
+    const deleteButtons = document.querySelectorAll(".delete-bulletin-btn");
+    deleteButtons.forEach(button => {
+        button.addEventListener("click", handleDeleteBulletin);
+    });
 }
 
 function modalReset(form, modalId) {
@@ -200,6 +280,66 @@ async function handleAddHomework(e) {
     } else {
         const data = await res.json();
         alert(data.message || "Failed to add homework");
+    }
+}
+
+async function handleEditHomework(e) {
+
+    e.preventDefault();
+
+    const form = e.target;
+
+    const res = await fetch("/api/teacher/edit-homework", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            homeworkId: form.homeworkId.value,
+            title: form.title.value,
+            description: form.description.value,
+            dueDate: form.dueDate.value,
+            subject: form.subject.value
+        })
+    });
+
+    if (res.ok) {
+        modalReset(form, "editHomeworkModal");
+    } else {
+        const data = await res.json();
+        alert(data.message || "Failed to edit homework");
+    }
+}
+
+async function handleDeleteHomework(e) {
+
+    e.preventDefault();
+
+    const homeworkId = e.currentTarget.dataset.homeworkId;
+
+    const weekOffset = document.getElementById("weekOffset").value;
+
+    const row = e.currentTarget.closest(".list-group-item");
+
+    const res = await fetch("/api/teacher/delete-homework", {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ 
+            homeworkId,
+            weekOffset 
+        })
+    });
+
+    if (res.ok) {
+
+        row?.remove();
+
+    } else {
+
+        const data = await res.json();
+        alert(data.message || "Failed to delete homework");
     }
 }
 
@@ -412,6 +552,36 @@ async function handleAddTask(e) {
     }
 }
 
+async function handleEditTask(e) {
+
+    e.preventDefault();
+
+    const form = document.getElementById("editTaskForm");
+
+    const res = await fetch("/api/teacher/edit-task", {
+
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            taskId: form.taskId.value,
+            title: form.title.value,
+            description: form.description.value,
+            dueDate: form.dueDate.value,
+            assignedTo: Array.from(form.querySelectorAll("input[name='assignedTo']:checked")).map(checkbox => checkbox.value)
+        })
+    });
+
+    if (res.ok) {
+
+        modalReset(form, "editTaskModal");
+    } else {
+        const data = await res.json();
+        alert(data.message || "Failed to edit task");
+    }
+}
+
 async function handleDeleteTask(e) {
 
     e.preventDefault();
@@ -440,6 +610,7 @@ async function handleDeleteTask(e) {
         alert(data.message || "Failed to delete task");
     }
 }
+
 async function handleAddBulletin(e) {
 
     e.preventDefault();
@@ -463,5 +634,61 @@ async function handleAddBulletin(e) {
     } else {
         const data = await res.json();
         alert(data.message || "Failed to add bulletin");
+    }
+}
+
+async function handleEditBulletin(e) {
+
+    e.preventDefault();
+
+    const form = document.getElementById("editBulletinForm");
+
+    const res = await fetch("/api/teacher/edit-bulletin", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            bulletinId: form.bulletinId.value,
+            title: form.title.value,
+            content: form.content.value
+        })
+    });
+
+    if (res.ok) {
+
+        modalReset(form, "editBulletinModal");
+    } else {
+        const data = await res.json();
+        alert(data.message || "Failed to edit bulletin");
+    }
+}
+
+async function handleDeleteBulletin(e) {
+
+    e.preventDefault();
+
+    const bulletinId = e.currentTarget.dataset.bulletinId;
+
+    // matches your current structure
+    const row = e.currentTarget.closest(".list-group-item");
+
+    const res = await fetch("/api/teacher/delete-bulletin", {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ bulletinId })
+    });
+
+    if (res.ok) {
+
+        // remove task from UI
+        if (row) row.remove();
+
+    } else {
+
+        const data = await res.json();
+        alert(data.message || "Failed to delete bulletin");
     }
 }

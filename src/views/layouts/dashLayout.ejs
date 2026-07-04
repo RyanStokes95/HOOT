@@ -41,6 +41,16 @@
     <!-- Teacher Modals -->
     <% if (user && user.role === "teacher") { %>
       <%
+        const addTaskForm = include(
+          "../partials/modalForms/addTask"
+      ); %>
+
+        <%- include("../partials/modal", {
+            modalId: "addTaskModal",
+            modalTitle: "Add Task",
+            body: addTaskForm
+        }) %>
+      <%
         const addSubjectForm = include(
           "../partials/modalForms/addSubject"
       ); %>
@@ -72,21 +82,43 @@
           modalTitle: "Edit Subject",
           body: editSubjectForm
       }) %>
-      <% if (teacherClass !== null) { %>
-        <%
-          const addTaskForm = include(
-            "../partials/modalForms/addTask"
-          ); %>
 
-        <%- include("../partials/modal", {
-            modalId: "addTaskModal",
-            modalTitle: "Add Task",
-            body: addTaskForm
-        }) %>
-      <% } %>
       <%
-        const addHomeworkForm = include(
-          "../partials/modalForms/addHomework"
+        const editHomeworkForm = include(
+          "../partials/modalForms/editHomework"
+      ); %>
+
+      <%- include("../partials/modal", {
+          modalId: "editHomeworkModal",
+          modalTitle: "Edit Homework",
+          body: editHomeworkForm
+      }) %>
+
+      <%
+        const editBulletinForm = include(
+          "../partials/modalForms/editBulletin"
+      ); %>
+
+      <%- include("../partials/modal", {
+          modalId: "editBulletinModal",
+          modalTitle: "Edit Bulletin",
+          body: editBulletinForm
+      }) %>
+
+      <%
+        const editTaskForm = include(
+          "../partials/modalForms/editTask"
+        ); %>
+
+      <%- include("../partials/modal", {
+          modalId: "editTaskModal",
+          modalTitle: "Edit Task",
+          body: editTaskForm
+      }) %>
+
+        <%
+          const addHomeworkForm = include(
+            "../partials/modalForms/addHomework"
         ); %>
 
       <%- include("../partials/modal", {

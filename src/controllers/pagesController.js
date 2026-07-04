@@ -26,12 +26,15 @@ export async function renderParentDashboard(req, res) {
             title: "HOOT | Parent Dashboard",
             layout: "layouts/dashLayout",
             user: req.session.user,
-            classDashboards: []
+            classDashboards: [],
+            weekOffset: null
         });
     }
 
     // Initialize an array to hold the dashboard data for each class the parent is associated with
     const classDashboards = [];
+
+    const weekOffset = Number(req.query.weekOffset || 0);
 
     /*
       For each class the parent is associated with, filter the students and tasks to only include those relevant to the parent,
@@ -53,7 +56,10 @@ export async function renderParentDashboard(req, res) {
             });
         });
 
-        const currentWeek = await getCurrentWeek(parentClass._id);
+        const currentWeek = await getCurrentWeek(
+            parentClass._id,
+            weekOffset
+        );
 
         classDashboards.push({
             parentClass,
@@ -67,7 +73,8 @@ export async function renderParentDashboard(req, res) {
         title: "HOOT | Parent Dashboard",
         layout: "layouts/dashLayout",
         user: req.session.user,
-        classDashboards
+        classDashboards,
+        weekOffset
     });
 }
 

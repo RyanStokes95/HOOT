@@ -166,8 +166,6 @@ export async function addFeedback(req, res) {
             return item.student.toString() !== studentId;
         });
 
-        console.log("weekOffset:", req.body.weekOffset);
-
         /* 
             Loop through each of the feedback entires (i.e. each subject) and push a new feedback object to the weeklyFeedback array 
             of the week document with the student ID, subject ID and feedback rating, then save the updated week document.
@@ -343,25 +341,30 @@ export async function addHomework(req, res) {
 // Function which deletes a homework entry from the dailyHomework array of the week document.
 export async function deleteHomework(req, res) {
     try {
-        const { homeworkId } = req.body;
+        const { homeworkId, weekOffset } = req.body;
         const teacherId = req.session.userId;
 
+         const teacherClass = await getClassByTeacherId(teacherId);
+
         // Find the week document associated with the class ID and current week's start date and check if it exists. If it doesn't, return a 404 status with an error message.
-        const week = await getWeekByClassId(teacherId);
+        const week = await getCurrentWeek(
+            teacherClass._id,
+            Number(weekOffset || 0)
+        );
 
         if (!week) {
             return res.status(404).json({ message: "Week not found." });
         }
 
         // Find the homework in the dailyHomework array of the week document using the homework ID and check if it exists.
-        const homework = week.homework.id(homeworkId);
+        const homework = week.dailyHomework.id(homeworkId);
 
         if (!homework) {
             return res.status(404).json({ message: "Homework not found." });
         }
 
         // Remove the homework from the dailyHomework array and save the updated week document.
-        await week.homework.pull({ _id: homeworkId });
+        await week.dailyHomework.pull({ _id: homeworkId });
         await week.save();
 
         res.status(200).json({ message: "Homework deleted." });
