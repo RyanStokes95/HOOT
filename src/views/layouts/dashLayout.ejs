@@ -106,20 +106,9 @@
       }) %>
 
       <%
-        const editTaskForm = include(
-          "../partials/modalForms/editTask"
-        ); %>
-
-      <%- include("../partials/modal", {
-          modalId: "editTaskModal",
-          modalTitle: "Edit Task",
-          body: editTaskForm
-      }) %>
-
-        <%
-          const addHomeworkForm = include(
-            "../partials/modalForms/addHomework"
-        ); %>
+        const addHomeworkForm = include(
+          "../partials/modalForms/addHomework"
+      ); %>
 
       <%- include("../partials/modal", {
           modalId: "addHomeworkModal",
@@ -136,6 +125,17 @@
           modalId: "addBulletinModal",
           modalTitle: "Add Bulletin",
           body: addBulletinForm
+      }) %>
+
+      <%
+        const editTaskForm = include(
+          "../partials/modalForms/editTask"
+        ); %>
+
+      <%- include("../partials/modal", {
+          modalId: "editTaskModal",
+          modalTitle: "Edit Task",
+          body: editTaskForm
       }) %>
     <% } %>
 

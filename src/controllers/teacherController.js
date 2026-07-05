@@ -376,28 +376,35 @@ export async function deleteHomework(req, res) {
 // Function which edits a homework entry in the dailyHomework array of the week document by changing its details.
 export async function editHomework(req, res) {
     try {
-        const { homeworkId, day, title, description, subjectId, dueDate } = req.body;
+        const { homeworkId, weekOffset, day, title, description, subject, dueDate } = req.body;
         const teacherId = req.session.userId;
 
+        const teacherClass = await getClassByTeacherId(teacherId);
+
         // Find the week document associated with the class ID and current week's start date and check if it exists. If it doesn't, return a 404 status with an error message.
-        const week = await getWeekByClassId(teacherId);
+        const week = await getCurrentWeek(
+            teacherClass._id,
+            Number(weekOffset || 0)
+        );
 
         if (!week) {
             return res.status(404).json({ message: "Week not found." });
         }
 
         // Find the homework in the dailyHomework array of the week document using the homework ID and check if it exists.
-        const homework = week.homework.id(homeworkId);
+        const homework = week.dailyHomework.id(homeworkId);
 
         if (!homework) {
             return res.status(404).json({ message: "Homework not found." });
         }
 
         // Update the homework's details with the new values provided in the request body, then save the updated week document.
-        homework.day = day;
+        if (day) {
+            homework.day = day;
+        }
         homework.title = title;
         homework.description = description;
-        homework.subject = subjectId;
+        homework.subject = subject;
         homework.dueDate = dueDate;
         await week.save();
 
