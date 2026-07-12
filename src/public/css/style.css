@@ -116,7 +116,7 @@ body.bg-light {
 
 .custom-dropdown {
     position: relative;
-    width: 230%;
+    width: 100%;
 }
 
 .dropdown-trigger {

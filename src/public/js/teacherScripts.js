@@ -140,11 +140,18 @@ function initEditTask() {
 }
 
 function initEditTaskButtons() {
-    const editButtons = document.querySelectorAll(".edit-task-btn");
-    editButtons.forEach(button => {
+    document.querySelectorAll(".edit-task-btn").forEach(button => {
         button.addEventListener("click", () => {
+            console.log(button.dataset);
+
             document.getElementById("editTaskId").value = button.dataset.taskId;
-            document.getElementById("editTaskName").value = button.dataset.taskName;
+            document.getElementById("editTaskTitle").value = button.dataset.taskTitle;
+            document.getElementById("editTaskDescription").value = button.dataset.taskDescription;
+
+            document.getElementById("editTaskDueDate").value =
+                button.dataset.taskDuedate
+                    ? new Date(button.dataset.taskDuedate).toISOString().split("T")[0]
+                    : "";
         });
     });
 }
@@ -209,19 +216,19 @@ function modalReset(form, modalId) {
 // Quick JS fix for dropdown, to be expanded upon and put in a function
 
 document.addEventListener("click", (e) => {
-    const dropdown = document.getElementById("parentDropdown");
+    const dropdowns = document.querySelectorAll(".custom-dropdown");
 
-    if (dropdown.contains(e.target)) {
+    dropdowns.forEach(dropdown => {
         const trigger = dropdown.querySelector(".dropdown-trigger");
 
-        if (e.target === trigger || trigger.contains(e.target)) {
-            dropdown.classList.toggle("open");
+        if (dropdown.contains(e.target)) {
+            if (trigger.contains(e.target)) {
+                dropdown.classList.toggle("open");
+            }
+        } else {
+            dropdown.classList.remove("open");
         }
-
-        return;
-    }
-
-    dropdown.classList.remove("open");
+    });
 });
 
 // Handler functions for each form and button, which make API calls to the corresponding API endpoints and update the UI based on the response.

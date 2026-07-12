@@ -43,22 +43,29 @@
 
             <div class="dropdown-panel">
 
+                <% const displayedParents = new Set(); %>
+
                 <% teacherClass.students.forEach(student => { %>
-                    <% if (student.parent && student.status === "Active") { %>
+                    <% if (
+                        student.parent &&
+                        student.status === "Active" &&
+                        !displayedParents.has(student.parent._id.toString())
+                    ) { %>
+
+                        <% displayedParents.add(student.parent._id.toString()); %>
 
                         <label class="dropdown-item">
                             <input
                                 type="checkbox"
                                 name="assignedTo"
-                                value="<%= student.parent._id %>">
+                                value="<%= student.parent._id %>"
+                            >
 
-                            <span>
-                                <%= student.parent.name %> — <%= student.name %>
-                            </span>
+                            <span><%= student.parent.name %></span>
                         </label>
 
                     <% } %>
-                <% }) %>
+                <% }); %>
 
             </div>
         </div>
@@ -68,7 +75,7 @@
         </label>
 
         <input
-            type="text"
+            type="date"
             name="dueDate"
             class="form-control rounded-3"
             placeholder="Enter due date (YYYY-MM-DD)"

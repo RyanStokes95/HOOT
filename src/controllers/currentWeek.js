@@ -86,7 +86,7 @@ export async function getCurrentWeek(teacherClassId, weekOffset = 0) {
         new: true,
         upsert: true
         }
-  );
+  )
 
   return currentWeek;
 }

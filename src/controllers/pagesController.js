@@ -43,6 +43,7 @@ export async function renderParentDashboard(req, res) {
     */
     for (const parentClass of parentClasses) {
 
+        // Filter students to only include those whose parent matches the logged-in parent's user ID and are active
         const parentStudents = parentClass.students.filter(student => {
             return (
                 student.parent.toString() === req.session.userId.toString() &&
@@ -50,17 +51,20 @@ export async function renderParentDashboard(req, res) {
             );
         });
 
+        // Filter tasks to only include those assigned to the parent
         const parentTasks = parentClass.tasks.filter(task => {
             return task.assignedTo.some(parentId => {
                 return parentId.toString() === req.session.userId.toString();
             });
         });
 
+        // Get the current week for the class, taking into account any week offset specified in the query parameters
         const currentWeek = await getCurrentWeek(
             parentClass._id,
             weekOffset
         );
 
+        // Push the relevant class, students, tasks, and current week information to the classDashboards array for rendering
         classDashboards.push({
             parentClass,
             parentStudents,
@@ -69,6 +73,7 @@ export async function renderParentDashboard(req, res) {
         });
     }
 
+    // Render the parent's dashboard with the collected class dashboards and week offset information
     return res.render("dash", {
         title: "HOOT | Parent Dashboard",
         layout: "layouts/dashLayout",
@@ -92,6 +97,7 @@ export async function renderTeacherDashboard(req, res) {
     const teacherClass = await Class.findOne({
         teacher: req.session.userId
     })
+    // Populate the necessary fields for students, tasks, and subjects to provide complete information for the teacher's dashboard
     .populate([
         {
             path: "students.parent",

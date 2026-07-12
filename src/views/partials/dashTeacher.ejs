@@ -449,7 +449,7 @@
 
                                 <div class="text-end">
 
-                                    <button
+                                   <button
                                         type="button"
                                         class="btn btn-sm edit-homework-btn"
                                         data-bs-toggle="modal"
@@ -458,7 +458,8 @@
                                         data-homework-day="<%= hw.day %>"
                                         data-homework-title="<%= hw.title %>"
                                         data-homework-description="<%= hw.description %>"
-                                        data-homework-subject="<%= hw.subject %>"
+                                        data-homework-subject="<%= hw.subject ? hw.subject._id : '' %>"
+                                        data-homework-due-date="<%= hw.dueDate ? new Date(hw.dueDate).toISOString().split('T')[0] : '' %>"
                                     >
                                         <i class="fa-solid fa-gear text-secondary"></i>
                                     </button>
