@@ -365,6 +365,26 @@
                                         <%= task.dueDate ? new Date(task.dueDate).toLocaleDateString() : '—' %>
                                     </div>
 
+                                    <button
+                                        type="button"
+                                        class="btn btn-sm edit-task-btn"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#editTaskModal"
+                                        data-task-id="<%= task._id %>"
+                                        data-task-title="<%= task.title %>"
+                                        data-task-description="<%= task.description %>"
+                                        data-task-duedate="<%= task.dueDate %>"
+                                    >
+                                        <i class="fa-solid fa-gear text-secondary"></i>
+                                    </button>
+
+                                    <button
+                                        class="btn btn-sm delete-task-btn"
+                                        data-task-id="<%= task._id %>"
+                                    >
+                                        <i class="fa-solid fa-trash text-danger"></i>
+                                    </button>
+
                                 </div>
 
                             </div>
@@ -416,10 +436,44 @@
 
                         <div class="list-group-item border-0 border-bottom py-3 px-0">
 
-                            <div class="fw-semibold"><%= hw.day %></div>
-                            <div class="fw-semibold"><%= hw.title %></div>
-                            <div class="text-muted small"><%= hw.description %></div>
-                            <div class="fw-semibold"><%= hw.subjectName %></div>
+                            <div class="d-flex justify-content-between">
+
+                                <div>
+
+                                    <div class="fw-semibold"><%= hw.day %></div>
+                                    <div class="fw-semibold"><%= hw.title %></div>
+                                    <div class="text-muted small"><%= hw.description %></div>
+                                    <div class="fw-semibold"><%= hw.subjectName %></div>
+
+                                </div>
+
+                                <div class="text-end">
+
+                                   <button
+                                        type="button"
+                                        class="btn btn-sm edit-homework-btn"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#editHomeworkModal"
+                                        data-homework-id="<%= hw._id %>"
+                                        data-homework-day="<%= hw.day %>"
+                                        data-homework-title="<%= hw.title %>"
+                                        data-homework-description="<%= hw.description %>"
+                                        data-homework-subject="<%= hw.subject ? hw.subject._id : '' %>"
+                                        data-homework-due-date="<%= hw.dueDate ? new Date(hw.dueDate).toISOString().split('T')[0] : '' %>"
+                                    >
+                                        <i class="fa-solid fa-gear text-secondary"></i>
+                                    </button>
+
+                                    <button
+                                        class="btn btn-sm delete-homework-btn"
+                                        data-homework-id="<%= hw._id %>"
+                                    >
+                                        <i class="fa-solid fa-trash text-danger"></i>
+                                    </button>
+
+                                </div>
+
+                            </div>
 
                         </div>
 
@@ -468,8 +522,39 @@
 
                         <div class="list-group-item border-0 border-bottom py-3 px-0">
 
-                            <div class="fw-semibold"><%= bulletin.title %></div>
-                            <div class="text-muted small"><%= bulletin.content %></div>
+                            <div class="d-flex justify-content-between">
+
+                                <div>
+
+                                    <div class="fw-semibold"><%= bulletin.title %></div>
+                                    <div class="text-muted small"><%= bulletin.content %></div>
+
+                                </div>
+
+                                <div class="text-end">
+
+                                    <button
+                                        type="button"
+                                        class="btn btn-sm edit-bulletin-btn"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#editBulletinModal"
+                                        data-bulletin-id="<%= bulletin._id %>"
+                                        data-bulletin-title="<%= bulletin.title %>"
+                                        data-bulletin-content="<%= bulletin.content %>"
+                                    >
+                                        <i class="fa-solid fa-gear text-secondary"></i>
+                                    </button>
+
+                                    <button
+                                        class="btn btn-sm delete-bulletin-btn"
+                                        data-bulletin-id="<%= bulletin._id %>"
+                                    >
+                                        <i class="fa-solid fa-trash text-danger"></i>
+                                    </button>
+
+                                </div>
+
+                            </div>
 
                         </div>
 
@@ -543,5 +628,7 @@
         <% } %>
 
     </div>
+
+    <input type="hidden" id="weekOffset" value="<%= weekOffset || 0 %>">
 
 </div>

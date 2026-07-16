@@ -1,8 +1,8 @@
 <!-- Author - Ryan Stokes -->
 <!-- editSubject.ejs -->
-<!-- Last Modified: 2026-05-24 -->
 
-<form id="editSubjectForm">
+
+<form id="editSubjectForm" action="/api/teacher/edit-subject" method="POST">
 
     <!-- Hidden input to store the subject ID for editing, is needed for the update operation -->
     <input type="hidden" id="editSubjectId" name="subjectId">
