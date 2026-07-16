@@ -1,7 +1,6 @@
 /**
- * Author: Ryan McMahon
+ * Author: Ryan Stokes
  * File: week.unit.test.js
- * Last Modified: 2026-05-25
  */
 
 import { getMonday, getFriday } from "../src/controllers/currentWeek.js";

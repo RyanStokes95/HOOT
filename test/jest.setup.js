@@ -1,12 +1,7 @@
 /**
  * Author: Ryan Stokes
  * File: jest.setup.js
- * Last Modified: 2026-01-25
  */
-
-// Adapted from: jestjs.io/docs/setup-teardown
-// https://jestjs.io/docs/setup-teardown
-// Accessed: 2026-01-10
 
 import "dotenv/config";
 import dotenv from "dotenv";
@@ -25,8 +20,6 @@ dotenv.config({ path: envfile });
 // It also provides describe,it and expect functions used in test files
 
 // Clear the database before each test to ensure test
-
-// Code taken from https://jestjs.io/docs/ecmascript-modules utilised in Jest testing setup
 
 async function clearDB() {
   const collections = await mongoose.connection.db.collections();

@@ -1,7 +1,6 @@
 /**
  * Author: Ryan Stokes
  * File: items.int.test.js
- * Last Modified: 2026-01-25
  */
 
 import request from "supertest";

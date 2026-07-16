@@ -1,7 +1,6 @@
 /**
  * Author: Ryan Stokes
  * File: teacher.int.test.js
- * Last Modified: 2026-05-20
  */
 
 import request from "supertest";
@@ -81,6 +80,14 @@ describe("Teacher Workflows", () => {
     .send({
       title: "Bulletin 1",
       content: "This is the first bulletin.",
+    });
+    
+    const editBulletinRes = await agent
+    .put("/api/teacher/edit-bulletin")
+    .send({
+      bulletinId: addBulletinRes.body._id,
+      title: "Edited Bulletin 1",
+      content: "This is the edited bulletin."
     });
 
     expect(classCreationRes.status).toBe(201);
