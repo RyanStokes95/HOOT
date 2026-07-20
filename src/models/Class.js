@@ -65,6 +65,7 @@ const classSchema = new Schema(
                 status: {
                     type: String,
                     required: true,
+                    // Enforce enum validation for student status to ensure only valid values are stored in the database
                     enum: STUDNT_STATUS,
                     default: "Pending"
                 }

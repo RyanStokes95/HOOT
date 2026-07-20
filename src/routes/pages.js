@@ -14,7 +14,7 @@ import {
 
 const router = express.Router();
 
-// Public navigation pages
+// Public navigation pages, accessible without authentication
 router.get("/", (req, res) =>
   res.render("index", {
     title: "HOOT | Home",

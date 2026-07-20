@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initAddStudent();
 });
 
+// Initializes the event listener for the "Add Student" form
 function initAddStudent() {
     const form = document.getElementById("addStudentForm");
     console.log("loaded");
@@ -14,6 +15,7 @@ function initAddStudent() {
     form.addEventListener("submit", handleAddStudent);
 }
 
+// Handles the form submission for adding a student
 async function handleAddStudent(e) {
 
     console.log("start");
