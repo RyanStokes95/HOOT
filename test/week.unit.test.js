@@ -5,6 +5,7 @@
 
 import { getMonday, getFriday } from "../src/controllers/currentWeek.js";
 
+// Unit tests for current week calculation functions. getCurrentWeek(), getMonday() & getFriday()
 describe("Current Week Calculation", () => {
     it("calculates Monday and Friday for a Wednesday", () => {
         const testDate = new Date(2026, 4, 27, 12, 0, 0);

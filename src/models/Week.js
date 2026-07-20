@@ -12,6 +12,7 @@ const FEEDBACK_OPTIONS = ["Exceeding Expectations", "On Track", "Needs More Work
 const weekSchema = new Schema(
   {
     teacherClass: {
+      //
       type: mongoose.Schema.Types.ObjectId,
       ref: "Class",
       required: true
@@ -30,10 +31,12 @@ const weekSchema = new Schema(
     weeklyFeedback: [
       {
         student: {
+          // Each feedback entry is associated with a specific student, referenced by their user ID
           type: mongoose.Schema.Types.ObjectId,
           required: true
         },
         subject: {
+          // Each feedback entry is associated with a specific subject, referenced by its ID
           type: mongoose.Schema.Types.ObjectId,
           required: true
         },
@@ -74,6 +77,7 @@ const weekSchema = new Schema(
           maxlength: 1000
         },
         subject: {
+          // Each homework entry is associated with a specific subject, referenced by its ID
           type: mongoose.Schema.Types.ObjectId,
           ref: "Subject"
         },

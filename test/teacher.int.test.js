@@ -81,14 +81,6 @@ describe("Teacher Workflows", () => {
       title: "Bulletin 1",
       content: "This is the first bulletin.",
     });
-    
-    const editBulletinRes = await agent
-    .put("/api/teacher/edit-bulletin")
-    .send({
-      bulletinId: addBulletinRes.body._id,
-      title: "Edited Bulletin 1",
-      content: "This is the edited bulletin."
-    });
 
     expect(classCreationRes.status).toBe(201);
     expect(classCreationRes.body).toHaveProperty("name", "Test Class");

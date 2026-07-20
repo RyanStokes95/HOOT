@@ -1,7 +1,6 @@
 /**
  * Author: Ryan Stokes
  * File: app.js
- * Last Modified: 2026-06-03
  */
 
 import express from "express";

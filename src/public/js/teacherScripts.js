@@ -36,24 +36,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Initialize event listeners for all buttons and forms on the teacher dashboard.
 
+// Initializes the event listener for the "Add Class" form
 function initAddClass() {
     const form = document.getElementById("addClassForm");
     if (!form) return;
     form.addEventListener("submit", handleAddClass);
 }
 
+// Initializes the event listener for the "Add Subject" form
 function initAddSubject() {
     const form = document.getElementById("addSubjectForm");
     if (!form) return;
     form.addEventListener("submit", handleAddSubject);
 }
 
+// Initializes the event listener for the "Edit Subject" form
 function initEditSubject() {
     const form = document.getElementById("editSubjectForm");
     if (!form) return;
     form.addEventListener("submit", handleEditSubject);
 }
 
+// Initializes the event listeners for all "Edit Subject" buttons, which populate the edit form with the current subject information when clicked.
 function initEditSubjectButtons() {
     const editButtons = document.querySelectorAll(".edit-subject-btn");
 
@@ -66,6 +70,7 @@ function initEditSubjectButtons() {
     });
 }
 
+// Initializes the event listeners for all "Delete Subject" buttons, which trigger the deletion of the subject when clicked.
 function initDeleteSubject() {
     const deleteButtons = document.querySelectorAll(".delete-subject-btn");
     deleteButtons.forEach(button => {
@@ -73,6 +78,7 @@ function initDeleteSubject() {
     });
 }
 
+// Initializes the event listeners for all "Approve Student" buttons, which trigger the approval of the student when clicked.
 function initApproveStudent() {
     const approveButtons = document.querySelectorAll(".approve-student-btn");
     approveButtons.forEach(button => {
@@ -80,6 +86,7 @@ function initApproveStudent() {
     });
 }
 
+// Initializes the event listeners for all "Delete Student" buttons, which trigger the deletion of the student when clicked.
 function initDeleteStudent() {
     const deleteButtons = document.querySelectorAll(".delete-student-btn");
     deleteButtons.forEach(button => {
@@ -87,6 +94,7 @@ function initDeleteStudent() {
     });
 }
 
+// Initializes the event listeners for all "Add Feedback" forms, which trigger the addition of feedback when submitted.
 function initAddFeedback() {
     const forms = document.querySelectorAll(".addFeedbackForm");
 
@@ -95,18 +103,21 @@ function initAddFeedback() {
     });
 }
 
+// Initializes the event listeners for all "Add Homework" forms, which trigger the addition of homework when submitted.
 function initAddHomework() {
     const form = document.getElementById("addHomeworkForm");
     if (!form) return;
     form.addEventListener("submit", handleAddHomework);
 }
 
+// Initializes the event listeners for all "Edit Homework" forms, which trigger the editing of homework when submitted.
 function initEditHomework() {
     const form = document.getElementById("editHomeworkForm");
     if (!form) return;
     form.addEventListener("submit", handleEditHomework);
 }
 
+// Initializes the event listeners for all "Edit Homework" buttons, which populate the edit form with the current homework information when clicked.
 function iniEditHomeworkButtons() {
     const editButtons = document.querySelectorAll(".edit-homework-btn");
     editButtons.forEach(button => {
@@ -120,6 +131,7 @@ function iniEditHomeworkButtons() {
     });
 }
 
+// Initializes the event listeners for all "Delete Homework" buttons, which trigger the deletion of the homework when clicked.
 function initDeleteHomework() {
     const deleteButtons = document.querySelectorAll(".delete-homework-btn");
     deleteButtons.forEach(button => {
@@ -127,18 +139,21 @@ function initDeleteHomework() {
     });
 }
 
+// Initializes the event listeners for all "Add Task" forms, which trigger the addition of a task when submitted.
 function initAddTask() {
     const form = document.getElementById("addTaskForm");
     if (!form) return;
     form.addEventListener("submit", handleAddTask);
 }
 
+// Initializes the event listeners for all "Edit Task" forms, which trigger the editing of a task when submitted.
 function initEditTask() {
     const form = document.getElementById("editTaskForm");
     if (!form) return;
     form.addEventListener("submit", handleEditTask);
 }
 
+// Initializes the event listeners for all "Edit Task" buttons, which populate the edit form with the current task information when clicked.
 function initEditTaskButtons() {
     document.querySelectorAll(".edit-task-btn").forEach(button => {
         button.addEventListener("click", () => {
@@ -156,25 +171,30 @@ function initEditTaskButtons() {
     });
 }
 
+// Initializes the event listeners for all "Delete Task" buttons, which trigger the deletion of a task when clicked.
 function initDeleteTask() {
     const deleteButtons = document.querySelectorAll(".delete-task-btn");
+    // loop needed to add event listeners to each delete button, which trigger the deletion of a task when clicked.
     deleteButtons.forEach(button => {
         button.addEventListener("click", handleDeleteTask);
     });
 }
 
+// Initializes the event listeners for all "Add Bulletin" forms, which trigger the addition of a bulletin when submitted.
 function initAddBulletin() {
     const form = document.getElementById("addBulletinForm");
     if (!form) return;
     form.addEventListener("submit", handleAddBulletin);
 }
 
+// Initializes the event listeners for all "Edit Bulletin" forms, which trigger the editing of a bulletin when submitted.
 function initEditBulletin() {
     const form = document.getElementById("editBulletinForm");
     if (!form) return;
     form.addEventListener("submit", handleEditBulletin);
 }
 
+// Initializes the event listeners for all "Edit Bulletin" buttons, which populate the edit form with the current bulletin information when clicked.
 function initEditBulletinButtons() {
     const editButtons = document.querySelectorAll(".edit-bulletin-btn");
     editButtons.forEach(button => {
@@ -186,6 +206,7 @@ function initEditBulletinButtons() {
     });
 }
 
+// Initializes the event listeners for all "Delete Bulletin" buttons, which trigger the deletion of a bulletin when clicked.
 function initDeleteBulletin() {
     const deleteButtons = document.querySelectorAll(".delete-bulletin-btn");
     deleteButtons.forEach(button => {
@@ -193,6 +214,7 @@ function initDeleteBulletin() {
     });
 }
 
+// Resets the form, closes the modal, and reloads the page to reflect changes after a successful operation.
 function modalReset(form, modalId) {
     const modalElement = document.getElementById(modalId);
 
@@ -206,14 +228,17 @@ function modalReset(form, modalId) {
 
         document.activeElement.blur();
 
+        // Hides the modal after the operation is complete
         modal.hide();
 
+        // Resets the form fields to their default values
         form.reset();
 
+        // Reloads the page to reflect the changes made by the operation (e.g., adding, editing, or deleting an item)
         window.location.reload();
 }
 
-// Quick JS fix for dropdown, to be expanded upon and put in a function
+// Fix for dropdown, to be expanded upon and put in a function
 
 document.addEventListener("click", (e) => {
     const dropdowns = document.querySelectorAll(".custom-dropdown");
@@ -236,6 +261,7 @@ document.addEventListener("click", (e) => {
 // e refers to the event object passed to the handler function when an event occurs, such as a form submission or button click.
 // preventDefault() is called to stop the default behavior of the event (such asform submission causing a page reload).
 
+// Handles the form submission for adding a class
 async function handleAddClass(e) {
 
     e.preventDefault();
@@ -261,6 +287,7 @@ async function handleAddClass(e) {
     }
 };
 
+// Handles the form submission for adding homework
 async function handleAddHomework(e) {
 
     e.preventDefault();
@@ -290,6 +317,7 @@ async function handleAddHomework(e) {
     }
 }
 
+// Handles the form submission for editing homework
 async function handleEditHomework(e) {
 
     e.preventDefault();
@@ -318,6 +346,7 @@ async function handleEditHomework(e) {
     }
 }
 
+// Handles the deletion of homework when the "Delete Homework" button is clicked
 async function handleDeleteHomework(e) {
 
     e.preventDefault();
@@ -350,6 +379,7 @@ async function handleDeleteHomework(e) {
     }
 }
 
+// Handles the form submission for adding a subject
 async function handleAddSubject(e) {
 
     e.preventDefault();
@@ -375,6 +405,7 @@ async function handleAddSubject(e) {
     }
 };
 
+// Handles the form submission for editing a subject
 async function handleEditSubject(e) {
 
     e.preventDefault();
@@ -400,6 +431,7 @@ async function handleEditSubject(e) {
     }
 }
 
+// Handles the deletion of a subject when the "Delete Subject" button is clicked
 async function handleDeleteSubject(e) {
 
     e.preventDefault();
@@ -426,6 +458,7 @@ async function handleDeleteSubject(e) {
     }
 }
 
+// Handles the form submission for adding a class
 async function handleApproveStudent(e) {
 
     e.preventDefault();
@@ -450,6 +483,7 @@ async function handleApproveStudent(e) {
     };
 }
 
+// Handles the form submission for deleting a student
 async function handleDeleteStudent(e) {
 
     e.preventDefault();
@@ -476,6 +510,7 @@ async function handleDeleteStudent(e) {
     };
 }
 
+// Handles the form submission for adding feedback
 async function handleAddFeedback(e) {
 
     e.preventDefault();
@@ -531,6 +566,7 @@ async function handleAddFeedback(e) {
     }
 }
 
+// Handles the form submission for adding a task
 async function handleAddTask(e) {
 
     e.preventDefault();
@@ -559,6 +595,7 @@ async function handleAddTask(e) {
     }
 }
 
+// Handles the form submission for editing a task
 async function handleEditTask(e) {
 
     e.preventDefault();
@@ -589,6 +626,7 @@ async function handleEditTask(e) {
     }
 }
 
+// Handles the deletion of a task when the "Delete Task" button is clicked
 async function handleDeleteTask(e) {
 
     e.preventDefault();
@@ -618,6 +656,7 @@ async function handleDeleteTask(e) {
     }
 }
 
+// Handles the form submission for adding a bulletin
 async function handleAddBulletin(e) {
 
     e.preventDefault();
@@ -644,6 +683,7 @@ async function handleAddBulletin(e) {
     }
 }
 
+// Handles the form submission for editing a bulletin
 async function handleEditBulletin(e) {
 
     e.preventDefault();
@@ -671,6 +711,7 @@ async function handleEditBulletin(e) {
     }
 }
 
+// Handles the deletion of a bulletin when the "Delete Bulletin" button is clicked
 async function handleDeleteBulletin(e) {
 
     e.preventDefault();
@@ -690,7 +731,7 @@ async function handleDeleteBulletin(e) {
 
     if (res.ok) {
 
-        // remove task from UI
+        // remove bulletin from UI
         if (row) row.remove();
 
     } else {
