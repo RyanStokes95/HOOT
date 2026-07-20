@@ -36,7 +36,7 @@ export async function createClass(req, res) {
 }
 
 // Function which generates a random 6-character alphanumeric class code.
-function generateClassCode() {
+export function generateClassCode() {
     /*  
         In this function, we define a string of possible characters (uppercase letters and numbers) and 
         then use a loop to randomly select 6 characters from that string to create the class code. The generated 
