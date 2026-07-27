@@ -15,6 +15,7 @@
   --hoot-light: #ffffff;
   --hoot-secondary: #0d6efd;
   --bs-info-rgb: 110, 111, 112;
+  --hoot-info: #6e6f70;
 }
 
 /* Navbar */
@@ -210,6 +211,12 @@ body.bg-light {
 }
 
 .subject-tab.active {
+    background: #6c757d !important;
+    border-color: #6c757d !important;
+    color: white !important;
+}
+
+#addSubject {
     background: #6c757d !important;
     border-color: #6c757d !important;
     color: white !important;

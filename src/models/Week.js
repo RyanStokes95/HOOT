@@ -82,7 +82,7 @@ const weekSchema = new Schema(
           ref: "Subject"
         },
         dueDate: {
-          type: String,
+          type: Date,
           required: true
         }
       }

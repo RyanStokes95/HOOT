@@ -1,66 +1,98 @@
 <!-- Author: Ryan Stokes -->
 <!-- dashParent.ejs -->
  
-<div class="bg-white rounded-4 shadow-sm border p-4 mb-4">
+<div class="bg-white border rounded-3 shadow-sm p-4 mb-4">
 
-    <div class="bg-white border rounded-3 shadow-sm p-4 mb-4">
+    <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
 
-        <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+        <div>
 
-            <div>
+            <span class="badge rounded-pill text-bg-light border mb-2">
+                Parent Dashboard
+            </span>
 
-                <span class="badge rounded-pill text-bg-light border mb-2">
-                    Parent Dashboard
-                </span>
+            <h5 class="fw-semibold mb-2">
+                <%= user.name %>
+            </h5>
 
-                <h5 class="fw-semibold mb-2">
-                    <%= user.name %>
-                </h5>
+            <p class="text-muted small mb-0">
+                View homework, tasks, bulletins and your children's progress.
+            </p>
 
-                <p class="text-muted small mb-0">
-                    View homework, tasks, bulletins and your children's progress.
-                </p>
+        </div>
+
+        <% if (classDashboards.length && classDashboards[0].currentWeek) { %>
+
+            <div class="d-flex align-items-center gap-3">
+
+                <a class="week-nav-btn"
+                   href="?weekOffset=<%= (weekOffset || 0) - 1 %>">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </a>
+
+                <div class="text-center px-2">
+
+                    <div class="text-muted small mb-1">
+                        Selected Week
+                    </div>
+
+                    <div class="fw-semibold">
+                        <%= classDashboards[0].currentWeek.weekStartDate.toDateString() %>
+                    </div>
+
+                    <small class="text-muted">
+                        <%= classDashboards[0].currentWeek.weekEndDate.toDateString() %>
+                    </small>
+
+                </div>
+
+                <a class="week-nav-btn"
+                   href="?weekOffset=<%= (weekOffset || 0) + 1 %>">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </a>
 
             </div>
 
-        </div>
+        <% } %>
 
-        <hr class="my-4">
+    </div>
 
-        <div class="d-flex flex-wrap align-items-center gap-2">
+    <hr class="my-4">
 
-            <% classDashboards.forEach((dashboard, classIndex) => { %>
+    <div class="d-flex flex-wrap align-items-center gap-2">
 
-                <button
-                    type="button"
-                    class="btn btn-outline-primary btn-sm rounded-pill px-3 <%= classIndex === 0 ? 'active' : '' %>"
-                    id="class-tab-<%= dashboard.parentClass._id %>"
-                    data-bs-toggle="tab"
-                    data-bs-target="#class-dashboard-<%= dashboard.parentClass._id %>"
-                    role="tab"
-                    aria-controls="class-dashboard-<%= dashboard.parentClass._id %>"
-                    aria-selected="<%= classIndex === 0 ? 'true' : 'false' %>">
-
-                    <%= dashboard.parentClass.name %>
-
-                </button>
-
-            <% }) %>
+        <% classDashboards.forEach((dashboard, classIndex) => { %>
 
             <button
                 type="button"
-                class="btn btn-primary btn-sm rounded-pill px-3"
-                data-bs-toggle="modal"
-                data-bs-target="#addStudentModal">
+                class="btn btn-outline-primary btn-sm rounded-pill px-3 <%= classIndex === 0 ? 'active' : '' %>"
+                id="class-tab-<%= dashboard.parentClass._id %>"
+                data-bs-toggle="tab"
+                data-bs-target="#class-dashboard-<%= dashboard.parentClass._id %>"
+                role="tab"
+                aria-controls="class-dashboard-<%= dashboard.parentClass._id %>"
+                aria-selected="<%= classIndex === 0 ? 'true' : 'false' %>">
 
-                <i class="fa-solid fa-plus me-2"></i>
-                Join Class
+                <%= dashboard.parentClass.name %>
 
             </button>
 
-        </div>
+        <% }) %>
+
+        <button
+            type="button"
+            class="btn btn-primary btn-sm rounded-pill px-3"
+            data-bs-toggle="modal"
+            data-bs-target="#addStudentModal">
+
+            <i class="fa-solid fa-plus me-2"></i>
+            Join Class
+
+        </button>
 
     </div>
+
+</div>
 
     <div class="tab-content">
 
@@ -71,44 +103,6 @@
                 id="class-dashboard-<%= dashboard.parentClass._id %>"
                 role="tabpanel"
                 aria-labelledby="class-tab-<%= dashboard.parentClass._id %>">
-
-                <% if (dashboard.currentWeek) { %>
-
-                    <div class="bg-white border rounded-3 shadow-sm p-3 mb-4">
-
-                        <div class="d-flex justify-content-between align-items-center">
-
-                            <a class="week-nav-btn"
-                            href="?weekOffset=<%= (weekOffset || 0) - 1 %>">
-                                <i class="fa-solid fa-chevron-left"></i>
-                            </a>
-
-                            <div class="text-center">
-
-                                <div class="text-muted small">
-                                    Selected Week
-                                </div>
-
-                                <div class="fw-semibold">
-                                    <%= dashboard.currentWeek.weekStartDate.toDateString() %>
-                                </div>
-
-                                <small class="text-muted">
-                                    <%= dashboard.currentWeek.weekEndDate.toDateString() %>
-                                </small>
-
-                            </div>
-
-                            <a class="week-nav-btn"
-                            href="?weekOffset=<%= (weekOffset || 0) + 1 %>">
-                                <i class="fa-solid fa-chevron-right"></i>
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                <% } %>
 
                 <% if (dashboard.parentStudents && dashboard.parentStudents.length > 0) { %>
 
@@ -247,131 +241,292 @@
                 <div class="row g-4">
 
                     <div class="col-lg-6">
-                        <div class="bg-white rounded-4 shadow-sm border p-4 h-100">
-                            <h5 class="fw-bold mb-3">Homework Journal</h5>
 
-                            <% if (dashboard.currentWeek.dailyHomework && dashboard.currentWeek.dailyHomework.length > 0) { %>
+                        <div class="card border-0 shadow-sm h-100">
 
-                                <% dashboard.currentWeek.dailyHomework.forEach(homework => { %>
+                            <div class="card-body">
 
-                                    <div class="border rounded-4 p-3 mb-3">
-                                        <div class="d-flex justify-content-between align-items-start gap-3">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
 
-                                            <div>
-                                                <h6 class="fw-bold mb-1">
-                                                    <%= homework.title %>
-                                                </h6>
+                                    <div>
 
-                                                <p class="text-muted mb-1">
-                                                    <%= homework.description %>
-                                                </p>
+                                        <h5 class="fw-bold mb-0">
+                                            Homework
+                                        </h5>
+
+                                        <small class="text-muted">
+                                            Homework assigned this week
+                                        </small>
+
+                                    </div>
+
+                                    <i class="fa-solid fa-book-open fa-2x text-success"></i>
+
+                                </div>
+
+                                <% if (dashboard.currentWeek.dailyHomework && dashboard.currentWeek.dailyHomework.length > 0) { %>
+
+                                    <% dashboard.currentWeek.dailyHomework.forEach(homework => { %>
+
+                                        <div class="card border shadow-sm mb-3">
+
+                                            <div class="card-body">
 
                                                 <% if (homework.subject && homework.subject.name) { %>
 
-                                                    <small class="text-muted">
-                                                        <i class="fa-solid fa-book me-1"></i>
+                                                    <span class="badge bg-primary mb-2">
                                                         <%= homework.subject.name %>
-                                                    </small>
+                                                    </span>
 
                                                 <% } %>
 
+                                                <h5 class="fw-bold mb-2">
+                                                    <%= homework.title %>
+                                                </h5>
+
+                                                <p class="text-muted mb-3">
+                                                    <%= homework.description %>
+                                                </p>
+
+                                                <small class="text-muted d-block mb-1">
+                                                    <i class="fa-regular fa-calendar me-2"></i>
+                                                    <strong>Assigned:</strong> <%= homework.day %>
+                                                </small>
+
+                                                <small class="text-muted">
+
+                                                    <i class="fa-solid fa-hourglass-end me-2"></i>
+
+                                                    <strong>Due Date:</strong>
+
+                                                    <% if (homework.dueDate) { %>
+
+                                                        <%= new Date(homework.dueDate).toLocaleDateString("en-IE", {
+                                                            weekday: "long",
+                                                            day: "numeric",
+                                                            month: "long",
+                                                            year: "numeric"
+                                                        }) %>
+
+                                                    <% } else { %>
+
+                                                        No due date
+
+                                                    <% } %>
+
+                                                </small>
+
                                             </div>
 
-                                            <span class="badge bg-light text-dark border">
-                                                Assigned: <%= homework.day %>
-                                            </span>
-
-                                            <span class="badge bg-light text-dark border">
-
-                                                Due: <%= homework.dueDate%>
-                                            </span>
-
                                         </div>
-                                    </div>
 
-                                <% }) %>
+                                    <% }) %>
 
-                            <% } else { %>
+                                <% } else { %>
 
-                                <p class="text-muted mb-0">
-                                    No homework has been added this week.
-                                </p>
+                                    <div class="text-center py-5">
 
-                            <% } %>
+                                        <i class="fa-solid fa-book-open fa-3x text-muted mb-3"></i>
 
-                        </div>
-                    </div>
-
-                    <div class="col-lg-6">
-                        <div class="bg-white rounded-4 shadow-sm border p-4 h-100">
-                            <h5 class="fw-bold mb-3">Tasks</h5>
-
-                            <% if (dashboard.parentTasks && dashboard.parentTasks.length > 0) { %>
-
-                                <% dashboard.parentTasks.forEach(task => { %>
-
-                                    <div class="border rounded-4 p-3 mb-3">
-                                        <h6 class="fw-bold mb-1">
-                                            <%= task.title %>
+                                        <h6 class="fw-semibold">
+                                            No homework assigned
                                         </h6>
 
                                         <p class="text-muted mb-0">
-                                            <%= task.description %>
+                                            Homework assigned by your teacher will appear here.
                                         </p>
+
                                     </div>
 
-                                <% }) %>
+                                <% } %>
 
-                            <% } else { %>
-
-                                <p class="text-muted mb-0">
-                                    No tasks assigned.
-                                </p>
-
-                            <% } %>
+                            </div>
 
                         </div>
+
                     </div>
 
-                </div>
+                   <div class="col-lg-6">
 
-                <div class="bg-white rounded-4 shadow-sm border p-4 mt-4">
-                    <h5 class="fw-bold mb-3">Bulletin</h5>
+                        <div class="card border-0 shadow-sm h-100">
 
-                    <% if (dashboard.parentClass.bulletins && dashboard.parentClass.bulletins.length > 0) { %>
+                            <div class="card-body">
 
-                        <div class="row g-3">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
 
-                            <% dashboard.parentClass.bulletins.forEach(bulletin => { %>
+                                    <div>
 
-                                <div class="col-md-6">
-                                    <div class="border rounded-4 p-3 h-100">
+                                        <h5 class="fw-bold mb-0">
+                                            Tasks
+                                        </h5>
 
-                                        <h6 class="fw-bold mb-1">
-                                            <i class="fa-solid fa-bullhorn text-warning me-2"></i>
-                                            <%= bulletin.title %>
-                                        </h6>
-
-                                        <p class="text-muted mb-0">
-                                            <%= bulletin.content %>
-                                        </p>
+                                        <small class="text-muted">
+                                            Tasks assigned by your teacher
+                                        </small>
 
                                     </div>
+
+                                    <i class="fa-solid fa-list-check fa-2x" style="color:#0d6efd;"></i>
+
                                 </div>
 
-                            <% }) %>
+                                <% if (dashboard.parentTasks && dashboard.parentTasks.length > 0) { %>
+
+                                    <% dashboard.parentTasks.forEach(task => { %>
+
+                                        <div class="card border shadow-sm mb-3">
+
+                                            <div class="card-body">
+
+                                                <span class="badge bg-secondary mb-2">
+                                                    Task
+                                                </span>
+
+                                                <h5 class="fw-bold mb-2">
+                                                    <%= task.title %>
+                                                </h5>
+
+                                                <p class="text-muted mb-3">
+                                                    <%= task.description || "No description provided." %>
+                                                </p>
+
+                                                <small class="text-muted">
+
+                                                    <i class="fa-regular fa-calendar me-2"></i>
+
+                                                    <strong>Due Date:</strong>
+
+                                                    <% if (task.dueDate) { %>
+
+                                                        <%= new Date(task.dueDate).toLocaleDateString("en-IE", {
+                                                            weekday: "long",
+                                                            day: "numeric",
+                                                            month: "long",
+                                                            year: "numeric"
+                                                        }) %>
+
+                                                    <% } else { %>
+
+                                                        No due date
+
+                                                    <% } %>
+
+                                                </small>
+
+                                            </div>
+
+                                        </div>
+
+                                    <% }) %>
+
+                                <% } else { %>
+
+                                    <div class="text-center py-5">
+
+                                        <i class="fa-solid fa-list-check fa-3x text-muted mb-3"></i>
+
+                                        <h6 class="fw-semibold">
+                                            No tasks assigned
+                                        </h6>
+
+                                        <p class="text-muted mb-0">
+                                            Tasks assigned by your teacher will appear here.
+                                        </p>
+
+                                    </div>
+
+                                <% } %>
+
+                            </div>
 
                         </div>
 
-                    <% } else { %>
+                    </div>
+
+                <div class="card border-0 shadow-sm mt-4">
+
+    <div class="card-body">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+
+            <div>
+
+                <h5 class="fw-bold mb-0">
+                    Bulletins
+                </h5>
+
+                <small class="text-muted">
+                    Latest announcements from your teacher
+                </small>
+
+            </div>
+
+            <i class="fa-solid fa-bullhorn fa-2x text-warning"></i>
+
+        </div>
+
+        <% if (dashboard.parentClass.bulletins && dashboard.parentClass.bulletins.length > 0) { %>
+
+            <% dashboard.parentClass.bulletins.forEach(bulletin => { %>
+
+                <div class="card border shadow-sm mb-3">
+
+                    <div class="card-body">
+
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+
+                            <span class="badge bg-warning text-dark">
+                                <i class="fa-solid fa-bullhorn me-1"></i>
+                                Bulletin
+                            </span>
+
+                            <small class="text-muted">
+                                <i class="fa-regular fa-clock me-1"></i>
+
+                                <%= new Date(bulletin.createdAt).toLocaleDateString("en-IE", {
+                                    day: "numeric",
+                                    month: "long",
+                                    year: "numeric"
+                                }) %>
+                            </small>
+
+                        </div>
+
+                        <h5 class="fw-bold mb-2">
+                            <%= bulletin.title %>
+                        </h5>
 
                         <p class="text-muted mb-0">
-                            No classroom updates yet.
+                            <%= bulletin.content %>
                         </p>
 
-                    <% } %>
+                    </div>
 
                 </div>
+
+            <% }) %>
+
+        <% } else { %>
+
+            <div class="text-center py-5">
+
+                <i class="fa-solid fa-bullhorn fa-3x text-muted mb-3"></i>
+
+                <h6 class="fw-semibold">
+                    No bulletins available
+                </h6>
+
+                <p class="text-muted mb-0">
+                    Classroom announcements will appear here.
+                </p>
+
+            </div>
+
+        <% } %>
+
+    </div>
+
+</div>
 
             </div>
 
