@@ -46,3 +46,16 @@ Technology Stack:
 HOOT can be found at https://hoot-production-app-8fc5ba39ae6b.herokuapp.com/
 
 To review and test a live enviornment please use the following logins:
+
+To view a teacher dashboard pre-loaded with parents use the following:
+
+Username: teacher-demo@hoot.ie
+Password: 12345Td*
+
+To view a parent dashboard with access to multiple studnets and classes use the following:
+
+Username: parent-demo@hoot.ie
+Password: 12345Pd*
+
+To create new teacher accounts the Teacher Code is: TEACHER2024
+

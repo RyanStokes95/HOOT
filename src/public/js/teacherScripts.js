@@ -740,3 +740,23 @@ async function handleDeleteBulletin(e) {
         alert(data.message || "Failed to delete bulletin");
     }
 }
+
+// Fix for tab persistence across page reloads. When a tab is updated it remains active on page reload.
+document.addEventListener("DOMContentLoaded", () => {
+
+    const activeTab = localStorage.getItem("activeTab");
+
+    if (activeTab) {
+        const trigger = document.querySelector(`[data-bs-target="${activeTab}"]`);
+        if (trigger) {
+            bootstrap.Tab.getOrCreateInstance(trigger).show();
+        }
+    }
+
+    document.querySelectorAll('[data-bs-toggle="tab"]').forEach(tab => {
+        tab.addEventListener("shown.bs.tab", e => {
+            localStorage.setItem("activeTab", e.target.dataset.bsTarget);
+        });
+    });
+
+});

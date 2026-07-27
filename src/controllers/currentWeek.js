@@ -57,6 +57,13 @@ function getFriday(monday) {
 }
 
 // Function to get current week, runs when teacher dash is accessed and is rendered.
+/**
+ * Function calculates the current week based on the class's start date and the current date
+ * and creates a new week document if one doesn't already exist for the current week.
+ * The fuunction calculates the week by finding the Monday of the current week and then finding the Friday of that week.
+ * If a weekOffset is provided, the function will calculate the week based on that offset from the current week.
+ * For example, a weekOffset of -1 will return the previous week, and a weekOffset of 1 will return the next week.
+ */
 export async function getCurrentWeek(teacherClassId, weekOffset = 0) {
     const weekStartDate = getMonday();
 
