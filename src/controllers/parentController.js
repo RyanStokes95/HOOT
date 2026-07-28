@@ -37,3 +37,70 @@ export async function joinClass(req, res) {
         res.status(400).json({ message: error.message });
     }
 }
+
+export async function completeTask(req, res) {
+    try {
+        const { taskId } = req.body;
+        const parentId = req.session.userId;
+
+        // Find the class containing the task
+        const teacherClass = await Class.findOne({
+            "tasks._id": taskId
+        });
+
+        if (!teacherClass) {
+            return res.status(404).json({
+                message: "Task not found."
+            });
+        }
+
+        // Find the task
+        const task = teacherClass.tasks.id(taskId);
+
+        if (!task) {
+            return res.status(404).json({
+                message: "Task not found."
+            });
+        }
+
+        // Ensure the parent is currently assigned this task
+        const assigned = task.assignedTo.some(
+            id => id.toString() === parentId.toString()
+        );
+
+        if (!assigned) {
+            return res.status(403).json({
+                message: "You are not assigned this task."
+            });
+        }
+
+        // Ensure they haven't already completed it
+        const alreadyCompleted = task.completedBy.some(
+            id => id.toString() === parentId.toString()
+        );
+
+        if (alreadyCompleted) {
+            return res.status(400).json({
+                message: "Task has already been completed."
+            });
+        }
+
+        // Move parent from Assigned To -> Completed
+        task.completedBy.push(parentId);
+
+        task.assignedTo = task.assignedTo.filter(
+            id => id.toString() !== parentId.toString()
+        );
+
+        await teacherClass.save();
+
+        return res.status(200).json({
+            message: "Task marked as complete."
+        });
+
+    } catch (error) {
+        return res.status(400).json({
+            message: error.message
+        });
+    }
+}

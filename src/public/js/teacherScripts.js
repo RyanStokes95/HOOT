@@ -355,7 +355,7 @@ async function handleDeleteHomework(e) {
 
     const weekOffset = document.getElementById("weekOffset").value;
 
-    const row = e.currentTarget.closest(".list-group-item");
+    const card = e.currentTarget.closest(".card");
 
     const res = await fetch("/api/teacher/delete-homework", {
         method: "DELETE",
@@ -370,7 +370,7 @@ async function handleDeleteHomework(e) {
 
     if (res.ok) {
 
-        row?.remove();
+        card.remove();
 
     } else {
 
@@ -438,7 +438,7 @@ async function handleDeleteSubject(e) {
 
     const subjectId = e.currentTarget.dataset.subjectId;
 
-    const row = e.currentTarget.closest("tr");
+    const card = e.currentTarget.closest(".card");
 
     const res = await fetch("/api/teacher/delete-subject", {
         method: "DELETE",
@@ -451,7 +451,7 @@ async function handleDeleteSubject(e) {
     });
 
     if (res.ok) {
-        row.remove();
+        card.remove();
     } else {
         const data = await res.json();
         alert(data.message || "Failed to delete subject");
@@ -634,7 +634,7 @@ async function handleDeleteTask(e) {
     const taskId = e.currentTarget.dataset.taskId;
 
     // matches your current structure
-    const row = e.currentTarget.closest(".list-group-item");
+    const card = e.currentTarget.closest(".card");
 
     const res = await fetch("/api/teacher/delete-task", {
         method: "DELETE",
@@ -645,10 +645,8 @@ async function handleDeleteTask(e) {
     });
 
     if (res.ok) {
-
         // remove task from UI
-        if (row) row.remove();
-
+        if (card) card.remove();
     } else {
 
         const data = await res.json();
@@ -719,7 +717,7 @@ async function handleDeleteBulletin(e) {
     const bulletinId = e.currentTarget.dataset.bulletinId;
 
     // matches your current structure
-    const row = e.currentTarget.closest(".list-group-item");
+    const card = e.currentTarget.closest(".card");
 
     const res = await fetch("/api/teacher/delete-bulletin", {
         method: "DELETE",
@@ -732,7 +730,7 @@ async function handleDeleteBulletin(e) {
     if (res.ok) {
 
         // remove bulletin from UI
-        if (row) row.remove();
+        if (card) card.remove();
 
     } else {
 

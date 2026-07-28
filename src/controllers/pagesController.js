@@ -26,6 +26,7 @@ export async function renderParentDashboard(req, res) {
             title: "HOOT | Parent Dashboard",
             layout: "layouts/dashLayout",
             user: req.session.user,
+            userId: req.session.userId,
             classDashboards: [],
             weekOffset: null
         });
@@ -53,9 +54,17 @@ export async function renderParentDashboard(req, res) {
 
         // Filter tasks to only include those assigned to the parent
         const parentTasks = parentClass.tasks.filter(task => {
-            return task.assignedTo.some(parentId => {
-                return parentId.toString() === req.session.userId.toString();
-            });
+
+            const assigned = task.assignedTo.some(parentId =>
+                parentId.toString() === req.session.userId.toString()
+            );
+
+            const completed = task.completedBy.some(parentId =>
+                parentId.toString() === req.session.userId.toString()
+            );
+
+            return assigned || completed;
+
         });
 
         // Get the current week for the class, taking into account any week offset specified in the query parameters
@@ -78,6 +87,7 @@ export async function renderParentDashboard(req, res) {
         title: "HOOT | Parent Dashboard",
         layout: "layouts/dashLayout",
         user: req.session.user,
+        userId: req.session.userId,
         classDashboards,
         weekOffset
     });
