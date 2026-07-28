@@ -368,31 +368,63 @@
 
                                     <div class="row small text-muted">
 
-                                        <div class="col-md-6 mb-2">
+                                        <div class="col-md-4 mb-2">
+
                                             <i class="fa-solid fa-users me-2"></i>
                                             <strong>Assigned To:</strong><br>
 
                                             <% if (task.assignedTo && task.assignedTo.length) { %>
+
                                                 <%= task.assignedTo.map(a => a.name).join(", ") %>
+
                                             <% } else { %>
+
                                                 None
+
                                             <% } %>
 
                                         </div>
 
-                                        <div class="col-md-6 mb-2">
+                                        <div class="col-md-4 mb-2">
+
+                                            <i class="fa-solid fa-circle-check text-success me-2"></i>
+                                            <strong>Completed:</strong><br>
+
+                                            <% if (task.completedBy && task.completedBy.length) { %>
+
+                                                <%= task.assignedTo
+                                                    .filter(parent =>
+                                                        task.completedBy.some(id => id.toString() === parent._id.toString())
+                                                    )
+                                                    .map(parent => parent.name)
+                                                    .join(", ") %>
+
+                                            <% } else { %>
+
+                                                None
+
+                                            <% } %>
+
+                                        </div>
+
+                                        <div class="col-md-4 mb-2">
+
                                             <i class="fa-regular fa-calendar me-2"></i>
                                             <strong>Due Date:</strong><br>
 
                                             <% if (task.dueDate) { %>
+
                                                 <%= new Date(task.dueDate).toLocaleDateString("en-IE", {
                                                     weekday: "long",
                                                     day: "numeric",
                                                     month: "long",
                                                     year: "numeric"
                                                 }) %>
+
                                             <% } else { %>
+
                                                 No due date
+
                                             <% } %>
 
                                         </div>
@@ -644,15 +676,7 @@
                                                 weekday: "long",
                                                 day: "numeric",
                                                 month: "long",
-                                                year: "numeric"
-                                            }) %>
-                                        </div>
-
-                                        <div class="col-md-6 mb-2">
-                                            <i class="fa-regular fa-calendar-plus me-2"></i>
-                                            <strong>Published:</strong><br>
-
-                                            <%= new Date(bulletin.createdAt).toLocaleTimeString("en-IE", {
+                                                year: "numeric",
                                                 hour: "2-digit",
                                                 minute: "2-digit"
                                             }) %>

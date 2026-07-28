@@ -5,6 +5,7 @@
 
 document.addEventListener("DOMContentLoaded", () => {
     initAddStudent();
+    initCompleteTask();
 });
 
 // Initializes the event listener for the "Add Student" form
@@ -13,6 +14,29 @@ function initAddStudent() {
     console.log("loaded");
     if (!form) return;
     form.addEventListener("submit", handleAddStudent);
+}
+
+function initCompleteTask() {
+    document.querySelectorAll(".complete-task-btn").forEach(button => {
+
+        button.addEventListener("click", async () => {
+
+            const response = await fetch("/api/parent/complete-task", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    taskId: button.dataset.taskId
+                })
+            });
+
+            if (response.ok) {
+                location.reload();
+            }
+
+        });
+    });
 }
 
 // Handles the form submission for adding a student

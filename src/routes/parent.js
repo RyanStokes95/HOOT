@@ -5,7 +5,8 @@
 
 import express from "express";
 import {
-    joinClass
+    joinClass,
+    completeTask
 } from "../controllers/parentController.js";
 import { requireAuth } from "../middleware/authMiddleware.js";
 import { requireRole } from "../middleware/roleCheck.js";
@@ -15,5 +16,7 @@ const router = express.Router();
 
 // Route to join a class, only accessible to authenticated parents
 router.post("/join-class", requireAuth, requireRole("parent"), genericLimiter, joinClass);
+
+router.post("/complete-task", requireAuth, requireRole("parent"), genericLimiter, completeTask);
 
 export default router;

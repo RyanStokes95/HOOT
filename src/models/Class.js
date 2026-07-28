@@ -122,6 +122,12 @@ const classSchema = new Schema(
                         required: true
                     }
                 ],
+                completedBy: [
+                    {
+                        type: mongoose.Schema.Types.ObjectId,
+                        ref: "User"
+                    }
+                ],
                 dueDate: {
                     type: Date,
                     required: true
