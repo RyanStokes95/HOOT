@@ -479,7 +479,7 @@ export async function deleteTask(req, res) {
 // Function which edits a task in the tasks array of the class document by changing its details.
 export async function editTask(req, res) {
     try {
-        const { taskId, title, description, assignedTo, completedBy, dueDate } = req.body;
+        const { taskId, title, description, assignedTo, dueDate } = req.body;
         const teacherId = req.session.userId;
 
         // Find the class document associated with the teacher ID and check if it exists. If it doesn't, return a 404 status with an error message.
