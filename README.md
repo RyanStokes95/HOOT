@@ -1,6 +1,8 @@
 # HOOT
 The objective of HOOT is to provide a secure web-based platform that improves communication between teachers and parents by centralising homework, student feedback, classroom bulletins, and parent tasks within a single application.
 
+Demo details at bottom of README file, these contain instructions on how to access demo accounts.
+
 Features:
     Secure teacher and parent authentication
     Role-based access control
@@ -58,4 +60,6 @@ Username: parent-demo@hoot.ie
 Password: 12345Pd*
 
 To create new teacher accounts the Teacher Code is: TEACHER2024
+
+To create new Parent accounts use class code UDHE1T to join the demo class
 
